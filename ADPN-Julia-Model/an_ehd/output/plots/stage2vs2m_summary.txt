@@ -1,0 +1,16 @@
+Stage 2 vs Stage 2m — arithmetic D_mix vs m_i-corrected D_eff
+==============================================================================
+ε_sat = 0.0862
+m_AN = 11.59, m_ADPN = 7.72, m_PN = 11.59
+
+  ε_org       regime  peak FE (arith)  peak FE (m-corr)      ΔFE
+------------------------------------------------------------------------------
+  0.020       single           5.32%             5.32%    +0.00
+  0.050       single          20.54%            20.54%    +0.00
+  0.090    two-phase          37.23%            39.84%    +2.61
+  0.150    two-phase          37.46%            40.78%    +3.33
+  0.250    two-phase          37.77%            41.50%    +3.73
+  0.300    two-phase          37.90%            41.70%    +3.80
+
+Bloomquist target: FE_ADPN = 73-80% at ε_org ~ 0.15, j = 70-300 mA/cm²
+D_AN boost at ε=0.15: arithmetic = 2.86e-9 → m-corrected = 12.4e-9 (5.4x)

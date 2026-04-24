@@ -1,0 +1,281 @@
+════════════════════════════════════════════════════════════
+ Stage 1 — ε_org = 0, δ = 50.0 μm
+ Start: 2026-04-21T16:06:05.995
+════════════════════════════════════════════════════════════
+[mesh]  N = 100  dx_min = 1.274e-07 m  dx_max = 1.274e-06 m  ratio = 10.00
+[eq]   pH = 13.027   cH=9.399e-11  cOH=1.064e+02  cH2PO4=1.289e-04  cHPO4=8.639e+01  cPO4=4.136e+02  cNa=1520.0
+[init] u0 length = 900  (expected 900)
+[boot] α_buf=0, α_kin=0 at V=-1.000 V:  |F|∞ = 0.000e+00
+[boot] ramping α_buf 0 → 1 (10 uniform steps), α_kin = 0
+  α_buf = 0.10   iter =  1   |F|∞ = 4.637e-16   ok
+  α_buf = 0.20   iter =  1   |F|∞ = 9.275e-16   ok
+  α_buf = 0.30   iter =  1   |F|∞ = 1.391e-15   ok
+  α_buf = 0.40   iter =  1   |F|∞ = 1.855e-15   ok
+  α_buf = 0.50   iter =  1   |F|∞ = 2.319e-15   ok
+  α_buf = 0.60   iter =  1   |F|∞ = 2.782e-15   ok
+  α_buf = 0.70   iter =  1   |F|∞ = 3.246e-15   ok
+  α_buf = 0.80   iter =  1   |F|∞ = 3.710e-15   ok
+  α_buf = 0.90   iter =  1   |F|∞ = 4.174e-15   ok
+  α_buf = 1.00   iter =  1   |F|∞ = 4.637e-15   ok
+[boot] ramping α_kin 1e-6 → 1.0 (geometric ×2), α_buf = 1
+  α_kin = 1.000e-06  iter =  1   |F|∞ = 4.637e-15   ok
+  α_kin = 2.000e-06  iter =  1   |F|∞ = 4.637e-15   ok
+  α_kin = 4.000e-06  iter =  1   |F|∞ = 6.371e-15   ok
+  α_kin = 8.000e-06  iter =  1   |F|∞ = 1.227e-14   ok
+  α_kin = 1.600e-05  iter =  1   |F|∞ = 2.406e-14   ok
+  α_kin = 3.200e-05  iter =  1   |F|∞ = 4.764e-14   ok
+  α_kin = 6.400e-05  iter =  1   |F|∞ = 9.481e-14   ok
+  α_kin = 1.280e-04  iter =  1   |F|∞ = 1.892e-13   ok
+  α_kin = 2.560e-04  iter =  1   |F|∞ = 3.778e-13   ok
+  α_kin = 5.120e-04  iter =  1   |F|∞ = 7.552e-13   ok
+  α_kin = 1.024e-03  iter =  1   |F|∞ = 1.510e-12   ok
+  α_kin = 2.048e-03  iter =  1   |F|∞ = 3.019e-12   ok
+  α_kin = 4.096e-03  iter =  1   |F|∞ = 6.038e-12   ok
+  α_kin = 8.192e-03  iter =  1   |F|∞ = 1.208e-11   ok
+  α_kin = 1.638e-02  iter =  1   |F|∞ = 2.415e-11   ok
+  α_kin = 3.277e-02  iter =  1   |F|∞ = 4.830e-11   ok
+  α_kin = 6.554e-02  iter =  1   |F|∞ = 9.660e-11   ok
+  α_kin = 1.311e-01  iter =  1   |F|∞ = 1.932e-10   ok
+  α_kin = 2.621e-01  iter =  1   |F|∞ = 3.864e-10   ok
+  α_kin = 5.243e-01  iter =  1   |F|∞ = 7.728e-10   ok
+  α_kin = 1.000e+00  iter =  1   |F|∞ = 1.474e-09   ok
+[boot] completed at α_buf=1, α_kin=1, V = -1.0
+────────── PHYSICALITY  post-bootstrap @ V = -1.0 ──────────
+  V =  -1.000 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.689e-07  j₂=8.853e-07  j₃=1.411e-04  [A/m²]
+  j_total = 1.422e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.19 %   FE_PN =   0.62 %   FE_HER =  99.19 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+
+[cont] Phase A: V continuation from -1.0 V (AD Jacobian)
+[cont] Phase A stopped at V = -2.5000 V  (15 points)
+[cont] recorded 15 converged points
+[cont] V range covered: [-2.500, -1.000]
+────────── PHYSICALITY  V=-1.000 ──────────
+  V =  -1.000 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.689e-07  j₂=8.853e-07  j₃=1.411e-04  [A/m²]
+  j_total = 1.422e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.19 %   FE_PN =   0.62 %   FE_HER =  99.19 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.050 ──────────
+  V =  -1.050 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=7.116e-07  j₂=2.342e-06  j₃=3.073e-04  [A/m²]
+  j_total = 3.103e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.23 %   FE_PN =   0.75 %   FE_HER =  99.02 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.120 ──────────
+  V =  -1.120 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.779e-06  j₂=9.147e-06  j₃=9.137e-04  [A/m²]
+  j_total = 9.256e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.30 %   FE_PN =   0.99 %   FE_HER =  98.71 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.218 ──────────
+  V =  -1.218 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=1.871e-05  j₂=6.160e-05  j₃=4.202e-03  [A/m²]
+  j_total = 4.282e-03 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.44 %   FE_PN =   1.44 %   FE_HER =  98.12 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.355 ──────────
+  V =  -1.355 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.702e-04  j₂=8.895e-04  j₃=3.557e-02  [A/m²]
+  j_total = 3.673e-02 A/m² = 0.00 mA/cm²
+  FE_ADPN =   0.74 %   FE_PN =   2.42 %   FE_HER =  96.84 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.547 ──────────
+  V =  -1.547 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=1.135e-02  j₂=3.737e-02  j₃=7.076e-01  [A/m²]
+  j_total = 7.564e-01 A/m² = 0.08 mA/cm²
+  FE_ADPN =   1.50 %   FE_PN =   4.94 %   FE_HER =  93.56 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.975e-16  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.726e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.747 ──────────
+  V =  -1.747 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=5.551e-01  j₂=1.829e+00  j₃=1.592e+01  [A/m²]
+  j_total = 1.830e+01 A/m² = 1.83 mA/cm²
+  FE_ADPN =   3.03 %   FE_PN =   9.99 %   FE_HER =  86.97 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 2.109e-05 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 4.310e-03  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 5.347e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.023e+02 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.9989  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.947 ──────────
+  V =  -1.947 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.443e+01  j₂=8.453e+01  j₃=3.554e+02  [A/m²]
+  j_total = 4.644e+02 A/m² = 46.44 mA/cm²
+  FE_ADPN =   5.26 %   FE_PN =  18.20 %   FE_HER =  76.54 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 5.351e-04 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.075e-01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.048e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.654e+03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.9512  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.007 ──────────
+  V =  -2.007 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=6.388e+01  j₂=2.433e+02  j₃=8.939e+02  [A/m²]
+  j_total = 1.201e+03 A/m² = 120.11 mA/cm²
+  FE_ADPN =   5.32 %   FE_PN =  20.25 %   FE_HER =  74.43 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 1.296e-03 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.665e-01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 8.642e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 2.418e+03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.8643  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.073 ──────────
+  V =  -2.073 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=1.322e+02  j₂=6.554e+02  j₃=2.440e+03  [A/m²]
+  j_total = 3.227e+03 A/m² = 322.74 mA/cm²
+  FE_ADPN =   4.09 %   FE_PN =  20.31 %   FE_HER =  75.60 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 2.802e-03 V
+  max |Σ z_i c_i| (9-sp)    : 4.547e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 6.414e-01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 3.757e-10 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 2.376e+03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.6637  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.146 ──────────
+  V =  -2.146 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=1.577e+02  j₂=1.420e+03  j₃=7.297e+03  [A/m²]
+  j_total = 8.874e+03 A/m² = 887.41 mA/cm²
+  FE_ADPN =   1.78 %   FE_PN =  16.00 %   FE_HER =  82.22 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 5.038e-03 V
+  max |Σ z_i c_i| (9-sp)    : 4.547e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.461e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.273e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.636e+03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.3656  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.226 ──────────
+  V =  -2.226 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=8.577e+01  j₂=2.215e+03  j₃=2.420e+04  [A/m²]
+  j_total = 2.650e+04 A/m² = 2649.75 mA/cm²
+  FE_ADPN =   0.32 %   FE_PN =   8.36 %   FE_HER =  91.32 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 7.898e-03 V
+  max |Σ z_i c_i| (9-sp)    : 9.095e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 3.433e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.614e-13 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 8.880e+02 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.1275  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.314 ──────────
+  V =  -2.314 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=2.306e+01  j₂=2.610e+03  j₃=8.997e+04  [A/m²]
+  j_total = 9.261e+04 A/m² = 9260.57 mA/cm²
+  FE_ADPN =   0.02 %   FE_PN =   2.82 %   FE_HER =  97.16 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 1.139e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 9.427e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.065e-12 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 4.013e+02 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0291  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.410 ──────────
+  V =  -2.410 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=4.116e+00  j₂=2.714e+03  j₃=3.802e+05  [A/m²]
+  j_total = 3.829e+05 A/m² = 38287.85 mA/cm²
+  FE_ADPN =   0.00 %   FE_PN =   0.71 %   FE_HER =  99.29 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 1.546e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 3.253e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 3.818e-12 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.574e+02 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0050  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.500 ──────────
+  V =  -2.500 V vs SHE,  ε_org = 0.020,  δ = 50.0 μm
+  j₁=7.832e-01  j₂=2.731e+03  j₃=1.448e+06  [A/m²]
+  j_total = 1.451e+06 A/m² = 145116.70 mA/cm²
+  FE_ADPN =   0.00 %   FE_PN =   0.19 %   FE_HER =  99.81 %
+  bulk pH                   : 13.027   (expected ≈ 13.0)
+  φ_l span across DL        : 1.932e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.128e+02  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.347e-11 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 6.477e+01 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 3.726e-09 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0009  (AN depletion)
+──────────────────────────────────────────────
+[export] records → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_records_eo0.020_d50.csv
+[export] profile @ V=-1.5472800000000002 (target -1.5) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.020_d50_V-1.547.csv
+[export] profile @ V=-1.7472800000000002 (target -1.8) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.020_d50_V-1.747.csv
+[export] profile @ V=-2.00728 (target -2.0) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.020_d50_V-2.007.csv
+[export] profile @ V=-2.5 (target -2.5) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.020_d50_V-2.500.csv
+[export] meta → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_meta_eo0.020_d50.txt
+
+════════════════════════════════════════════════════════════
+ Stage 1 complete.  End: 2026-04-21T16:06:18.589
+════════════════════════════════════════════════════════════

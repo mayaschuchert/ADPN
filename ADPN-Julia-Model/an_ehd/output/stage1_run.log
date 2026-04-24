@@ -1,0 +1,1298 @@
+┌ Info: Newton
+│   iter = 1
+│   normF = 1.5534880058454846e-9
+└   normF_2 = 2.198372248014349e-9
+┌ Info: continuation: converged start
+│   V = -1.0
+│   iter = 1
+└   normF = 1.5534880058454846e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 3.4263545486275925e-9
+└   normF_2 = 4.850067284223828e-9
+┌ Info: cont step OK
+│   V = -1.05
+│   ds = 0.05
+│   iter = 1
+└   normF = 3.4263545486275925e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 1.1277296331428654e-8
+└   normF_2 = 1.5973657605141246e-8
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.064241890969332e-11
+┌ Info: Newton
+│   iter = 2
+│   normF = 4.696937288434962e-12
+└   normF_2 = 1.064241890969332e-11
+┌ Info: cont step OK
+│   V = -1.125
+│   ds = 0.07500000000000001
+│   iter = 2
+└   normF = 4.696937288434962e-12
+┌ Info: Newton
+│   iter = 1
+│   normF = 5.7010518275722623e-8
+└   normF_2 = 8.093734202613225e-8
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.5025751357373964e-10
+┌ Info: Newton
+│   iter = 2
+│   normF = 2.2739548796806705e-10
+└   normF_2 = 2.5025751357373964e-10
+┌ Info: cont step OK
+│   V = -1.2375
+│   ds = 0.11250000000000002
+│   iter = 2
+└   normF = 2.2739548796806705e-10
+┌ Info: Newton
+│   iter = 1
+│   normF = 9.95891146283752e-7
+└   normF_2 = 1.4233014683307912e-6
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 6.314450275166116e-7
+┌ Info: Newton
+│   iter = 2
+│   normF = 6.175303678334447e-7
+└   normF_2 = 6.314450275166116e-7
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.0882227541157906e-7
+┌ Info: Newton
+│   iter = 3
+│   normF = 2.0577409725012712e-7
+└   normF_2 = 2.0882227541157906e-7
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 5.329680067845887e-8
+┌ Info: Newton
+│   iter = 4
+│   normF = 5.288495542498116e-8
+└   normF_2 = 5.329680067845887e-8
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 4.902402406392439e-9
+┌ Info: Newton
+│   iter = 5
+│   normF = 4.8557776554412404e-9
+└   normF_2 = 4.902402406392439e-9
+┌ Info: cont step OK
+│   V = -1.40625
+│   ds = 0.16875
+│   iter = 5
+└   normF = 4.8557776554412404e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 2.9459812867097553e-5
+└   normF_2 = 4.290478683735375e-5
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 1
+│   α = 0.5
+└   normF2_new = 2.6867846140239298e-5
+┌ Info: Newton
+│   iter = 2
+│   normF = 1.4711567540895373e-5
+└   normF_2 = 2.6867846140239298e-5
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 9.530820730108228e-6
+┌ Info: Newton
+│   iter = 3
+│   normF = 7.5994106859391894e-6
+└   normF_2 = 9.530820730108228e-6
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.2502444047824117e-6
+┌ Info: Newton
+│   iter = 4
+│   normF = 2.0456818180017585e-6
+└   normF_2 = 2.2502444047824117e-6
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.9306881866728664e-7
+┌ Info: Newton
+│   iter = 5
+│   normF = 2.8771476816486354e-7
+└   normF_2 = 2.9306881866728664e-7
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 6.41928422248825e-9
+┌ Info: Newton
+│   iter = 6
+│   normF = 6.369860109596738e-9
+└   normF_2 = 6.41928422248825e-9
+┌ Info: cont step OK
+│   V = -1.60625
+│   ds = 0.2
+│   iter = 6
+└   normF = 6.369860109596738e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.0009786226084535666
+└   normF_2 = 0.0014723511925560779
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.0005526482282152841
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.0003454773172181537
+└   normF_2 = 0.0005526482282152841
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.00016419843142445492
+┌ Info: Newton
+│   iter = 3
+│   normF = 9.593938262810245e-5
+└   normF_2 = 0.00016419843142445492
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 3.9283956967719e-5
+┌ Info: Newton
+│   iter = 4
+│   normF = 2.9516573672987362e-5
+└   normF_2 = 3.9283956967719e-5
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 5.280205415931097e-6
+┌ Info: Newton
+│   iter = 5
+│   normF = 4.707888688336632e-6
+└   normF_2 = 5.280205415931097e-6
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.108287895708823e-7
+┌ Info: Newton
+│   iter = 6
+│   normF = 1.0319207176953606e-7
+└   normF_2 = 1.108287895708823e-7
+┌ Info: Newton LS
+│   iter = 6
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 3.330254516559357e-11
+┌ Info: Newton
+│   iter = 7
+│   normF = 3.0233591211082864e-11
+└   normF_2 = 3.330254516559357e-11
+┌ Info: cont step OK
+│   V = -1.80625
+│   ds = 0.2
+│   iter = 7
+└   normF = 3.0233591211082864e-11
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.037258612729221596
+└   normF_2 = 0.058058825994125256
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 1
+│   α = 0.5
+└   normF2_new = 0.020361967819076714
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.012247941252234835
+└   normF_2 = 0.020361967819076714
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.009818101631367905
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.009003371512320425
+└   normF_2 = 0.009818101631367905
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.002453840803317508
+┌ Info: Newton
+│   iter = 4
+│   normF = 0.0023879689467205343
+└   normF_2 = 0.002453840803317508
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.00035095772550512163
+┌ Info: Newton
+│   iter = 5
+│   normF = 0.00034853709585490854
+└   normF_2 = 0.00035095772550512163
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.1302984373787843e-5
+┌ Info: Newton
+│   iter = 6
+│   normF = 1.1156893060585565e-5
+└   normF_2 = 1.1302984373787843e-5
+┌ Info: Newton LS
+│   iter = 6
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.2955531487972903e-8
+┌ Info: Newton
+│   iter = 7
+│   normF = 1.2466793072700433e-8
+└   normF_2 = 1.2955531487972903e-8
+┌ Info: Newton LS
+│   iter = 7
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 6.889281412737199e-13
+┌ Info: Newton
+│   iter = 8
+│   normF = 2.2268984301082672e-13
+└   normF_2 = 6.889281412737199e-13
+┌ Info: cont step OK
+│   V = -2.00625
+│   ds = 0.2
+│   iter = 8
+└   normF = 2.2268984301082672e-13
+┌ Info: Newton
+│   iter = 1
+│   normF = 1.15879431587634
+└   normF_2 = 1.8186896421280208
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 2
+│   α = 0.25
+└   normF2_new = 1.4573351503863978
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.9191152035530977
+└   normF_2 = 1.4573351503863978
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.7200841611796601
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.5454379524160405
+└   normF_2 = 0.7200841611796601
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.2216608482854262
+┌ Info: Newton
+│   iter = 4
+│   normF = 0.19586326038249574
+└   normF_2 = 0.2216608482854262
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.07207969476041783
+┌ Info: Newton
+│   iter = 5
+│   normF = 0.06739610421419065
+└   normF_2 = 0.07207969476041783
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.020484017948112103
+┌ Info: Newton
+│   iter = 6
+│   normF = 0.019314514387720562
+└   normF_2 = 0.020484017948112103
+┌ Info: Newton LS
+│   iter = 6
+│   bt = 1
+│   α = 0.5
+└   normF2_new = 0.010956935828489526
+┌ Info: Newton
+│   iter = 7
+│   normF = 0.010458906335219745
+└   normF_2 = 0.010956935828489526
+┌ Info: Newton LS
+│   iter = 7
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.0011525255121800494
+┌ Info: Newton
+│   iter = 8
+│   normF = 0.001091648175458454
+└   normF_2 = 0.0011525255121800494
+┌ Info: Newton LS
+│   iter = 8
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.740586222362183e-5
+┌ Info: Newton
+│   iter = 9
+│   normF = 1.4695084670862668e-5
+└   normF_2 = 1.740586222362183e-5
+┌ Info: Newton LS
+│   iter = 9
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 6.9140079669299874e-9
+┌ Info: Newton
+│   iter = 10
+│   normF = 6.340781968060261e-9
+└   normF_2 = 6.9140079669299874e-9
+┌ Info: cont step OK
+│   V = -2.2062500000000003
+│   ds = 0.2
+│   iter = 10
+└   normF = 6.340781968060261e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 8.760978883434234
+└   normF_2 = 12.792498424227077
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 8.760978883434234
+│   normF_2 = 12.792498424227077
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.4062500000000004
+│   ds = 0.1
+└   normF = 8.760978883434234
+┌ Info: Newton
+│   iter = 1
+│   normF = 1.307654186863738
+└   normF_2 = 1.8916353153246255
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.461144387603271
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.9311594888977983
+└   normF_2 = 1.461144387603271
+┌ Warning: Newton line search failed — aborting
+│   iter = 2
+│   normF = 0.9311594888977983
+│   normF_2 = 1.461144387603271
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.3062500000000004
+│   ds = 0.05
+└   normF = 0.9311594888977983
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.3891025159779323
+└   normF_2 = 0.5609944537232248
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.20618776670455521
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.13182446682076054
+└   normF_2 = 0.20618776670455521
+┌ Warning: Newton line search failed — aborting
+│   iter = 2
+│   normF = 0.13182446682076054
+│   normF_2 = 0.20618776670455521
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.25625
+│   ds = 0.025
+└   normF = 0.13182446682076054
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.15363853981734588
+└   normF_2 = 0.2212155915827737
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.02483167039998024
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.014550095319185097
+└   normF_2 = 0.02483167039998024
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.0007756328716038063
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.000537691709459158
+└   normF_2 = 0.0007756328716038063
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.4768129182375557e-6
+┌ Info: Newton
+│   iter = 4
+│   normF = 1.9161121462898945e-6
+└   normF_2 = 2.4768129182375557e-6
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.3233401932419224e-9
+┌ Info: Newton
+│   iter = 5
+│   normF = 7.7261969044784e-10
+└   normF_2 = 1.3233401932419224e-9
+┌ Info: cont step OK
+│   V = -2.23125
+│   ds = 0.025
+│   iter = 5
+└   normF = 7.7261969044784e-10
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.34527199632982036
+└   normF_2 = 0.4942889051562658
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.1267781461165807
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.08064534526807236
+└   normF_2 = 0.1267781461165807
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.008435745321218314
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.004966967056104776
+└   normF_2 = 0.008435745321218314
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 6.073885118000799e-5
+┌ Info: Newton
+│   iter = 4
+│   normF = 4.1074308822011685e-5
+└   normF_2 = 6.073885118000799e-5
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 7.555078640349651e-8
+┌ Info: Newton
+│   iter = 5
+│   normF = 3.914344948174886e-8
+└   normF_2 = 7.555078640349651e-8
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 5.794060230596348e-10
+┌ Info: Newton
+│   iter = 6
+│   normF = 3.1314917325886427e-10
+└   normF_2 = 5.794060230596348e-10
+┌ Info: cont step OK
+│   V = -2.2687500000000003
+│   ds = 0.037500000000000006
+│   iter = 6
+└   normF = 3.1314917325886427e-10
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.5468133546097884
+└   normF_2 = 0.7777832731480163
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.2797072183022586
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.18549309346921708
+└   normF_2 = 0.2797072183022586
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.04869467795940217
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.019356507336310957
+└   normF_2 = 0.04869467795940217
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.010444235293590483
+┌ Info: Newton
+│   iter = 4
+│   normF = 0.0055070396179708325
+└   normF_2 = 0.010444235293590483
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 8.782383314821638e-7
+┌ Info: Newton
+│   iter = 5
+│   normF = 4.640504103203824e-7
+└   normF_2 = 8.782383314821638e-7
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 5.6494805311803515e-9
+┌ Info: Newton
+│   iter = 6
+│   normF = 2.6760129667735555e-9
+└   normF_2 = 5.6494805311803515e-9
+┌ Info: cont step OK
+│   V = -2.3062500000000004
+│   ds = 0.037500000000000006
+│   iter = 6
+└   normF = 2.6760129667735555e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.9016441741412204
+└   normF_2 = 1.2781255179157807
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 0.9016441741412204
+│   normF_2 = 1.2781255179157807
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.3437500000000004
+│   ds = 0.018750000000000003
+└   normF = 0.9016441741412204
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.3832856687616491
+└   normF_2 = 0.5432361124141631
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.10684435439383277
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.055418424085649516
+└   normF_2 = 0.10684435439383277
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.003579772590683964
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.0012206300516937052
+└   normF_2 = 0.003579772590683964
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 8.846973216359182e-6
+┌ Info: Newton
+│   iter = 4
+│   normF = 3.379791067237292e-6
+└   normF_2 = 8.846973216359182e-6
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.6875535177453286e-8
+┌ Info: Newton
+│   iter = 5
+│   normF = 5.417771786753178e-9
+└   normF_2 = 1.6875535177453286e-8
+┌ Info: cont step OK
+│   V = -2.325
+│   ds = 0.018750000000000003
+│   iter = 5
+└   normF = 5.417771786753178e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.815011770386906
+└   normF_2 = 1.1541837063159968
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 0.815011770386906
+│   normF_2 = 1.1541837063159968
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.3531250000000004
+│   ds = 0.014062500000000002
+└   normF = 0.815011770386906
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.36192333254713005
+└   normF_2 = 0.5125022000971058
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.06975597150446025
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.03901234096516014
+└   normF_2 = 0.06975597150446025
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.009032843787245701
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.004378042413407224
+└   normF_2 = 0.009032843787245701
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 3.5422583025407506e-6
+┌ Info: Newton
+│   iter = 4
+│   normF = 1.1027315354183997e-6
+└   normF_2 = 3.5422583025407506e-6
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.673119909785207e-8
+┌ Info: Newton
+│   iter = 5
+│   normF = 1.228029966604538e-8
+└   normF_2 = 2.673119909785207e-8
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 2
+│   α = 0.25
+└   normF2_new = 2.3546526518243987e-8
+┌ Info: Newton
+│   iter = 6
+│   normF = 9.060088013157497e-9
+└   normF_2 = 2.3546526518243987e-8
+┌ Info: cont step OK
+│   V = -2.3390625000000003
+│   ds = 0.014062500000000002
+│   iter = 6
+└   normF = 9.060088013157497e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.44432688349584554
+└   normF_2 = 0.6289255108725496
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.08756310679025052
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.05052165968064082
+└   normF_2 = 0.08756310679025052
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 9.980327306470276e-5
+┌ Info: Newton
+│   iter = 3
+│   normF = 6.777821569289161e-5
+└   normF_2 = 9.980327306470276e-5
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 7.348197023240736e-8
+┌ Info: Newton
+│   iter = 4
+│   normF = 3.191478417652327e-8
+└   normF_2 = 7.348197023240736e-8
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.5330330051917344e-8
+┌ Info: Newton
+│   iter = 5
+│   normF = 6.612606906486462e-9
+└   normF_2 = 1.5330330051917344e-8
+┌ Info: cont step OK
+│   V = -2.3531250000000004
+│   ds = 0.014062500000000002
+│   iter = 5
+└   normF = 6.612606906486462e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.7852882897227944
+└   normF_2 = 1.1113846195800274
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 0.7852882897227944
+│   normF_2 = 1.1113846195800274
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.3742187500000003
+│   ds = 0.010546875
+└   normF = 0.7852882897227944
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.35986623873848056
+└   normF_2 = 0.5092879256213978
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.1253753793604657
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.042646088868330136
+└   normF_2 = 0.1253753793604657
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.00556042818142152
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.002245542653967411
+└   normF_2 = 0.00556042818142152
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 7.4674868756998966e-6
+┌ Info: Newton
+│   iter = 4
+│   normF = 2.6326570208290434e-6
+└   normF_2 = 7.4674868756998966e-6
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 8.235514301358722e-8
+┌ Info: Newton
+│   iter = 5
+│   normF = 3.064633746774348e-8
+└   normF_2 = 8.235514301358722e-8
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 4
+│   α = 0.0625
+└   normF2_new = 8.031803518274827e-8
+┌ Info: Newton
+│   iter = 6
+│   normF = 2.877635196796291e-8
+└   normF_2 = 8.031803518274827e-8
+┌ Info: Newton LS
+│   iter = 6
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 3.883480638749164e-8
+┌ Info: Newton
+│   iter = 7
+│   normF = 1.0136457451181968e-8
+└   normF_2 = 3.883480638749164e-8
+┌ Info: Newton LS
+│   iter = 7
+│   bt = 1
+│   α = 0.5
+└   normF2_new = 2.6103473557687135e-8
+┌ Info: Newton
+│   iter = 8
+│   normF = 7.276902636021987e-9
+└   normF_2 = 2.6103473557687135e-8
+┌ Info: cont step OK
+│   V = -2.3636718750000005
+│   ds = 0.010546875
+│   iter = 8
+└   normF = 7.276902636021987e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.42024630873773555
+└   normF_2 = 0.5946296004377356
+┌ Info: Newton LS
+│   iter = 1
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.23772707819394787
+┌ Info: Newton
+│   iter = 2
+│   normF = 0.09708446532428505
+└   normF_2 = 0.23772707819394787
+┌ Info: Newton LS
+│   iter = 2
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 0.021526263908849104
+┌ Info: Newton
+│   iter = 3
+│   normF = 0.008856931559356962
+└   normF_2 = 0.021526263908849104
+┌ Info: Newton LS
+│   iter = 3
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 2.7452052498435992e-5
+┌ Info: Newton
+│   iter = 4
+│   normF = 1.2394227864920282e-5
+└   normF_2 = 2.7452052498435992e-5
+┌ Info: Newton LS
+│   iter = 4
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 1.6771431723744247e-7
+┌ Info: Newton
+│   iter = 5
+│   normF = 7.506521404465616e-8
+└   normF_2 = 1.6771431723744247e-7
+┌ Info: Newton LS
+│   iter = 5
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 5.643845556622842e-8
+┌ Info: Newton
+│   iter = 6
+│   normF = 2.057859527226924e-8
+└   normF_2 = 5.643845556622842e-8
+┌ Info: Newton LS
+│   iter = 6
+│   bt = 2
+│   α = 0.25
+└   normF2_new = 4.8306375891516146e-8
+┌ Info: Newton
+│   iter = 7
+│   normF = 1.555136153186254e-8
+└   normF_2 = 4.8306375891516146e-8
+┌ Info: Newton LS
+│   iter = 7
+│   bt = 0
+│   α = 1.0
+└   normF2_new = 4.619584568511959e-8
+┌ Info: Newton
+│   iter = 8
+│   normF = 1.581937780770204e-8
+└   normF_2 = 4.619584568511959e-8
+┌ Info: Newton LS
+│   iter = 8
+│   bt = 2
+│   α = 0.25
+└   normF2_new = 3.872073944437815e-8
+┌ Info: Newton
+│   iter = 9
+│   normF = 1.260487314524994e-8
+└   normF_2 = 3.872073944437815e-8
+┌ Info: Newton LS
+│   iter = 9
+│   bt = 3
+│   α = 0.125
+└   normF2_new = 3.807487173809606e-8
+┌ Info: Newton
+│   iter = 10
+│   normF = 1.1708006120159098e-8
+└   normF_2 = 3.807487173809606e-8
+┌ Info: Newton LS
+│   iter = 10
+│   bt = 4
+│   α = 0.0625
+└   normF2_new = 3.793380406176332e-8
+┌ Info: Newton
+│   iter = 11
+│   normF = 1.1863249049781643e-8
+└   normF_2 = 3.793380406176332e-8
+┌ Info: Newton LS
+│   iter = 11
+│   bt = 4
+│   α = 0.0625
+└   normF2_new = 3.730479629591849e-8
+┌ Info: Newton
+│   iter = 12
+│   normF = 1.1033618019240521e-8
+└   normF_2 = 3.730479629591849e-8
+┌ Info: Newton LS
+│   iter = 12
+│   bt = 2
+│   α = 0.25
+└   normF2_new = 3.37836290492095e-8
+┌ Info: Newton
+│   iter = 13
+│   normF = 9.549859125712601e-9
+└   normF_2 = 3.37836290492095e-8
+┌ Info: cont step OK
+│   V = -2.3742187500000007
+│   ds = 0.010546875
+│   iter = 13
+└   normF = 9.549859125712601e-9
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.4916433365878974
+└   normF_2 = 0.6955572265542208
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 0.4916433365878974
+│   normF_2 = 0.6955572265542208
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.384765625000001
+│   ds = 0.0052734375
+└   normF = 0.4916433365878974
+┌ Info: Newton
+│   iter = 1
+│   normF = 0.23559635076829544
+└   normF_2 = 0.3333096614463511
+┌ Warning: Newton line search failed — aborting
+│   iter = 1
+│   normF = 0.23559635076829544
+│   normF_2 = 0.3333096614463511
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:175
+┌ Info: cont step FAIL — halving ds
+│   V = -2.379492187500001
+│   ds = 0.00263671875
+└   normF = 0.23559635076829544
+┌ Warning: Continuation failure
+│   V_last = -2.3742187500000007
+│   V_target = -2.379492187500001
+│   ds = 0.00263671875
+└ @ Main.ADPN_EHD.Solver C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\solver.jl:245
+════════════════════════════════════════════════════════════
+ Stage 1 — ε_org = 0, δ = 50.0 μm
+ Start: 2026-04-20T09:13:13.345
+════════════════════════════════════════════════════════════
+[mesh]  N = 100  dx_min = 1.274e-07 m  dx_max = 1.274e-06 m  ratio = 10.00
+[eq]   pH = 13.016   cH=9.646e-11  cOH=1.037e+02  cH2PO4=1.302e-04  cHPO4=8.367e+01  cPO4=4.163e+02  cNa=1520.0
+[init] u0 length = 900  (expected 900)
+[boot] α_buf=0, α_kin=0 at V=-1.000 V:  |F|∞ = 0.000e+00
+[boot] ramping α_buf 0 → 1 (10 uniform steps), α_kin = 0
+  α_buf = 0.10   iter =  1   |F|∞ = 2.073e-18   ok
+  α_buf = 0.20   iter =  1   |F|∞ = 4.146e-18   ok
+  α_buf = 0.30   iter =  1   |F|∞ = 6.219e-18   ok
+  α_buf = 0.40   iter =  1   |F|∞ = 8.292e-18   ok
+  α_buf = 0.50   iter =  1   |F|∞ = 1.037e-17   ok
+  α_buf = 0.60   iter =  1   |F|∞ = 1.244e-17   ok
+  α_buf = 0.70   iter =  1   |F|∞ = 1.451e-17   ok
+  α_buf = 0.80   iter =  1   |F|∞ = 1.658e-17   ok
+  α_buf = 0.90   iter =  1   |F|∞ = 1.866e-17   ok
+  α_buf = 1.00   iter =  1   |F|∞ = 2.073e-17   ok
+[boot] ramping α_kin 1e-6 → 1.0 (geometric ×2), α_buf = 1
+  α_kin = 1.000e-06  iter =  1   |F|∞ = 1.553e-15   ok
+  α_kin = 2.000e-06  iter =  1   |F|∞ = 3.107e-15   ok
+  α_kin = 4.000e-06  iter =  1   |F|∞ = 6.214e-15   ok
+  α_kin = 8.000e-06  iter =  1   |F|∞ = 1.243e-14   ok
+  α_kin = 1.600e-05  iter =  1   |F|∞ = 2.486e-14   ok
+  α_kin = 3.200e-05  iter =  1   |F|∞ = 4.971e-14   ok
+  α_kin = 6.400e-05  iter =  1   |F|∞ = 9.942e-14   ok
+  α_kin = 1.280e-04  iter =  1   |F|∞ = 1.988e-13   ok
+  α_kin = 2.560e-04  iter =  1   |F|∞ = 3.977e-13   ok
+  α_kin = 5.120e-04  iter =  1   |F|∞ = 7.954e-13   ok
+  α_kin = 1.024e-03  iter =  1   |F|∞ = 1.591e-12   ok
+  α_kin = 2.048e-03  iter =  1   |F|∞ = 3.182e-12   ok
+  α_kin = 4.096e-03  iter =  1   |F|∞ = 6.363e-12   ok
+  α_kin = 8.192e-03  iter =  1   |F|∞ = 1.273e-11   ok
+  α_kin = 1.638e-02  iter =  1   |F|∞ = 2.545e-11   ok
+  α_kin = 3.277e-02  iter =  1   |F|∞ = 5.090e-11   ok
+  α_kin = 6.554e-02  iter =  1   |F|∞ = 1.018e-10   ok
+  α_kin = 1.311e-01  iter =  1   |F|∞ = 2.036e-10   ok
+  α_kin = 2.621e-01  iter =  1   |F|∞ = 4.072e-10   ok
+  α_kin = 5.243e-01  iter =  1   |F|∞ = 8.145e-10   ok
+  α_kin = 1.000e+00  iter =  1   |F|∞ = 1.553e-09   ok
+[boot] completed at α_buf=1, α_kin=1, V = -1.0
+────────── PHYSICALITY  post-bootstrap @ V = -1.0 ──────────
+  V =  -1.000 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=5.001e-06  j₂=3.817e-06  j₃=1.411e-04  [A/m²]
+  j_total = 1.499e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   3.34 %   FE_PN =   2.55 %   FE_HER =  94.12 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.094e-15  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.666e-11 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+
+[cont] sweeping V from -1.0 to -2.5 V vs SHE
+[cont] recorded 17 converged points
+[cont] V range covered: [-2.374, -1.000]
+────────── PHYSICALITY  V=-1.000 ──────────
+  V =  -1.000 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=5.001e-06  j₂=3.817e-06  j₃=1.411e-04  [A/m²]
+  j_total = 1.499e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   3.34 %   FE_PN =   2.55 %   FE_HER =  94.12 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.094e-15  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.666e-11 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.050 ──────────
+  V =  -1.050 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.323e-05  j₂=1.010e-05  j₃=3.073e-04  [A/m²]
+  j_total = 3.306e-04 A/m² = 0.00 mA/cm²
+  FE_ADPN =   4.00 %   FE_PN =   3.06 %   FE_HER =  92.94 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 0.000e+00 V
+  max |Σ z_i c_i| (9-sp)    : 0.000e+00 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.094e-15  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 0.000e+00 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.666e-11 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.125 ──────────
+  V =  -1.125 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=5.695e-05  j₂=4.347e-05  j₃=9.877e-04  [A/m²]
+  j_total = 1.088e-03 A/m² = 0.00 mA/cm²
+  FE_ADPN =   5.23 %   FE_PN =   4.00 %   FE_HER =  90.77 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.637e-09 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.060e-07  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.848e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 4.243e-10 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.238 ──────────
+  V =  -1.238 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=5.085e-04  j₂=3.882e-04  j₃=5.692e-03  [A/m²]
+  j_total = 6.589e-03 A/m² = 0.00 mA/cm²
+  FE_ADPN =   7.72 %   FE_PN =   5.89 %   FE_HER =  86.39 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 9.911e-09 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 6.419e-07  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 8.870e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 2.217e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.406 ──────────
+  V =  -1.406 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.357e-02  j₂=1.036e-02  j₃=7.875e-02  [A/m²]
+  j_total = 1.027e-01 A/m² = 0.01 mA/cm²
+  FE_ADPN =  13.21 %   FE_PN =  10.09 %   FE_HER =  76.70 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.544e-07 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.000e-05  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.329e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 2.308e-09 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 1.0000  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.606 ──────────
+  V =  -1.606 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=6.650e-01  j₂=5.077e-01  j₃=1.772e+00  [A/m²]
+  j_total = 2.945e+00 A/m² = 0.29 mA/cm²
+  FE_ADPN =  22.58 %   FE_PN =  17.24 %   FE_HER =  60.18 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 4.424e-06 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.862e-04  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.409e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 6.612e-08 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.9998  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-1.806 ──────────
+  V =  -1.806 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=3.220e+01  j₂=2.477e+01  j₃=3.997e+01  [A/m²]
+  j_total = 9.694e+01 A/m² = 9.69 mA/cm²
+  FE_ADPN =  33.22 %   FE_PN =  25.55 %   FE_HER =  41.24 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.403e-04 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 8.757e-03  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 2.859e-14 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 2.182e-06 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.9924  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.006 ──────────
+  V =  -2.006 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=9.527e+02  j₂=9.608e+02  j₃=9.266e+02  [A/m²]
+  j_total = 2.840e+03 A/m² = 284.01 mA/cm²
+  FE_ADPN =  33.55 %   FE_PN =  33.83 %   FE_HER =  32.62 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 2.140e-03 V
+  max |Σ z_i c_i| (9-sp)    : 2.274e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 5.035e-02  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 2.139e-13 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 6.705e-05 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.7570  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.206 ──────────
+  V =  -2.206 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.322e+03  j₂=7.581e+03  j₃=1.943e+04  [A/m²]
+  j_total = 2.833e+04 A/m² = 2833.22 mA/cm²
+  FE_ADPN =   4.67 %   FE_PN =  26.76 %   FE_HER =  68.58 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.192e-02 V
+  max |Σ z_i c_i| (9-sp)    : 9.095e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.756e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 1.101e-10 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 7.823e-04 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.1331  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.231 ──────────
+  V =  -2.231 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.041e+03  j₂=8.625e+03  j₃=2.891e+04  [A/m²]
+  j_total = 3.858e+04 A/m² = 3858.10 mA/cm²
+  FE_ADPN =   2.70 %   FE_PN =  22.36 %   FE_HER =  74.95 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.179e-02 V
+  max |Σ z_i c_i| (9-sp)    : 4.547e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 3.559e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 7.726e-10 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.085e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0921  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.269 ──────────
+  V =  -2.269 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=6.535e+02  j₂=9.892e+03  j₃=5.225e+04  [A/m²]
+  j_total = 6.279e+04 A/m² = 6279.39 mA/cm²
+  FE_ADPN =   1.04 %   FE_PN =  15.75 %   FE_HER =  83.21 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.200e-02 V
+  max |Σ z_i c_i| (9-sp)    : 9.095e-13 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 5.635e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 3.131e-10 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 1.820e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0504  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.306 ──────────
+  V =  -2.306 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=3.674e+02  j₂=1.075e+04  j₃=9.465e+04  [A/m²]
+  j_total = 1.058e+05 A/m² = 10576.92 mA/cm²
+  FE_ADPN =   0.35 %   FE_PN =  10.16 %   FE_HER =  89.49 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 1.794e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 9.370e+00  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 2.676e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 3.171e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0261  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.325 ──────────
+  V =  -2.325 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=2.656e+02  j₂=1.105e+04  j₃=1.281e+05  [A/m²]
+  j_total = 1.394e+05 A/m² = 13944.08 mA/cm²
+  FE_ADPN =   0.19 %   FE_PN =   7.92 %   FE_HER =  91.89 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 2.431e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.214e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 5.418e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 4.260e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0184  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.339 ──────────
+  V =  -2.339 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=2.066e+02  j₂=1.121e+04  j₃=1.605e+05  [A/m²]
+  j_total = 1.719e+05 A/m² = 17189.46 mA/cm²
+  FE_ADPN =   0.12 %   FE_PN =   6.52 %   FE_HER =  93.36 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 2.339e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 1.491e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 9.060e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 5.326e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0141  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.353 ──────────
+  V =  -2.353 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.814e+02  j₂=1.129e+04  j₃=1.799e+05  [A/m²]
+  j_total = 1.914e+05 A/m² = 19139.97 mA/cm²
+  FE_ADPN =   0.09 %   FE_PN =   5.90 %   FE_HER =  94.01 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 2.859e-02 V
+  max |Σ z_i c_i| (9-sp)    : 1.819e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.278e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 6.613e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 5.996e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0123  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.364 ──────────
+  V =  -2.364 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.497e+02  j₂=1.138e+04  j₃=2.125e+05  [A/m²]
+  j_total = 2.240e+05 A/m² = 22403.00 mA/cm²
+  FE_ADPN =   0.07 %   FE_PN =   5.08 %   FE_HER =  94.86 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 2.803e-02 V
+  max |Σ z_i c_i| (9-sp)    : 3.638e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 2.663e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 7.277e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 7.104e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0100  (AN depletion)
+──────────────────────────────────────────────
+────────── PHYSICALITY  V=-2.374 ──────────
+  V =  -2.374 V vs SHE,  ε_org = 0.000,  δ = 50.0 μm
+  j₁=1.231e+02  j₂=1.145e+04  j₃=2.510e+05  [A/m²]
+  j_total = 2.626e+05 A/m² = 26261.97 mA/cm²
+  FE_ADPN =   0.05 %   FE_PN =   4.36 %   FE_HER =  95.59 %
+  bulk pH                   : 13.016   (expected ≈ 13.0)
+  φ_l span across DL        : 3.690e-02 V
+  max |Σ z_i c_i| (9-sp)    : 7.276e-12 mol m⁻³  (∼0 by construction)
+  max (c_Na − c_Na,bulk)/c_Na,bulk : 3.125e+01  (Na⁺ DL accumulation)
+  Σ z_i N_i interior  var   : 9.550e-09 mol m⁻² s⁻¹
+  max |R_buf| @ surface     : 8.443e-03 mol m⁻³ s⁻¹
+  max |R_buf| @ bulk        : 1.666e-11 mol m⁻³ s⁻¹
+  c_AN(0) / c_AN,bulk       : 0.0082  (AN depletion)
+──────────────────────────────────────────────
+[export] records → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_records_eo0.000_d50.csv
+[export] profile @ V=-1.40625 (target -1.5) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.000_d50_V-1.406.csv
+[export] profile @ V=-1.80625 (target -1.8) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.000_d50_V-1.806.csv
+[export] profile @ V=-2.00625 (target -2.0) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.000_d50_V-2.006.csv
+[export] profile @ V=-2.3742187500000007 (target -2.3742187500000007) → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_profile_eo0.000_d50_V-2.374.csv
+[export] meta → C:\Users\BuiLab\Documents\ADPN-Julia-Model\an_ehd\output\data\stage1_meta_eo0.000_d50.txt
+
+════════════════════════════════════════════════════════════
+ Stage 1 complete.  End: 2026-04-20T09:13:18.899
+════════════════════════════════════════════════════════════

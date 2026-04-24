@@ -1,0 +1,16 @@
+Stage 1 summary — ε_org = 0.020, δ = 50 μm, N = 100, stretch = 10
+================================================================================
+N converged points : 15
+V range            : [-2.5000, -1.0000] V vs SHE
+j_total range      : [1.422e-04, 1.451e+06] A/m²
+                   = [1.422e-05, 1.451e+05] mA/cm²
+max FE_ADPN        : 5.32%  at V = -2.0073 V   (j = 1.201e+02 mA/cm²)
+max FE_PN          : 20.31%   at V = -2.0733 V
+max FE_HER         : 99.81%  at V = -2.5000 V
+pH_bulk range      : [13.0269, 13.0269]  (expected 13.0156)
+max |Σ z_i c_i|    : 1.819e-12 mol/m³  (9-species electroneutrality)
+max Na DL dev      : 1.128e+04%  (physical; Na⁺ not transported)
+min AN_depletion   : 0.0009  (c_AN(0)/c_AN,bulk)
+max φ_l span       : 19.321 mV across DL
+max |R_buf| surf.  : 2.418e+03 mol/m³/s
+max |R_buf| bulk   : 3.726e-09 mol/m³/s
