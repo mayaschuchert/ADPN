@@ -1,0 +1,27 @@
+========================================================================
+ Post-fit V_cell diagnostic — 2026-04-27T16:20:07.633
+========================================================================
+Loaded fitted kinetics from stage4a_fitted_theta.txt
+  j0_1 = 1.000e-06 A/m²    α_c1 = 0.700
+  j0_2 = 6.166e-03 A/m²    α_c2 = 0.332
+  j0_3 = 9.533e-05 A/m²    α_c3 = 0.308
+Loaded 162 rows from bloomquist_data.csv
+[ Info: FitContext: loaded 126 warm-start states from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/cache
+Pre-cached 9 unique-δ meshes
+
+  20/162 rows processed...
+  40/162 rows processed...
+  60/162 rows processed...
+  80/162 rows processed...
+  100/162 rows processed...
+  120/162 rows processed...
+  140/162 rows processed...
+  160/162 rows processed...
+
+  Core            :  n= 48   median(resid)=+0.275 V   MAE=0.376 V   bias=+0.233 V
+  Extended-only   :  n= 42   median(resid)=-0.405 V   MAE=0.445 V   bias=-0.405 V
+  Holdout         :  n= 43   median(resid)=+0.353 V   MAE=0.436 V   bias=+0.230 V
+  Excluded        :  n= 20   median(resid)=-0.149 V   MAE=0.741 V   bias=-0.090 V
+
+Wrote /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/stage4/data/stage4_diagnostic.csv
+========================================================================

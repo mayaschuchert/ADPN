@@ -1,0 +1,13 @@
+# v6 Stage 4a — fitted kinetic parameters (transport frozen)
+# date: 2026-04-27T16:05:01.546
+# converged: true
+# loss: 9.871177e+03 (sum of squared residuals, pp²)
+# Core rows: 48
+# RMSE FE_ADN: 13.4980 pp
+# RMSE FE_PN:  4.8429 pp
+j0_1 = 1.000000e-06
+j0_2 = 6.166265e-03
+j0_3 = 9.533393e-05
+alpha_c1 = 0.700000
+alpha_c2 = 0.332487
+alpha_c3 = 0.308265

@@ -67,13 +67,22 @@ function load_fitted_theta(path::String)
     return j0, ac
 end
 
-# Back-derive V_cell from EP/PR/j (NaN where degenerate)
+# Back-derive V_cell [V] from EP/PR/j (NaN where degenerate).
+#
+# Dimensional check:
+#   EP [kg/kWh] = mass / (P [kW] · t [h])
+#   PR [kg/cm²/h] = mass / (A [cm²] · t [h])
+#   ⇒ P [kW] = A · PR / EP                                       [cm² · kg/cm²/h ÷ kg/kWh]
+#   P [W] = j [A/cm²] · A [cm²] · V_cell [V]
+#   ⇒ V_cell [V] = P [W] / (j · A)
+#                = 1000 · A · PR / EP / (j · A)
+#                = 1000 · PR / (EP · j)
 @inline function v_cell_obs(r::BloomquistRow)
     j_A_cm2 = r.j_mA_cm2 * 1e-3
     if r.PR_ADN_kg_cm2_h <= 1e-10 || r.EP_ADN_kg_kWh <= 1e-6 || j_A_cm2 <= 0
         return NaN
     end
-    return r.PR_ADN_kg_cm2_h / (r.EP_ADN_kg_kWh * j_A_cm2)
+    return 1000.0 * r.PR_ADN_kg_cm2_h / (r.EP_ADN_kg_kWh * j_A_cm2)
 end
 
 # Subset tag (Core / Extended-only / Holdout / Excluded) for one row index.

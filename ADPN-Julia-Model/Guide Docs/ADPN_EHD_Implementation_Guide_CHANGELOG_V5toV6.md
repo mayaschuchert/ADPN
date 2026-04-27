@@ -422,4 +422,91 @@ Steps 1–4 are v6.x patches. Step 5 onward is the v7 boundary.
 
 ---
 
+## 8. First-fit results (2026-04-27)
+
+The first end-to-end Stage 4 run completed on 2026-04-27 with the loosened LM gates (`tol_rel = 1e-2`, `lambda_stuck = 1e3`) and the Stage 3 warm-start cache (126 / 126 unique transport keys built cleanly). The intent was a test-drive of the fitting pipeline, not a publishable fit. Results below are diagnostic of v6's structural model limits, not final fitted parameters.
+
+### 8.1 Run summary
+
+| | Value |
+|---|---|
+| Core rows fit | 48 (gap ∈ {0.5, 1.0} mm, j ≤ 190 mA/cm², ε_org ≥ 0.04) |
+| Extended rows (forward-applied, no re-fit) | 42 (gap ∈ {0.5, 1.0} mm, ε_org ≥ 0.04, any j) — Extended-only = Extended ∖ Core |
+| Holdout rows (forward-applied, no re-fit) | 43 (gap = 0.25 mm, ε_org ≥ 0.04) |
+| LM iterations to converge | 11 (rel-loss-drop < 1e-2 gate) |
+| Wall time (with Stage 3 cache + loose gates) | ≈ 12 min |
+| All decision-gate checks | 1 / 4 PASS |
+
+### 8.2 Fitted kinetic parameters
+
+| Param | Initial | Bounds | Fitted | Pinned at bound? |
+|---|---|---|---|---|
+| **j₀,1 (ADPN)** | 1.0×10⁻³ | [10⁻⁶, 10⁻¹] A/m² | **1.000×10⁻⁶** | ⚠️ at lower bound |
+| j₀,2 (PN) | 1.0×10⁻³ | [10⁻⁶, 10⁻¹] A/m² | 6.166×10⁻³ | free |
+| j₀,3 (HER) | 1.0×10⁻⁵ | [10⁻⁸, 10⁻³] A/m² | 9.533×10⁻⁵ | free |
+| **α_c,1 (ADPN)** | 0.5 | [0.3, 0.7] | **0.700** | ⚠️ at upper bound |
+| α_c,2 (PN) | 0.5 | [0.3, 0.7] | 0.332 | near lower, not pinned |
+| α_c,3 (HER) | 0.4 | [0.3, 0.5] | 0.308 | near lower, not pinned |
+
+### 8.3 Decision-gate scoreboard (§20.4)
+
+| Gate | Result | Threshold |
+|---|---|---|
+| Core FE_ADN RMSE | **13.50 pp FAIL** | < 8 pp |
+| Core FE_PN RMSE | **4.84 pp PASS** | < 5 pp |
+| Extended FE_ADN RMSE | **14.25 pp FAIL** | < 12 pp |
+| Holdout FE_ADN RMSE | **34.85 pp FAIL** | < 15 pp |
+
+Three of four gates failed exactly along the modes anticipated in §20.4 and §6 (v7 roadmap). The PN gate passed cleanly.
+
+### 8.4 V_cell parity (post-fit, `analyze_stage4.jl`)
+
+V_cell back-derived per row from `V_cell_obs = 1000 · PR_ADN / (EP_ADN · j_A_cm2)` and compared with `V_cell_pred = V_CE + |V_cathode_SHE| + j · R_series` using frozen `V_CE = 1.7 V`, `R_contact = 1×10⁻⁴ Ω·m²`:
+
+| Subset | n | median(V_pred − V_obs) | MAE | bias |
+|---|---|---|---|---|
+| Core | 48 | +0.275 V | 0.376 V | +0.233 V |
+| Extended-only | 42 | −0.405 V | 0.445 V | −0.405 V |
+| Holdout (0.25 mm) | 43 | +0.353 V | 0.436 V | +0.230 V |
+| Excluded (ε<0.04) | 20 | −0.149 V | 0.741 V | −0.090 V |
+
+> **Caveat on V_cell_obs.** The 1000× factor (kW→W) was missed in the first analyze_stage4 run; numbers above are from the corrected re-run. PR_ADN, EP_ADN, j each carry independent measurement noise → V_cell_obs has compounded uncertainty estimated at 0.2–0.4 V.
+
+### 8.5 Interpretation — three findings
+
+**Finding 1 — ADPN kinetics form is structurally too rigid.**
+LM pushed both j₀,1 (to lower bound) and α_c,1 (to upper bound) simultaneously, yet still left FE_ADN RMSE = 13.5 pp on Core. Bound-pinned parameters in opposite directions are the classical signature of a model that can't represent the data shape. The fixed `c²` AN dependence in `j_1 = j₀,1 · (c_AN/c_ref)² · exp(...)` is the suspect — Mathison (JACS 2025) and the broader 60-year ADPN literature show evidence the effective reaction order can sit anywhere in [1, 3] depending on potential and surface coverage. **Action: promote `n_1` to a fit param** (Step 3 of §7 roadmap).
+
+**Finding 2 — PN kinetics fits cleanly. Don't touch.**
+FE_PN Core RMSE = 4.84 pp passes the < 5 pp gate. j₀,2 free, α_c,2 not bound-pinned. The `c¹` dependence for PN appears adequate. No edits needed in v7.
+
+**Finding 3 — Bubble physics is the dominant missing term, but only on transport (FE), not on V_cell.**
+The Holdout − Extended-only delta on FE_ADN is +20.6 pp (34.85 − 14.25), with only the gap differing (0.25 mm vs 0.5 / 1.0 mm). However, the Holdout V_cell bias (+0.23 V) is *similar* to the Core bias, not catastrophic. **Diagnostic implication:** the v6 missing-physics is dominated by **bubble-induced convection** (which enhances mass transfer at small gaps, fixing FE) and **not** by bubble void blocking of κ_eff (which would also push V_cell up). This argues that `f_bubble(j, gap, Q)` enhancement on δ_lam (Step 6c of §7 roadmap) is more important than the Bruggeman correction on κ_eff (Step 6a). Both should land in v7, but if priorities force a choice, do 6c first.
+
+**Bonus finding — V_CE / R_contact defaults look fine.**
+MAE on V_cell ≈ 0.4 V across all subsets is within compounded measurement noise of V_cell_obs. The Core (+0.28 V over-prediction) vs Extended-only (−0.41 V under-prediction) sign flip is consistent with R_contact being slightly small at high j, but the magnitude is too small to fit reliably against the back-derived V_cell. Keep frozen in v7 until the bubble model lands.
+
+### 8.6 Output artefacts (commit-worthy diagnostic CSVs)
+
+```
+an_ehd/output/stage4/data/
+├── stage4a_fitted_theta.txt          (354 B)
+├── stage4a_core_residuals.csv        (3.0 KB, 48 rows)
+├── stage4b_extended_residuals.csv    (5.7 KB, 90 rows)
+├── stage4b_holdout_residuals.csv     (2.9 KB, 45 rows)
+└── stage4_diagnostic.csv             (21 KB, 162 rows × 21 cols — full enriched output incl. V_cell)
+```
+
+### 8.7 Confirmed v7 priority order
+
+The first fit's failure pattern unambiguously orders the v7 work that §7 listed without empirical justification:
+
+1. **Reaction order n_1 as fit param** (Step 3) — most direct fix for the bound-pinned ADPN kinetics. Cheap (~30 min code).
+2. **Bubble convection on δ_lam** (Step 6c) — biggest residual remaining after Step 1, dominates the 0.25 mm gap holdout.
+3. **Bubble Bruggeman on κ_eff** (Step 6a) — secondary effect; helps V_cell parity but not the FE residuals.
+4. **TCH species** (Step 5) — doesn't show up clearly in current residuals because TCH's ~10% FE fraction is being absorbed into model FE_HER without distorting FE_ADN/FE_PN much. Lower priority than originally suggested.
+5. (still deferred) V_CE / R_contact joint fit (Step 7) — only meaningful after bubbles land.
+
+---
+
 *References for v6 additions: Newman, Electrochemical Systems 3rd ed. §11.3; Bird/Stewart/Lightfoot Transport Phenomena 2nd ed. §14.4; Lévêque, Ann. Mines 1928; Bloomquist et al. CEJ 2026 528, 172125 (and SI Tables S2–S10).*

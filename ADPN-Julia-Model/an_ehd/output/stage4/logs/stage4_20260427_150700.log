@@ -12,3 +12,33 @@ Holdout   :  45 rows
 Pre-cached 6 unique-δ meshes
 [LM] iter   0   loss=9.4829e+04   λ=1.00e-02   nfail=0
 [LM] iter   1   loss=1.5049e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=8.41e-01)
+[LM] iter   2   loss=1.2866e+04   λ=2.50e-03   nfail=0   accept (Δ_rel=1.45e-01)
+[LM] iter   3   loss=1.2866e+04   λ=1.00e-02   nfail=0   reject
+[LM] iter   4   loss=1.0852e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=1.57e-01)
+[LM] iter   5   loss=1.0402e+04   λ=2.50e-03   nfail=0   accept (Δ_rel=4.15e-02)
+[LM] iter   6   loss=1.0402e+04   λ=1.00e-02   nfail=0   reject
+[LM] iter   7   loss=1.0057e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=3.31e-02)
+[LM] iter   8   loss=1.0057e+04   λ=2.00e-02   nfail=0   reject
+[LM] iter   9   loss=9.9254e+03   λ=1.00e-02   nfail=0   accept (Δ_rel=1.31e-02)
+[LM] iter  10   loss=9.9254e+03   λ=4.00e-02   nfail=0   reject
+[LM] iter  11   loss=9.8712e+03   λ=2.00e-02   nfail=0   accept (Δ_rel=5.47e-03)
+
+[LM] done.  Converged: relative loss drop < tol_rel
+  j0_1 = 1.000e-06 A/m²    α_c1 = 0.700
+  j0_2 = 6.166e-03 A/m²    α_c2 = 0.332
+  j0_3 = 9.533e-05 A/m²    α_c3 = 0.308
+Core RMSE — FE_ADN: 13.50 pp,  FE_PN: 4.84 pp
+
+--- Stage 4b: forward apply Stage 4a θ to Extended + Holdout ---
+Extended RMSE — FE_ADN: 14.25 pp,  FE_PN: 5.50 pp
+[ Info: FitContext: loaded 42 warm-start states from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/cache
+Holdout  RMSE — FE_ADN: 34.85 pp,  FE_PN: 11.71 pp
+
+--- Decision gates (§20.4) ---
+  [FAIL] Core FE_ADN RMSE                          13.50 pp  (threshold: < 8 pp)
+  [PASS] Core FE_PN RMSE                           4.84 pp  (threshold: < 5 pp)
+  [FAIL] Extended FE_ADN RMSE                      14.25 pp  (threshold: < 12 pp)
+  [FAIL] Holdout FE_ADN RMSE                       34.85 pp  (threshold: < 15 pp)
+
+  All gates passed: false
+========================================================================
