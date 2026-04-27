@@ -2,7 +2,30 @@ module Kinetics
 
 using ..Params
 
-export tafel_currents
+export tafel_currents,
+       set_kinetic_override!, clear_kinetic_override!, with_kinetic_override
+
+# Optional override of (j₀,r, α_c,r) used by the v6 fit workflow. When `nothing`
+# (the default), `tafel_currents` reads from Params constants exactly as before;
+# all Stage 1 / 2 / 2m / 3 paths are unaffected. Stage 4 sets the Ref before
+# each fixed-j solve so the optimiser can vary kinetics without touching Params.
+const KIN_OVERRIDE = Ref{Union{Nothing,
+                               @NamedTuple{j0::NTuple{3,Float64},
+                                           ac::NTuple{3,Float64}}}}(nothing)
+
+set_kinetic_override!(j0::NTuple{3,Float64}, ac::NTuple{3,Float64}) =
+    (KIN_OVERRIDE[] = (j0 = j0, ac = ac); nothing)
+clear_kinetic_override!() = (KIN_OVERRIDE[] = nothing; nothing)
+
+function with_kinetic_override(f, j0::NTuple{3,Float64}, ac::NTuple{3,Float64})
+    prev = KIN_OVERRIDE[]
+    set_kinetic_override!(j0, ac)
+    try
+        return f()
+    finally
+        KIN_OVERRIDE[] = prev
+    end
+end
 
 """
     tafel_currents(c_AN_surface, phi_l_surface, phi_s, alpha_kin=1.0)
@@ -11,12 +34,23 @@ export tafel_currents
 Cathodic Tafel current densities [A m⁻²] for ADPN, PN, HER at the electrode.
 Sign convention: positive = cathodic. Overpotential η_r = (φ_s − φ_l) − E⁰_r.
 
-j₀_r are in SI (A m⁻²), already converted from mA cm⁻² in Params.
+j₀_r are in SI (A m⁻²), already converted from mA cm⁻² in Params. If the
+v6 fit override is active (`KIN_OVERRIDE[] !== nothing`), j₀_r and α_c,r come
+from the override tuple instead of Params constants. Default: read Params.
 """
 @inline function tafel_currents(c_AN_surface::Real,
                                 phi_l_surface::Real,
                                 phi_s::Real,
                                 alpha_kin::Real = 1.0)
+
+    ov = KIN_OVERRIDE[]
+    if ov === nothing
+        j01, j02, j03 = j0_1, j0_2, j0_3
+        a1, a2, a3    = alpha_c1, alpha_c2, alpha_c3
+    else
+        j01, j02, j03 = ov.j0
+        a1, a2, a3    = ov.ac
+    end
 
     eta1 = (phi_s - phi_l_surface) - E0_1
     eta2 = (phi_s - phi_l_surface) - E0_2
@@ -25,9 +59,9 @@ j₀_r are in SI (A m⁻²), already converted from mA cm⁻² in Params.
     # Guard against negative surface AN (numerical noise)
     cA = max(c_AN_surface, zero(c_AN_surface))
 
-    j1 = j0_1 * (cA / c_ref)^2 * exp(-alpha_c1 * F * eta1 / (R_gas * T))
-    j2 = j0_2 * (cA / c_ref)    * exp(-alpha_c2 * F * eta2 / (R_gas * T))
-    j3 = j0_3 *                   exp(-alpha_c3 * F * eta3 / (R_gas * T))
+    j1 = j01 * (cA / c_ref)^2 * exp(-a1 * F * eta1 / (R_gas * T))
+    j2 = j02 * (cA / c_ref)   * exp(-a2 * F * eta2 / (R_gas * T))
+    j3 = j03 *                  exp(-a3 * F * eta3 / (R_gas * T))
 
     return (alpha_kin * j1, alpha_kin * j2, alpha_kin * j3)
 end

@@ -19,7 +19,7 @@ After Stages 2 and 2m the model peaks at FE_ADPN ≈ 38–49% (m_i-corrected D_e
 | 19 | Experimental Data | rewritten — Bloomquist CSV schema added |
 | 20 | Fitting Strategy | rewritten — kinetics-only, transport frozen |
 | 21 | Required Plots | extended — fit-validation panels (i)–(o) |
-| 12 | Implementation Stages | Stage 4 (Bloomquist fit) added |
+| 12 | Implementation Stages | Stage 3 reframed as "warm-start cache + default-kinetics forward sweep on Core"; Stage 4 split into Stage 4a (Core fit) + Stage 4b (Extended/Holdout forward apply, no re-fit); Stage 4c (joint refinement) explicitly deferred to v7 |
 | 14 | Module Structure | `cell_voltage.jl`, `hydrodynamics.jl`, `fixed_j_solver.jl`, `fit_kinetics.jl`, `data/`, `plot_fit.py`, `run_stage4.jl` added |
 | 15 | Pitfalls | nine v6-specific pitfalls added |
 | Header / Footer | scope sentence; v6 provenance line | updated |
@@ -95,12 +95,31 @@ This is the largest single simplification. v6 contains *no* bubble term anywhere
 
 v5 has 8 species; Bloomquist measures 4 products (ADN, TCH, PN, H₂). v6 fits residuals on (FE_ADN, FE_PN) only — `FE_HER ≈ 100% − FE_ADN − FE_TCH − FE_PN` is reconstructed for diagnostic but not fit. TCH FE is typically 5–17%, so the FE_HER residual after summing has a mean of ~10% systematic offset. v7 candidate: add TCH as species 9 with `j_TCH ∝ c_AN³` Tafel.
 
-### 3.6 Holdout strategy: gap = 0.25 mm
+### 3.6 Three-tier row selection: Core / Extended / Holdout
 
-Training: gap ∈ {0.5, 1.0} mm — 108 rows, expected to be cleanly fit by kinetics-only.
-Holdout: gap = 0.25 mm — 54 rows, expected to show systematic V_cell underprediction and FE_ADN overprediction at high j (no bubble void → R_series too small → V_cathode too negative → too much current driven before AN depletion).
+v6 does *not* fit on all 162 rows. Including rows where the model is structurally wrong (missing bubble physics, missing TCH species, AN-starved degeneracy) would pull kinetic parameters toward unphysical values. Three concentric subsets, ordered by trust in v6 physics:
 
-If the 0.25 mm holdout residual is **< 15 pp on FE_ADN**, the kinetics-only fit is adequate and v7 bubble work is optional. If **> 15 pp**, v7 bubble work is required.
+| Subset | Filter | Rows | Used for |
+|---|---|---|---|
+| **Core** | gap ∈ {0.5, 1.0} mm AND j ≤ 190 mA cm⁻² AND ε_org ≥ 0.04 | ≈60 | Stage 4a fit |
+| **Extended** | gap ∈ {0.5, 1.0} mm AND ε_org ≥ 0.04 (any j) | ≈96 | Stage 4b forward apply, no re-fit |
+| **Full holdout** | gap = 0.25 mm AND ε_org ≥ 0.04 | ≈48 | Stage 4b forward apply, untouched during fitting |
+
+| Filter | Rows dropped | Justification |
+|---|---|---|
+| ε_org < 0.04 (all subsets) | 18 of 162 (11%) | AN-starved regime; FE_ADN ≈ 0 experimentally; physically degenerate, adds noise without information |
+| j > 190 mA cm⁻² (Core only) | excluded from Core, included in Extended | High j → bubble convection dominates; v6's Lévêque δ has no bubble enhancement → systematic FE_ADN under-prediction |
+| gap = 0.25 mm (Core + Extended) | 54 of 162 (33%) | Bubbles span the gap; void blocking dominates ohmic drop *and* mass transport; no v6 model term captures this |
+
+Stage 4a fits **only on Core**. Stage 4b forward-applies the converged params to Extended and Full holdout *without re-fitting*. The two forward-apply RMSE deltas measure how badly bubble physics is missing:
+
+- Core RMSE → "is v6 self-consistent on its own valid envelope?"
+- Extended RMSE − Core RMSE → "how much does high-j bubble convection cost us in mass transport?"
+- Holdout RMSE − Extended RMSE → "how much does small-gap bubble void blocking cost us in ohmic drop?"
+
+Each gate has a numeric threshold in §20.4. Crossing them triggers specific v7 work, not v6 fit re-tuning.
+
+> **Why fitting on all 162 rows would be worse, even though more data is "more information."** With a 6-param fit and 324 residuals, statistical power is not the constraint. Structural model error *is*. An optimiser presented with 54 0.25 mm gap rows that require bubble physics will move (j₀,r, α_c,r) to absorb the missing bubble correction — yielding kinetic parameters that fit 0.25 mm well at the cost of being wrong everywhere else. Sequestering the structurally-wrong rows into holdout keeps the Core fit interpretable.
 
 ### 3.7 Fixed-j solver replaces fixed-V continuation for fitting
 
@@ -108,14 +127,21 @@ Bloomquist data is constant-current. v6 introduces `fixed_j_solver.jl` which bis
 
 > Implementation note: warm-start V from the previous (gap, Q, ε_org, j) row's converged V to keep Newton's basin of attraction; for the first row of each (gap, Q, ε_org) block, run a quick V continuation from −1.0 V to bracket the root.
 
-### 3.8 No transport parameters fit — only six kinetic + two voltage scalars
+### 3.8 V_CE and R_contact frozen — only six kinetic params fit
 
-| Parameter | Fit? | Source if not fit |
+v6 does **not** fit V_CE and R_contact. Reason: the Bloomquist SI tables omit per-row V_cell. V_cell can be back-derived from the energy productivity column `EP_ADN` but the reverse map compounds measurement noise from PR_ADN, j, and EP_ADN — fitting against this back-derived quantity would *reduce* the trustworthiness of V_CE and R_contact.
+
+Two cleaner v7 paths once bubble physics lands:
+
+1. Re-acquire per-row V_cell directly from a future Bloomquist data refresh (raw data exists).
+2. Couple V_CE and R_contact to ε_gas(j) and η_anode(j), then jointly fit (kinetics + voltage + bubble) once the bubble model is in.
+
+| Parameter | Fit in v6? | Source if not fit |
 |---|---|---|
 | j₀,1, j₀,2, j₀,3 | ✅ | — |
 | α_c,1, α_c,2, α_c,3 | ✅ | — |
-| V_CE | ✅ (tier-2) | Initial 1.7 V |
-| R_contact | ✅ (tier-2) | Initial 1×10⁻⁴ Ω·m² |
+| V_CE | ❌ (frozen) | 1.7 V vs SHE — defer to v7 |
+| R_contact | ❌ (frozen) | 1×10⁻⁴ Ω·m² — defer to v7 |
 | E°_1, E°_2 (ADPN/PN onset) | ❌ | Mathison JACS 2025 → −1.30 V vs SHE |
 | E°_3 (HER onset) | ❌ | Nernst at pH = 14 → −0.83 V vs SHE |
 | D_i,aq, D_i,org | ❌ | Suwanvaipattana 2017, CRC |
@@ -128,28 +154,49 @@ Bloomquist data is constant-current. v6 introduces `fixed_j_solver.jl` which bis
 | σ_AN-water | ❌ | 10.5 mN/m (Girifalco–Good, SI) |
 | ρ_aq, ρ_org | ❌ | 1000, 810 kg/m³ |
 
-**Total fit dimension: 6 (tier-1) or 8 (tier-2 joint).** Bloomquist's 162 rows × 2 residual species = 324 residuals. Heavily over-determined.
+**Total fit dimension: 6.** Core subset has ≈60 rows × 2 residual species = ≈120 residuals. 20× overdetermined — comfortably enough for a well-posed LM fit.
 
 ---
 
 ## 4. New artefacts
 
-### 4.1 Code modules (to be implemented; stubs documented in v6)
+### 4.1 Code modules (implemented in v6 — see §14 of guide for full tree)
 
 ```
 an_ehd/
-├── cell_voltage.jl     — V_cell_predicted, V_cathode_target, kappa_dilute, kappa_eff
-├── hydrodynamics.jl    — delta_leveque, weber_numbers, ml_min_to_m3_s
-├── fixed_j_solver.jl   — bisect V to hit j_target, warm-started
-├── fit_kinetics.jl     — loss(theta, df), LM/NM driver
-├── run_stage4.jl       — driver: load CSV → fit → save params + residuals
-└── plot_fit.py         — parity, residual, regime-map panels
+├── kinetics.jl          — patched: KIN_OVERRIDE Ref allows Stage 4 to vary
+│                          (j₀, α_c) without mutating Params. Default = nothing,
+│                          so Stages 1/2/2m/3 are byte-identical to v5.
+├── hydrodynamics.jl     — NEW: d_hydraulic, v_super, delta_leveque,
+│                          weber_numbers, reynolds, schmidt, sherwood_leveque,
+│                          ml_min_to_m3_s
+├── cell_voltage.jl      — NEW: kappa_dilute, kappa_eff, R_series,
+│                          V_cell_predicted, V_cathode_target
+├── fixed_j_solver.jl    — NEW: solve_at_j (bisects V vs SHE around the v5
+│                          Newton solver, warm-started, optional KIN_OVERRIDE
+│                          push/restore)
+├── fit_kinetics.jl      — NEW: BloomquistRow, FitContext, build_context,
+│                          select_core/extended/holdout, residuals!, loss,
+│                          theta_to_physical, lm_fit (pure-Julia LM, no deps)
+├── run_stage4.jl        — NEW: load CSV → Stage 4a fit on Core → Stage 4b
+│                          forward apply on Extended/Holdout → write residual
+│                          CSVs and decision-gate summary
+└── plot_fit.py          — NEW (placeholder): parity, residual, regime-map
+                            panels (§21 i–o); to be written before Stage 4
+                            review.
 ```
+
+The `KIN_OVERRIDE` Ref pattern is the key v6 design choice for the fit. It avoids:
+1. Mutating `const` declarations in `Params` (impossible in Julia).
+2. Duplicating `assembly.jl`'s `full_residual!` to thread `(j₀, α_c)` through.
+3. Writing a parallel kinetics path for fitting that drifts from production.
+
+Trade-off: the Ref is module-level state. Concurrent fits in the same Julia session would clobber each other. v6 is single-threaded by design (Newton solves are not amenable to coarse parallelism here), so this is acceptable. If parallel fits are wanted later, the override should be threaded as a function argument through `tafel_currents` instead of stored in a Ref.
 
 ### 4.2 Data
 
 ```
-an_ehd/data/
+an_ehd/Experimental_data/
 ├── bloomquist_data.csv          (162 rows × 14 cols)
 ├── Table_S2_gap0.25mm_flow2.csv
 ├── Table_S3_gap0.25mm_flow6.csv
@@ -190,6 +237,38 @@ o: We_aq–We_org regime map with Bloomquist points
 - All physicality checks (§13)
 - Residual integrated form `J_L − J_R + S·dx`
 - Bisection-based phosphate equilibrium (no Roots.jl dependency)
+
+---
+
+## 5b. Operational changes alongside the v6 guide
+
+### Output directory reorganisation
+
+`an_ehd/output/` was flat in v5 (`data/`, `plots/`, plus loose `stage*.log` files at the top). v6 reorganised it into a per-stage layout:
+
+```
+an_ehd/output/
+├── cache/                        # shared solver state (217 .bin files), unchanged
+├── stage1/{data,logs,plots}/
+├── stage2/{data,logs,plots}/
+├── stage2m/{data,logs,plots}/
+├── stage4/{data,logs,plots}/     # new in v6
+└── comparisons/
+    └── stage2_vs_stage2m/        # was 7 stage2vs2m_*.png + summary.txt
+```
+
+This is purely an organisation change — no file content was modified, no scripts were re-run. The `comparisons/` folder holds cross-stage plots that don't belong to a single stage. Future cross-stage comparisons (e.g. Stage 4 fit vs Stage 2m baseline) go alongside.
+
+### Sanity-table corrections
+
+Two tables in the v6 guide were initially populated with rough hand-sketched values that disagreed with the actual implemented module computations. After smoke-testing `cell_voltage.jl` and `hydrodynamics.jl`, both tables were updated with values from the working code:
+
+| Table | Sketched (initial v6 draft) | Computed (final v6) | Cause |
+|---|---|---|---|
+| §17.2 κ_dilute | 6.6 S/m | **19.1 S/m** | Sketch underweighted PO₄³⁻ (z² = 9 at pH 13.03 where most phosphate is PO₄³⁻) and Na⁺ |
+| §18.2 δ_lam(0.5 mm, 2 mL/min) | 190 μm | **146 μm** | Sketch used d_h ≈ gap (slot approximation); correct is d_h = 2·gap·W/(gap+W) for a rectangular duct |
+
+The fitting logic and the `R_series` formula are unaffected — only the order-of-magnitude reference numbers in the guide changed. The corrected κ_dilute = 19.1 S/m is *higher* than the empirical 5–10 S/m range in CONTEXT_TRANSFER §7. v6 stays with dilute theory; if Stage 4b residuals show systematic j-correlated bias, treating κ as a tier-2 fit param is the v7 escalation path.
 
 ---
 

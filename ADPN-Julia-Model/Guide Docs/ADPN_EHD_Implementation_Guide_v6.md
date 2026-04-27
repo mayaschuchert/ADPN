@@ -811,20 +811,30 @@ Same equations, but D_i,mix now depends on ε_org across both regimes. Run at mu
 
 Sub-steps: for each ε_org, warm-start from the Stage 1 converged solution at V = −1.0 V → Newton continuation sweep → cache → plots → **STOP.**
 
-**Stage 3: Full 3D sweep.**
+**Stage 3: Targeted forward sweep over the Core operating envelope (REVISED v6).**
 
-Runs Stage 2 across the complete (ε_org, δ) grid. 30 Newton continuation sweeps. Generate performance map and all comparison plots → **STOP.**
+Stage 3 is no longer a "full 3D sweep over the v5 parameter cube". Its job is now to (a) **build a warm-start cache** and (b) **diagnose default-kinetics fit feasibility** before any optimisation runs. This stage produces no fitted parameters; it only produces predictions for visual inspection against Bloomquist.
 
-**Stage 4: Bloomquist fit (NEW v6).**
+Sub-steps:
+1. **Warm-start cache.** Solve the model on a regular grid covering the Core envelope: `δ ∈ {100, 130, 190, 220, 310 μm}` (covering Lévêque outputs for gap ∈ {0.5, 1.0} mm × Q_total ∈ {2, 6, 10}), `ε_org ∈ {0.05, 0.08, 0.15, 0.20, 0.25, 0.30}`, and `V ∈ [−1.0, −2.5] V vs SHE`. Cache converged solutions to `output/cache/`.
+2. **Forward predictions on Core rows.** For each Core row (filter defined in §20.1), run `fixed_j_solver.jl` with default kinetics (j₀,r and α_c,r at §9.2 initial values) — read out (FE_ADN_model, FE_PN_model, V_cathode_SHE).
+3. **Save** to `output/data/stage3_core_predictions.csv` aligned 1:1 with Core rows.
+4. Generate fit-validation panels (§21 i, k, l) with default kinetics overlaid against Bloomquist Core. Inspect the *shape* of the curves: does FE_ADN rise with ε_org? drop with j past ε_sat? If shape is right, magnitudes are wrong → kinetics fit is meaningful (proceed to Stage 4). If shape is wrong → revisit kinetics form or m_i diffusivity (§4.2) before fitting.
+5. **STOP for review.**
 
-Kinetics-only fit against the 162-row Bloomquist dataset with transport frozen. Sub-steps:
+**Stage 4: Bloomquist kinetics-only fit (REVISED v6).**
 
-1. Pre-compute δ_lam and κ_eff for every unique `(gap, Q_total, ε_org)` triple (∼81 unique transport states across 162 rows). Cache.
-2. For each row, run the model in fixed-j mode (`fixed_j_solver.jl`): bisect V vs SHE until `Σ j_r(V) = j_target` to within tol = 1 mA/cm², read out FE_ADN and FE_PN.
-3. Compute loss `Σ (FE_model − FE_exp)²` over `(FE_ADN, FE_PN)` × 162 rows × training set (gap ∈ {0.5, 1.0} mm, 108 rows).
-4. Run optimiser (LM or Nelder–Mead) on (j₀,1, j₀,2, j₀,3, α_c,1, α_c,2, α_c,3) with V_CE = 1.7 V, R_contact = 1×10⁻⁴ Ω·m² fixed.
-5. Validate on 0.25 mm gap holdout (54 rows). Expected: systematic V_cell underprediction; FE bias ≤ 15 pp triggers v7 bubble work.
-6. Generate fit-validation panels (§21 i–l). **STOP for review.**
+Kinetics-only fit against the *Core* Bloomquist subset with transport frozen and `(V_CE, R_contact)` frozen at literature defaults. Sub-steps:
+
+1. **Stage 4a — Core fit.** Optimise `(j₀,1, j₀,2, j₀,3, α_c,1, α_c,2, α_c,3)` against Core rows (∼60 rows; filter §20.1). Use Levenberg–Marquardt warm-started from §9.2 defaults. Loss = Σ (FE_model − FE_exp)² on `(FE_ADN, FE_PN)`. V_CE = 1.7 V, R_contact = 1×10⁻⁴ Ω·m² **frozen** — not fit (see §20.2).
+2. **Stage 4b — forward apply (no re-fit).** Apply Stage 4a's converged params to (i) Extended subset (∼96 rows: gap ∈ {0.5, 1.0} mm, full j and ε_org range), then (ii) Full holdout (54 rows: gap = 0.25 mm). Save residuals to `output/data/stage4b_extended_residuals.csv` and `…holdout_residuals.csv`.
+3. **Decision gates** (Stage 4b results):
+   - Core RMSE > 12 pp on FE_ADN → kinetics-form bug; do not proceed.
+   - Core RMSE < 8 pp **and** Extended RMSE > 12 pp → bubble physics matters; v7 work scoped.
+   - Holdout RMSE > 15 pp on FE_ADN → bubble physics is required for 0.25 mm gap.
+4. Generate fit-validation panels (§21 i–o) with three series overlaid (Core / Extended / Holdout). **STOP for review.**
+
+> **Stage 4c (optional, deferred to v7).** A joint refinement on `(j₀,r, α_c,r, V_CE, R_contact)` over Core + Extended is *not* part of v6. Reason: v6 has no honest `V_cell` residual to fit `V_CE` and `R_contact` against — Bloomquist tabulates `EP_ADN` (energy productivity) but not per-row V_cell, so any V_CE / R_contact fit in v6 would be against a back-derived noisy quantity. Defer to v7 alongside bubble physics.
 
 ---
 
@@ -850,37 +860,60 @@ Kinetics-only fit against the 162-row Bloomquist dataset with transport frozen. 
 
 ```
 an_ehd/
+├── ADPN_EHD.jl         # Master module — includes & re-exports all submodules
 ├── params.jl           # Constants incl. MOLAR_DENSITY_AN, C_AN_SAT, EPS_ORG_SAT;
 │                       # OH-pathway rate constants
 ├── mesh.jl             # make_mesh(N, delta; stretch)
 ├── diffusivity.jl      # D_mix(i, eps_org) — regime-aware (single vs two-phase)
 ├── chemistry.jl        # solve_phosphate_equilibrium, buffer_sources! (OH-pathway),
 │                       # c_AN_bulk (Convention A), make_initial_guess
-├── kinetics.jl         # j_ADPN, j_PN, j_HER (Tafel)
+├── kinetics.jl         # tafel_currents (+ v6 KIN_OVERRIDE Ref hook for Stage 4)
 ├── transport.jl        # sg_flux with Taylor-smoothed Bernoulli for |α| < 0.01
 ├── assembly.jl         # full_residual! (type-generic AbstractVector{T<:Real})
 ├── solver.jl           # newton_solve! (direct (J+λI)du=-F, :fd or :ad Jacobian);
 │                       # newton_continuation; newton_continuation_logj
-├── cell_voltage.jl     # NEW v6 — kappa_dilute, kappa_eff, V_cell_predicted,
-│                       # V_cathode_target (§17)
+├── sweep_runner.jl     # Reusable mesh→bootstrap→V-cont pipeline used by Stages 1–3
 ├── hydrodynamics.jl    # NEW v6 — d_hydraulic, v_super, delta_leveque,
 │                       # weber_numbers, ml_min_to_m3_s (§18)
-├── fixed_j_solver.jl   # NEW v6 — bisect V vs SHE to hit j_target; wraps
-│                       # newton_continuation
-├── fit_kinetics.jl     # NEW v6 — loss(theta, df), LM/NM optimiser driver (§20)
+├── cell_voltage.jl     # NEW v6 — kappa_dilute, kappa_eff, R_series,
+│                       # V_cell_predicted, V_cathode_target (§17)
+├── fixed_j_solver.jl   # NEW v6 — solve_at_j: bisect V to hit j_target,
+│                       # warm-started from cache, optional KIN_OVERRIDE
+├── fit_kinetics.jl     # NEW v6 — BloomquistRow, FitContext, select_core/extended/
+│                       # holdout, residuals!, lm_fit (§20)
 ├── run_stage1.jl       # Stage 1 at ε_org = 0.02 → STOP
 ├── run_stage2.jl       # ε_org sweep {0.02, 0.05, 0.08, 0.15, 0.25, 0.30} → STOP
-├── run_stage3.jl       # Full 3D sweep → STOP
-├── run_stage4.jl       # NEW v6 — Bloomquist kinetics fit → STOP
-├── data/
-│   ├── bloomquist_data.csv      # NEW v6 — 162 rows, master table
-│   └── Table_S2…S10.csv          # NEW v6 — per-(gap,Q) blocks
-├── plot_results.py     # 2×3 profile plots (incl. pH panel); 3-panel polarization
+├── run_stage2m.jl      # Stage 2 with m_i-corrected D_eff (§4.2) — comparison
+├── run_stage4.jl       # NEW v6 — Bloomquist Core fit + Extended/Holdout apply
+├── Experimental_data/  # NEW v6 — Bloomquist CEJ 2026 data
+│   ├── bloomquist_data.csv         (162 rows × 14 cols, master)
+│   ├── Table_S2_gap0.25mm_flow2.csv
+│   ├── Table_S3_gap0.25mm_flow6.csv
+│   ├── Table_S4_gap0.25mm_flow10.csv
+│   ├── Table_S5_gap0.5mm_flow2.csv
+│   ├── Table_S6_gap0.5mm_flow6.csv
+│   ├── Table_S7_gap0.5mm_flow10.csv
+│   ├── Table_S8_gap1.0mm_flow2.csv
+│   ├── Table_S9_gap1.0mm_flow6.csv
+│   └── Table_S10_gap1.0mm_flow10.csv
+├── plot_results.py     # 2×3 profile plots (incl. pH panel); polarisation plots
+├── plot_stage2.py      # Stage 2 ε_org-overlay plots
+├── plot_stage2_comparison.py  # Stage 2 vs Stage 2m comparison plots
 ├── plot_fit.py         # NEW v6 — parity, residual, regime-map panels (§21 i–o)
-└── output/cache/
+└── output/                                                # per-stage layout (v6)
+    ├── cache/                       # shared solver state (binary DOF dumps)
+    ├── stage1/{data,logs,plots}/
+    ├── stage2/{data,logs,plots}/
+    ├── stage2m/{data,logs,plots}/
+    ├── stage4/{data,logs,plots}/    # NEW v6 — fit results, residuals, plots
+    └── comparisons/
+        └── stage2_vs_stage2m/       # cross-stage plots
 ```
 
-Note: `solve_phosphate_equilibrium` uses an inline bisection (not `Roots.jl`) to avoid Windows Defender Application Control blocking `Roots`'s DLL cache on some systems.
+Notes:
+- `solve_phosphate_equilibrium` uses an inline bisection (not `Roots.jl`) to avoid Windows Defender Application Control blocking `Roots`'s DLL cache on some systems.
+- The `output/` tree was reorganised at the v5 → v6 boundary so each stage owns its data, logs, and plots. Stage 3 (revised v6) writes its forward-prediction CSV to `output/stage4/data/stage3_core_predictions.csv` because Stage 3 in v6 is purely a precursor to Stage 4 (warm-start cache + default-kinetics forward sweep on Core); it shares `output/stage4/` rather than getting its own folder.
+- The v6 `KIN_OVERRIDE` Ref in `kinetics.jl` is **additive**: when `nothing` (default), `tafel_currents` reads from `Params` constants exactly as in v5, so all Stage 1/2/2m/3 paths are byte-identical. Stage 4's fit driver sets the Ref via `with_kinetic_override(j0, ac) do ... end` for the duration of each fixed-j solve, then restores it.
 
 ---
 
@@ -990,16 +1023,17 @@ end
 kappa_eff(c_eq, eps_org) = kappa_dilute(c_eq) * (1.0 - eps_org)^1.5
 ```
 
-**Sanity check** at the v6 base composition (0.5 M Na₃PO₄ + 0.02 M TBA-OH, pH = 13.03, c_Na = 1520 mol/m³):
+**Sanity check** at the v6 base composition (0.5 M Na₃PO₄ + 0.02 M TBA-OH, pH = 13.03, c_Na = 1520 mol/m³). Numbers below are from the actual `cell_voltage.jl` evaluation (not a sketch):
 
 | Quantity | Value | Unit |
 |---|---|---|
-| κ_dilute | ≈ 6.6 | S m⁻¹ |
-| κ_eff (ε_org = 0.02) | ≈ 6.4 | S m⁻¹ |
-| κ_eff (ε_org = 0.15) | ≈ 5.2 | S m⁻¹ |
-| κ_eff (ε_org = 0.30) | ≈ 3.8 | S m⁻¹ |
+| κ_dilute | 19.1 | S m⁻¹ |
+| κ_eff (ε_org = 0.02) | 18.6 | S m⁻¹ |
+| κ_eff (ε_org = 0.0862, threshold) | 16.7 | S m⁻¹ |
+| κ_eff (ε_org = 0.15) | 15.0 | S m⁻¹ |
+| κ_eff (ε_org = 0.30) | 11.2 | S m⁻¹ |
 
-This is the same order of magnitude as the empirical 5–10 S/m fit range proposed in CONTEXT_TRANSFER §7 — supports computing rather than fitting κ.
+This is **higher** than the empirical 5–10 S/m range proposed in CONTEXT_TRANSFER §7, primarily because PO₄³⁻ contributes z² = 9 weighting at pH = 13 (most phosphate sits as PO₄³⁻, not HPO₄²⁻). Concentrated-solution ion pairing is expected to reduce this by ~20–40% in reality, but v6 deliberately stays with dilute theory; if Stage 4b residuals show systematic bias correlated with j, this is the first place to revisit (treat κ as a tier-2 fit param in v7).
 
 > **Why the diffusion-layer ohmic drop is *not* in (gap − δ)/κ_eff.** The Nernst–Planck solver already integrates `dφ_l/dx` from x = 0 to x = δ as part of the current-conservation equation (§3.2). That contribution is inside `V_cathode_SHE` via the φ_l(0) value at the electrode face. The (gap − δ) term covers only the *unmodeled* bulk between the diffusion-layer edge and the anode.
 
@@ -1079,21 +1113,21 @@ $$\delta_{\mathrm{lam}} = d_h / \mathrm{Sh}$$
 
 In v6 we set δ = δ_lam directly. (CONTEXT_TRANSFER §7 proposed a `K_δ` geometric correction in [0.3, 3.0]; v6 fixes K_δ = 1.0. If FE residuals show a systematic Q-dependent bias after kinetic fitting, promote K_δ to a tier-2 fit parameter in v7 alongside bubble effects.)
 
-**Sanity-check table** (W = 4 mm, L = 16 cm, ν = 10⁻⁶ m²/s, D_AN = 2.3×10⁻⁹ m²/s):
+**Sanity-check table** (W = 4 mm, L = 16 cm, ν = 10⁻⁶ m²/s, D_AN = 2.3×10⁻⁹ m²/s, Sc ≈ 435). Values are from the actual `hydrodynamics.jl` evaluation:
 
-| gap [mm] | Q_total [mL/min] | v [cm/s] | Re | δ_lam [μm] |
-|---|---|---|---|---|
-| 0.25 | 2  | 3.3  | 1.6 | ~110 |
-| 0.25 | 6  | 10.0 | 4.7 | ~74 |
-| 0.25 | 10 | 16.7 | 7.8 | ~63 |
-| 0.5  | 2  | 1.7  | 1.5 | ~190 |
-| 0.5  | 6  | 5.0  | 4.5 | ~130 |
-| 0.5  | 10 | 8.3  | 7.5 | ~108 |
-| 1.0  | 2  | 0.83 | 1.3 | ~310 |
-| 1.0  | 6  | 2.5  | 4.0 | ~217 |
-| 1.0  | 10 | 4.2  | 6.7 | ~183 |
+| gap [mm] | Q_total [mL/min] | v [cm/s] | δ_lam [μm] |
+|---|---|---|---|
+| 0.25 | 2  | 3.33  | 93.6 |
+| 0.25 | 6  | 10.0  | 64.9 |
+| 0.25 | 10 | 16.67 | 54.7 |
+| 0.5  | 2  | 1.67  | 145.8 |
+| 0.5  | 6  | 5.00  | 101.1 |
+| 0.5  | 10 | 8.33  | 85.3 |
+| 1.0  | 2  | 0.83  | 223.5 |
+| 1.0  | 6  | 2.50  | 154.9 |
+| 1.0  | 10 | 4.17  | 130.7 |
 
-Numbers are order-of-magnitude only — verify in `hydrodynamics.jl` test once written. v6's existing δ sweep grid {10, 20, 50, 100, 200 μm} brackets all of these except the 1.0 mm gap × 2 mL/min row, which is at the edge.
+δ_lam ranges 55–224 μm across the 9 (gap × Q_total) blocks. v6's pre-existing δ sweep grid {10, 20, 50, 100, 200 μm} no longer covers the high-gap / low-flow corner (224 μm) — Stage 3 cache should be re-built on a δ grid driven by the Lévêque outputs above (see §12 Stage 3 sub-step 1).
 
 ### 18.3 Weber Numbers (diagnostic only in v6)
 
@@ -1151,7 +1185,7 @@ end
 
 **Setup:** parallel-plate undivided flow reactor, Cd-foil cathode, SS anode, 0.5 M Na₃PO₄ + 0.02 M TBA-OH + 0.03 M EDTA, T = 25 °C. Active area 6.4 cm². 162 Hammersley-sampled experiments. Headline results: FE_ADPN = 73–76% maintained at j > 200 mA cm⁻² when ε_org > ε_sat, with bubble-induced convection (not flow regime) the dominant transport enhancer.
 
-**Dataset:** `an_ehd/data/bloomquist_data.csv` — 162 rows × 14 columns, plus per-table CSVs `Table_S2…Table_S10.csv` for the original 9 (gap × Q_total) blocks.
+**Dataset:** `an_ehd/Experimental_data/bloomquist_data.csv` — 162 rows × 14 columns, plus per-table CSVs `Table_S2…Table_S10.csv` for the original 9 (gap × Q_total) blocks.
 
 | Column | Symbol | Unit | Notes |
 |---|---|---|---|
@@ -1194,73 +1228,114 @@ TCH (1,3,6-tricyanohexane) is an AN-trimer side product that **is not in the 8-s
 
 ## 20. Fitting Strategy (kinetics-only, transport frozen)
 
-v6 fits **only the six kinetic parameters** `(j₀,1, j₀,2, j₀,3, α_c,1, α_c,2, α_c,3)` plus the two cell-voltage scalars `(V_CE, R_contact)`. **All transport quantities are computed, not fit:** δ from Lévêque (§18), κ_eff from bulk composition (§17.2), D_i,mix from §4. This is the v6 design simplification — bubble effects and any K_δ correction wait for v7.
+v6 fits **only the six kinetic parameters** `(j₀,1, j₀,2, j₀,3, α_c,1, α_c,2, α_c,3)`. **All transport quantities are computed, not fit:** δ from Lévêque (§18), κ_eff from bulk composition (§17.2), D_i,mix from §4. The two cell-voltage scalars `(V_CE, R_contact)` are **frozen** at literature defaults — see §20.5 for why they are not fit in v6.
 
-### 20.1 Workflow
+### 20.1 Row selection — Core / Extended / Holdout
 
-For each Bloomquist row (162 total) with `(gap, Q_total, ε_org, j, FE_ADN, FE_PN)`:
+Bloomquist provides 162 rows. v6 partitions them into three concentric subsets ordered by trust in v6 physics:
 
-1. **Pre-compute transport.** Q_aq, Q_org → δ_lam via `delta_leveque(gap, Q_total)`. ε_org → κ_eff via §17.2. (Cache per (gap, Q_total, ε_org) tuple — the 162 rows reduce to 81 unique transport states because each (gap, Q_total) block has 18 rows but only 17 unique ε_org values.)
-2. **Solve at fixed j (not fixed V).** The Bloomquist data is constant-current; the model solves at constant V. Use `fixed_j_solver.jl`: bisect on V vs SHE until `j_total_model(V) = j_target`, then read out FE_ADN, FE_PN, V_cathode_SHE.
-3. **Predict V_cell.** `V_cell_pred = V_CE + |V_cathode_SHE| + j · R_series` (§17).
-4. **Loss.** Sum of squared residuals on FE_ADN and FE_PN (% units), one row per residual:
+| Subset | Filter | Rows | Used for |
+|---|---|---|---|
+| **Core** | gap ∈ {0.5, 1.0} mm AND j ≤ 190 mA cm⁻² AND ε_org ≥ 0.04 | ≈60 | Stage 4a fit |
+| **Extended** | gap ∈ {0.5, 1.0} mm AND ε_org ≥ 0.04 (any j) | ≈96 | Stage 4b forward apply (no re-fit) |
+| **Full holdout** | gap = 0.25 mm AND ε_org ≥ 0.04 | ≈48 | Stage 4b forward apply, untouched during fitting |
 
-$$\mathcal{L}(\theta) = \sum_{r=1}^{162} \bigl[\bigl(\mathrm{FE}_{\mathrm{ADN},r}^{\mathrm{model}}(\theta) - \mathrm{FE}_{\mathrm{ADN},r}^{\mathrm{exp}}\bigr)^2 + \bigl(\mathrm{FE}_{\mathrm{PN},r}^{\mathrm{model}}(\theta) - \mathrm{FE}_{\mathrm{PN},r}^{\mathrm{exp}}\bigr)^2 \bigr]$$
+> **Why these filters.** The 0.25 mm gap holdout isolates rows where bubble void blocking dominates (v6 has no bubble physics, so these will systematically miss). The j ≤ 190 mA cm⁻² Core cap excludes the bubble-convection-dominated high-j regime where v6 will systematically under-predict mass transport. The ε_org ≥ 0.04 filter drops rows where AN is starved (FE_ADN ≈ 0 experimentally) — they are physically degenerate and add noise without information. Bloomquist has 18 rows with ε_org < 0.04 (≈ 11% of the dataset), all dropped.
 
-5. **Optimiser.** Levenberg–Marquardt or Nelder–Mead on the 6 kinetic params first, with V_CE and R_contact frozen at literature defaults (V_CE = 1.7 V, R_contact = 1×10⁻⁴ Ω·m²). Then unfreeze V_CE and R_contact for a joint refinement (only matters if you fit `V_cell` residuals as well — optional in v6).
+> **What "ε_org ≥ 0.04" actually filters.** Each (gap, Q_total) block has 18 rows; 2 of those 18 are ε_org = 0.02. So the ε_org filter drops 18/162 = 11% of rows. Combined with the gap and j filters above:
+> - Core: 6 (gap × Q_total) blocks × ~10 rows after j and ε_org filters ≈ **60 rows**
+> - Extended: 6 (gap × Q_total) blocks × 16 rows after ε_org filter = **96 rows**
+> - Holdout: 3 (gap × Q_total) blocks × 16 rows after ε_org filter = **48 rows**
 
-### 20.2 Fit parameters
+### 20.2 Workflow
 
-| Parameter | Initial | Bounds | Unit | Tier |
+For each retained row with `(gap, Q_total, ε_org, j, FE_ADN, FE_PN)`:
+
+1. **Pre-compute transport.** Q_aq, Q_org → δ_lam via `delta_leveque(gap, Q_total)`. ε_org → κ_eff via §17.2. Cache per (gap, Q_total, ε_org) tuple.
+2. **Solve at fixed j.** Bloomquist runs at constant current; the model solves at constant V. Use `fixed_j_solver.jl`: bisect V vs SHE until `Σ j_r(V) = j_target` to within 1 mA cm⁻², read out (FE_ADN, FE_PN, V_cathode_SHE). Warm-start V from the nearest cached `(gap, Q_total, ε_org, V)` solution.
+3. **Predict V_cell** (diagnostic only, not in loss). `V_cell_pred = V_CE + |V_cathode_SHE| + j · R_series` (§17). Plot against `EP_ADN`-derived V_cell back-out (§19.1) for a sanity check.
+4. **Loss** (Stage 4a only — Core rows N_core ≈ 60):
+
+$$\mathcal{L}(\theta) = \sum_{r \in \mathrm{Core}} \bigl[\bigl(\mathrm{FE}_{\mathrm{ADN},r}^{\mathrm{model}}(\theta) - \mathrm{FE}_{\mathrm{ADN},r}^{\mathrm{exp}}\bigr)^2 + \bigl(\mathrm{FE}_{\mathrm{PN},r}^{\mathrm{model}}(\theta) - \mathrm{FE}_{\mathrm{PN},r}^{\mathrm{exp}}\bigr)^2 \bigr]$$
+
+5. **Optimiser.** Levenberg–Marquardt with finite-difference Jacobian on θ = (j₀,1, j₀,2, j₀,3, α_c,1, α_c,2, α_c,3) ∈ ℝ⁶. Initial guess from §9.2. Bounds enforced via log-transform on j₀,r and box clipping on α_c,r. Expected: 20–50 LM iterations × ~1 s per fixed-j solve × ~60 Core rows ≈ **30–60 min wall time**.
+
+### 20.3 Fit parameters (v6)
+
+| Parameter | Initial | Bounds | Unit | Status |
 |---|---|---|---|---|
-| j₀,1 (ADPN) | 1×10⁻³ | [10⁻⁶, 10⁻¹] | A m⁻² | 1 |
-| j₀,2 (PN) | 1×10⁻³ | [10⁻⁶, 10⁻¹] | A m⁻² | 1 |
-| j₀,3 (HER) | 1×10⁻⁵ | [10⁻⁸, 10⁻³] | A m⁻² | 1 |
-| α_c,1 | 0.5 | [0.3, 0.7] | — | 1 |
-| α_c,2 | 0.5 | [0.3, 0.7] | — | 1 |
-| α_c,3 | 0.4 | [0.3, 0.5] | — | 1 |
-| V_CE | 1.7 | [1.4, 2.1] | V vs SHE | 2 |
-| R_contact | 1×10⁻⁴ | [10⁻⁵, 10⁻³] | Ω·m² | 2 |
+| j₀,1 (ADPN) | 1×10⁻³ | [10⁻⁶, 10⁻¹] | A m⁻² | **fit** |
+| j₀,2 (PN) | 1×10⁻³ | [10⁻⁶, 10⁻¹] | A m⁻² | **fit** |
+| j₀,3 (HER) | 1×10⁻⁵ | [10⁻⁸, 10⁻³] | A m⁻² | **fit** |
+| α_c,1 | 0.5 | [0.3, 0.7] | — | **fit** |
+| α_c,2 | 0.5 | [0.3, 0.7] | — | **fit** |
+| α_c,3 | 0.4 | [0.3, 0.5] | — | **fit** |
+| V_CE | 1.7 | — | V | **frozen** (§20.5) |
+| R_contact | 1×10⁻⁴ | — | Ω·m² | **frozen** (§20.5) |
+| All transport (δ, κ_eff, D_mix, m_i, W, L, ν, σ, ρ) | — | — | — | **frozen** |
 
-All transport parameters (δ, κ_eff, D_mix, m_i) are **frozen** in v6.
-
-### 20.3 Holdouts
-
-- **Training set:** 0.5 mm and 1.0 mm gap data (108 rows out of 162).
-- **Validation set:** 0.25 mm gap data (54 rows). Expect systematic V_cell underprediction here from missing bubble physics.
-- **Cross-check:** ε_org < 0.04 rows (non-physical AN starvation regime in the experiment, often FE_ADN ≈ 0). Document but don't fit.
+Total fit dimension: **6** (no tier-2 in v6).
 
 ### 20.4 Targets
 
 | Metric | Target | Notes |
 |---|---|---|
-| FE_ADN RMSE on training set | < 8 pp | GPR surrogate is 2.5–2.8 |
-| FE_PN RMSE on training set | < 5 pp | |
-| FE_ADN peak in two-phase regime | 73–80% | Headline result |
-| FE_ADN at j = 200 mA cm⁻², ε_org = 0.15, gap = 0.5 mm | > 70% | Anchor row |
-| Systematic bias on 0.25 mm gap holdout | < 15 pp | Bound for "bubble correction is necessary" |
+| **Stage 4a — Core** | | |
+| FE_ADN RMSE on Core | < 8 pp | GPR surrogate gets 2.2–2.8 pp; we don't expect to match it |
+| FE_PN RMSE on Core | < 5 pp | |
+| Core FE_ADN at j = 100–150 mA cm⁻², ε_org = 0.15, gap = 0.5 mm | > 70% | Anchor rows |
+| **Stage 4b — Extended (forward apply, no re-fit)** | | |
+| FE_ADN RMSE on Extended | < 12 pp | If exceeded → bubble convection matters at high j |
+| Residual structure | random vs (j, ε_org) | Systematic vs j ⇒ kinetic saturation; vs ε_org ⇒ D_mix or TCH |
+| **Stage 4b — Full holdout (forward apply)** | | |
+| FE_ADN RMSE on Holdout | < 15 pp | If exceeded → bubble work mandatory in v7 |
+| Holdout − Extended RMSE delta | < 5 pp | The "gap-dependent bubble penalty" magnitude |
 
-### 20.5 What if the kinetics-only fit fails?
+### 20.5 Why V_CE and R_contact are frozen in v6
 
-If FE_ADN RMSE exceeds 12 pp on training data, the kinetics model is too rigid — likely the second-order AN dependence on j₁ is not enough to explain the FE-vs-ε_org curve. Diagnostic: plot residuals vs (j, ε_org). If residuals correlate with j the issue is α_c or kinetic saturation; if with ε_org it is the D_mix arithmetic-mean assumption (upgrade to m_i correction §4.2) or missing TCH (§19.3).
+Bloomquist's SI tables omit per-row V_cell directly. V_cell can be back-derived from `EP_ADN` (energy productivity, kg kWh⁻¹) but the reverse map carries compounded measurement noise from PR_ADN, j, and EP_ADN. Fitting V_CE and R_contact against a back-derived noisy quantity would *reduce* the trustworthiness of those parameters, not increase it. Two cleaner options for v7:
 
-### 20.6 Module: `fit_kinetics.jl`
+1. Re-acquire per-row V_cell from a future experimental refresh (Bloomquist's group has the raw data).
+2. Couple V_CE and R_contact to the bubble physics (since η_anode and ε_gas both depend on j) and fit the combined object once v7 lands.
+
+Defaults used in v6: `V_CE = 1.7 V` (= 1.23 V OER thermo + 0.45 V SS overpotential at ~100 mA cm⁻², lit average), `R_contact = 1×10⁻⁴ Ω·m²` (typical spring-probe + Cd-foil contact stack).
+
+### 20.6 What if the kinetics-only fit fails?
+
+If Stage 4a Core FE_ADN RMSE exceeds 12 pp, the kinetics form is too rigid — likely the second-order AN dependence on j₁ is not enough to explain the FE-vs-ε_org curve at moderate j. Diagnostic protocol:
+
+- **Residuals correlate with j** → α_c too small / kinetic saturation needed.
+- **Residuals correlate with ε_org** → D_mix arithmetic mean is too weak; upgrade to m_i correction (§4.2) before re-fitting.
+- **Residuals correlate with FE_TCH** (compute from Bloomquist column) → TCH is sucking up current the model attributes to ADPN. Add TCH species (§19.3) before re-fitting.
+
+In all three cases the answer is to fix the model, *not* to relax the fit bounds. v6 forbids "softening" α_c bounds beyond [0.3, 0.7] — values outside that range have no physical Tafel interpretation.
+
+### 20.7 Module: `fit_kinetics.jl`
 
 ```julia
 module FitKinetics
 using ..Solver, ..CellVoltage, ..Hydro, ..Chemistry, CSV, DataFrames
 
-function loss(theta, df_bloomquist; freeze_voltage=true)
-    j0_1, j0_2, j0_3, ac1, ac2, ac3 = theta[1:6]
-    V_CE, R_contact = freeze_voltage ? (1.7, 1e-4) : theta[7:8]
+const V_CE_FROZEN     = 1.7    # V vs SHE
+const R_CONTACT_FROZEN = 1e-4  # Ω·m²
+
+function select_core(df)
+    return filter(df) do r
+        r.gap_mm in (0.5, 1.0) && r.j_mA_cm2 <= 190 && r.phi_AN >= 0.04
+    end
+end
+select_extended(df) = filter(r -> r.gap_mm in (0.5, 1.0) && r.phi_AN >= 0.04, df)
+select_holdout(df)  = filter(r -> r.gap_mm == 0.25 && r.phi_AN >= 0.04, df)
+
+function loss_core(theta, df_core)
+    j0_1, j0_2, j0_3, ac1, ac2, ac3 = theta
     res_sq = 0.0
-    for row in eachrow(df_bloomquist)
+    for row in eachrow(df_core)
         gap_m   = row.gap_mm * 1e-3
         Q_tot   = Hydro.ml_min_to_m3_s(row.Q_total_mL_min)
         delta   = Hydro.delta_leveque(gap_m, Q_tot)
         eps_org = row.phi_AN
-        j_target = row.j_mA_cm2 * 10.0       # → A/m²
-        # Fixed-j solve → (FE_ADN, FE_PN, V_cathode)
+        j_target = row.j_mA_cm2 * 10.0       # mA/cm² → A/m²
         FE_ADN_model, FE_PN_model, _ = solve_at_j(
             j_target, eps_org, delta;
             j0=(j0_1,j0_2,j0_3), alpha_c=(ac1,ac2,ac3))
