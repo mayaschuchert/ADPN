@@ -121,19 +121,47 @@ mutable struct FitContext
     V_cathode_warm::Dict{Tuple{Float64,Float64,Float64},Float64}
 end
 
+# ---------- On-disk cache helpers (v5-compatible filename) ----------
+const CACHE_DIR_DEFAULT = joinpath(@__DIR__, "output", "cache")
+
+"v5/v6 cache filename: s_eo<ε>_d<δ_μm>_V<V>.bin"
+function _cache_filename(eps_org::Float64, delta_m::Float64, V::Float64)
+    delta_um = round(Int, delta_m * 1e6)
+    return Printf.@sprintf("s_eo%.3f_d%d_V%.6f.bin", eps_org, delta_um, V)
+end
+
+"Load DOF vector from a v5/v6 cache file. Returns nothing if file missing."
+function _load_cache_state(path::String)
+    isfile(path) || return nothing
+    open(path, "r") do f
+        n = read(f, Int64)
+        u = Vector{Float64}(undef, n)
+        read!(f, u)
+        return u
+    end
+end
+
 """
-    build_context(rows, sel; N_mesh=100, stretch=10.0, warm_init=nothing)
+    build_context(rows, sel; N_mesh=100, stretch=10.0,
+                  warm_init=nothing, cache_dir=CACHE_DIR_DEFAULT,
+                  V_warm=-1.0)
 
 Compute derived quantities (gap_m, j_target_A_m2, delta_lev_m, R_series_Ohm_m2)
 for every row, build the bulk equilibrium once, and prepare a per-δ mesh
-cache. `warm_init` may be a previously-computed Stage 3 cache mapping
-(gap, Q_total, ε_org) → DOF vector; otherwise the context starts empty and
-each (gap, Q, ε) tuple gets warm-started by Stage 4 on first encounter.
+cache. The warm-start cache is populated in this priority order:
+
+  1. `warm_init` dict (if passed) — overrides everything else.
+  2. On-disk Stage 3 cache files at `cache_dir`/`s_eo<ε>_d<δ_μm>_V<V_warm>.bin`,
+     loaded for each unique (gap, Q_total, ε_org) key the selection touches.
+  3. Cold start via `make_initial_guess` inside `residuals!` for any key still
+     uncached at first encounter.
 """
 function build_context(rows_raw::Vector{BloomquistRow}, sel::Vector{Int};
                        N_mesh::Int = 100,
                        stretch::Float64 = 10.0,
-                       warm_init = nothing)
+                       warm_init = nothing,
+                       cache_dir::String = CACHE_DIR_DEFAULT,
+                       V_warm::Float64 = -1.0)
     c_eq = Chemistry.solve_phosphate_equilibrium()
 
     rows = similar(rows_raw)
@@ -165,10 +193,29 @@ function build_context(rows_raw::Vector{BloomquistRow}, sel::Vector{Int};
     warm_by_key = warm_init === nothing ?
         Dict{Tuple{Float64,Float64,Float64},Vector{Float64}}() :
         warm_init
-    V_warm = Dict{Tuple{Float64,Float64,Float64},Float64}()
+
+    # If no in-memory warm-start dict was passed, try the on-disk Stage 3 cache.
+    if warm_init === nothing && isdir(cache_dir)
+        n_loaded = 0
+        for r in rows[sel]
+            wkey = (r.gap_mm, r.Q_total_mL_min, r.phi_AN)
+            haskey(warm_by_key, wkey) && continue
+            fname = _cache_filename(r.phi_AN, r.delta_lev_m, V_warm)
+            u = _load_cache_state(joinpath(cache_dir, fname))
+            if u !== nothing && length(u) == 9 * N_mesh
+                warm_by_key[wkey] = u
+                n_loaded += 1
+            end
+        end
+        if n_loaded > 0
+            @info "FitContext: loaded $(n_loaded) warm-start states from $(cache_dir)"
+        end
+    end
+
+    V_cathode_warm = Dict{Tuple{Float64,Float64,Float64},Float64}()
 
     return FitContext(rows, sel, c_eq, mesh_by_delta, warm_by_key,
-                      N_mesh, stretch, V_warm)
+                      N_mesh, stretch, V_cathode_warm)
 end
 
 @inline function _row_key(r::BloomquistRow)
@@ -267,8 +314,9 @@ function lm_fit(theta0::AbstractVector{Float64},
                 lambda0::Float64         = 1.0e-2,
                 lambda_up::Float64       = 4.0,
                 lambda_down::Float64     = 0.5,
+                lambda_stuck::Float64    = 1.0e3,    # was 1e7 — loosened for v6.x test-drives
                 max_iter::Int            = 80,
-                tol_rel::Float64         = 1.0e-4,
+                tol_rel::Float64         = 1.0e-2,   # was 1e-4 — loosened for v6.x test-drives
                 fd_step::Float64         = 1.0e-3,
                 verbose::Bool            = true)
 
@@ -341,16 +389,16 @@ function lm_fit(theta0::AbstractVector{Float64},
                                 "Converged: relative loss drop < tol_rel")
             end
         else
-            lambda = min(lambda * lambda_up, 1e8)
+            lambda = min(lambda * lambda_up, lambda_stuck * 10)
             push!(history, (iter = it, loss = loss_now, lambda = lambda,
                             nfail = nfail))
             if verbose
                 @printf("[LM] iter %3d   loss=%.4e   λ=%.2e   nfail=%d   reject\n",
                         it, loss_now, lambda, nfail)
             end
-            if lambda > 1e7
+            if lambda > lambda_stuck
                 return LMResult(false, theta, loss_now, it, nfail, history,
-                                "Damping λ exceeded 1e7 — stuck")
+                                "Damping λ exceeded lambda_stuck=$(lambda_stuck) — stuck (returning best so far)")
             end
         end
     end

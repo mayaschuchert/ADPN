@@ -1,0 +1,79 @@
+========================================================================
+ Stage 4 — Bloomquist kinetics-only fit (v6 §20)
+ 2026-04-27T13:21:22.355
+========================================================================
+Loaded 162 rows from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/Experimental_data/bloomquist_data.csv
+Core      :  48 rows
+Extended  :  90 rows
+Holdout   :  45 rows
+
+--- Stage 4a: LM fit on Core ---
+Pre-cached 6 unique-δ meshes
+[LM] iter   0   loss=9.4829e+04   λ=1.00e-02   nfail=0
+[LM] iter   1   loss=1.5049e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=8.41e-01)
+[LM] iter   2   loss=1.2866e+04   λ=2.50e-03   nfail=0   accept (Δ_rel=1.45e-01)
+[LM] iter   3   loss=1.2866e+04   λ=1.00e-02   nfail=0   reject
+[LM] iter   4   loss=1.0852e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=1.57e-01)
+[LM] iter   5   loss=1.0402e+04   λ=2.50e-03   nfail=0   accept (Δ_rel=4.15e-02)
+[LM] iter   6   loss=1.0402e+04   λ=1.00e-02   nfail=0   reject
+[LM] iter   7   loss=1.0057e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=3.31e-02)
+[LM] iter   8   loss=1.0057e+04   λ=2.00e-02   nfail=0   reject
+[LM] iter   9   loss=9.9254e+03   λ=1.00e-02   nfail=0   accept (Δ_rel=1.31e-02)
+[LM] iter  10   loss=9.9254e+03   λ=4.00e-02   nfail=0   reject
+[LM] iter  11   loss=9.8712e+03   λ=2.00e-02   nfail=0   accept (Δ_rel=5.47e-03)
+[LM] iter  12   loss=9.8712e+03   λ=8.00e-02   nfail=0   reject
+[LM] iter  13   loss=9.8712e+03   λ=3.20e-01   nfail=0   reject
+[LM] iter  14   loss=9.8712e+03   λ=1.28e+00   nfail=0   reject
+[LM] iter  15   loss=9.8611e+03   λ=6.40e-01   nfail=0   accept (Δ_rel=1.02e-03)
+[LM] iter  16   loss=9.8611e+03   λ=2.56e+00   nfail=0   reject
+[LM] iter  17   loss=9.8558e+03   λ=1.28e+00   nfail=0   accept (Δ_rel=5.40e-04)
+[LM] iter  18   loss=9.8558e+03   λ=5.12e+00   nfail=0   reject
+[LM] iter  19   loss=9.8558e+03   λ=2.05e+01   nfail=0   reject
+[LM] iter  20   loss=9.8558e+03   λ=8.19e+01   nfail=0   reject
+[LM] iter  21   loss=9.8558e+03   λ=3.28e+02   nfail=0   reject
+[LM] iter  22   loss=9.8558e+03   λ=1.31e+03   nfail=0   reject
+
+[3574] signal 15: Terminated: 15
+in expression starting at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/run_stage4.jl:204
+getproperty at ./Base.jl:49 [inlined]
+setindex! at ./array.jl:994 [inlined]
+full_residual! at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/assembly.jl:78
+#2 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fixed_j_solver.jl:39 [inlined]
+chunk_mode_jacobian! at /Users/a18137/.julia/packages/ForwardDiff/z3jRk/src/jacobian.jl:200
+jacobian! at /Users/a18137/.julia/packages/ForwardDiff/z3jRk/src/jacobian.jl:84 [inlined]
+jacobian! at /Users/a18137/.julia/packages/ForwardDiff/z3jRk/src/jacobian.jl:79 [inlined]
+#newton_solve!#2 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/solver.jl:140
+newton_solve! at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/solver.jl:108 [inlined]
+#_solve_at_V!#1 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fixed_j_solver.jl:41 [inlined]
+_solve_at_V! at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fixed_j_solver.jl:34 [inlined]
+#solve_at_j#4 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fixed_j_solver.jl:116
+solve_at_j at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fixed_j_solver.jl:84
+unknown function (ip: 0x1279bc1bb)
+#residuals!#14 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fit_kinetics.jl:212
+residuals! at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fit_kinetics.jl:192 [inlined]
+#lm_fit#15 at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fit_kinetics.jl:302
+lm_fit at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/fit_kinetics.jl:263 [inlined]
+main at /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/run_stage4.jl:124
+unknown function (ip: 0x1060a92c3)
+jl_apply at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/./julia.h:2157 [inlined]
+do_call at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/interpreter.c:126
+eval_stmt_value at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/interpreter.c:174
+eval_body at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/interpreter.c:666
+jl_interpret_toplevel_thunk at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/interpreter.c:824
+jl_toplevel_eval_flex at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/toplevel.c:943
+jl_toplevel_eval_flex at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/toplevel.c:886
+ijl_toplevel_eval at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/toplevel.c:952 [inlined]
+ijl_toplevel_eval_in at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/toplevel.c:994
+eval at ./boot.jl:430 [inlined]
+include_string at ./loading.jl:2734
+_include at ./loading.jl:2794
+include at ./Base.jl:562
+jfptr_include_47091.1 at /Applications/Julia-1.11.app/Contents/Resources/julia/lib/julia/sys.dylib (unknown line)
+exec_options at ./client.jl:323
+_start at ./client.jl:531
+jfptr__start_73909.1 at /Applications/Julia-1.11.app/Contents/Resources/julia/lib/julia/sys.dylib (unknown line)
+jl_apply at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/./julia.h:2157 [inlined]
+true_main at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/jlapi.c:900
+jl_repl_entrypoint at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/default-honeycrisp-XG3Q6T6R70.0/build/default-honeycrisp-XG3Q6T6R70-0/julialang/julia-release-1-dot-11/src/jlapi.c:1059
+unknown function (ip: 0x0)
+Allocations: 229648986 (Pool: 229648053; Big: 933); GC: 257288

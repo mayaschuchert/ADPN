@@ -1,0 +1,14 @@
+========================================================================
+ Stage 4 — Bloomquist kinetics-only fit (v6 §20)
+ 2026-04-27T15:07:06.219
+========================================================================
+Loaded 162 rows from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/Experimental_data/bloomquist_data.csv
+Core      :  48 rows
+Extended  :  90 rows
+Holdout   :  45 rows
+
+--- Stage 4a: LM fit on Core ---
+[ Info: FitContext: loaded 48 warm-start states from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/cache
+Pre-cached 6 unique-δ meshes
+[LM] iter   0   loss=9.4829e+04   λ=1.00e-02   nfail=0
+[LM] iter   1   loss=1.5049e+04   λ=5.00e-03   nfail=0   accept (Δ_rel=8.41e-01)

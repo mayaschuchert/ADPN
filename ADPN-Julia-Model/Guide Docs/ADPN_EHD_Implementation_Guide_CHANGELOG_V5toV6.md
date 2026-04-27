@@ -284,4 +284,142 @@ The fitting logic and the `R_series` formula are unaffected — only the order-o
 
 ---
 
+## 7. Concrete next-steps plan (post-first-fit)
+
+The first end-to-end Stage 4 fit (run on 2026-04-27 with default kinetic guesses) plateaued near combined RMSE ≈ 10 pp on the Core subset. That's the floor of what the v6 model can represent without additional physics. The next steps below are ordered by effort × value, each scoped enough to act on without re-deriving the design.
+
+### Step 1 — Diagnostic plots from the current fit (today, ~1 hour)
+
+No model re-runs needed; everything reads from the residual CSVs and `analyze_stage4.jl` output.
+
+**`plot_stage4_parity.py`** — four-panel matplotlib figure:
+- (a) FE_ADN parity model vs Bloomquist, 162 points colored by gap, slope-1 dashed reference, RMSE annotation per subset.
+- (b) Same for FE_PN.
+- (c) Residual (model − obs) vs j, faceted by gap. Random scatter on Core ⇒ kinetics-fit-OK; systematic positive bias on Holdout ⇒ bubble physics matters.
+- (d) Residual vs ε_org, faceted by gap. Systematic vs ε_org ⇒ D_mix arithmetic-mean is too weak and m_i correction (§4.2) is needed.
+
+**`plot_stage4_3d_surfaces.py`** — recreates Bloomquist Fig. 5:
+- Three panels (one per gap: 0.25, 0.5, 1.0 mm).
+- Axes: log10(We_aq), log10(We_org), j; color = FE_ADN.
+- Overlay model predictions on top of experimental data.
+- The shape test: does the model put the FE_ADN > 70% region at high We_org / low We_aq like the paper, *independent of magnitude*? If yes, the kinetics-form is right and we just need to close the magnitude gap. If no, structural model error remains.
+
+**`plot_stage4_v_cell_parity.py`** — V_cell_pred vs V_cell_obs (back-derived from EP/PR/j as `V_cell = PR_ADN / (EP_ADN · j_A_cm2)`). Tests whether frozen V_CE = 1.7 V and R_contact = 1×10⁻⁴ Ω·m² are reasonable. Slope-1 with small offset ⇒ fine. Slope ≠ 1 or large bias ⇒ V_CE / R_contact need fitting in v7.
+
+### Step 2 — Loosen `tol_rel` and build Stage 3 cache (this week, ~1 hour total)
+
+**Tol loosen:** change `tol_rel` default in `lm_fit` from 1e−4 to 1e−2. The first fit's iter 9 would have terminated at 1.31% drop; this saves ~10 LM iterations and ~30 min wall time per fit cycle. Keep 1e−4 as an option for "final" fits once the model physics stabilises in v7.
+
+**`run_stage3.jl`** (≈80 lines):
+- Loop the unique `(gap, Q_total, ε_org)` keys across Core ∪ Extended ∪ Holdout (~90 keys).
+- For each key: derive δ from Lévêque, build mesh, run v5 `bootstrap!` (α_buf 0→1 ramp + α_kin 1e−6→1 ramp at V = −1.0 V).
+- Write converged DOF vector to `output/cache/s_eo<ε>_d<δμm>_V-1.000.bin` (matches v5 binary cache filename convention).
+- Also emit `output/stage3/data/stage3_warmstart_index.csv` listing `(key → cache filename)`.
+
+Add file-loader path to `FitContext.build_context` so every Stage 4 invocation auto-reads the cache. After Stage 3 build, fresh `run_stage4.jl` re-runs skip the cold V-walk entirely. Cost-payback after ~3 re-runs.
+
+### Step 3 — Reaction order n₁, n₂ as fit params (next, ~30 min)
+
+Currently `j_1 ∝ c_AN²` (ADPN) and `j_2 ∝ c_AN¹` (PN) are hard-coded in `kinetics.jl`. Promote to fit params:
+
+```julia
+j_1 = j0_1 · (c_AN/c_ref)^n_1 · exp(-α_c1 · F · η1 / RT)
+j_2 = j0_2 · (c_AN/c_ref)^n_2 · exp(-α_c2 · F · η2 / RT)
+```
+
+| Effort | Where to edit |
+|---|---|
+| ~30 min | Add `N1, N2 ∈ Ref` alongside `KIN_OVERRIDE` in `kinetics.jl`; modify `tafel_currents`. Add `n_1, n_2` to `theta` vector and `THETA_LB/UB/0` in `fit_kinetics.jl`. |
+
+Bounds: physically `n_1 ∈ [1, 3]` (Tafel dimerization mechanism debated for 60 years), `n_2 ∈ [0, 2]`. Initial guesses `(n_1, n_2) = (2.0, 1.0)` match v6's hard-coded defaults.
+
+Fit dimension: 6 → 8. Still very overdetermined (96 Core residuals). **Watch for** the optimiser drifting `n_1` toward 0.5 to fit FE shape vs ε_org — that's a sign D_mix is wrong, not that ADPN kinetics is half-order.
+
+### Step 4 — Experimental error weights (~20 min)
+
+Bloomquist's GPR surrogate uses noise σ_FE,ADN = 5 pp, σ_FE,PN = 2 pp (SI §"Building Surrogate Models"). v6 weights every residual equally. Switch to:
+
+```
+weighted_loss = Σ ((FE_model_i - FE_obs_i) / σ_i)²
+```
+
+| Effort | Where |
+|---|---|
+| ~20 min | Add `sigma_FE_ADN_pp::Float64` and `sigma_FE_PN_pp::Float64` to `BloomquistRow` (or hard-code in `residuals!`). Bloomquist doesn't tabulate per-row σ, so use the SI's global values. |
+
+Doesn't change which rows pass the §20.4 gates, but rebalances the fit toward giving noisy rows less influence. Worth doing if reviewers ask; not critical for the test-drive.
+
+### Step 5 — TCH species (~3 hours code + ~1 hour fit)
+
+TCH (1,3,6-tricyanohexane) is currently absent from v6's 8-species model but is 5–17% of total FE in Bloomquist's data — that current is being absorbed into the model's FE_HER residual. Adding it:
+
+| What | Effort |
+|---|---|
+| Update `Params.n_species`, `D_aq`, `D_org`, `m_partition`, `z_species` to 9 species | ~10 min |
+| Update `chemistry.jl::make_initial_guess` and `bulk_concentration` | ~10 min |
+| Add `j_TCH = j0_TCH · (c_AN/c_ref)^3 · exp(-α_c,TCH · F · η / RT)` to `kinetics.jl`. Stoichiometry: 3 AN + 6 e⁻ → TCH + 6 OH⁻, so n_e = 6 (or rescale Tafel by n_e/2 to keep convention). | ~15 min |
+| Update `assembly.jl` Faradaic flux BCs: `J_AN(0) -= 3·j_TCH/(n_e·F)`, `J_TCH(0) = +j_TCH/(n_e·F)`, `J_OH(0)` already covers `+(j_total)/F` because TCH produces OH⁻ at the same rate per electron | ~15 min |
+| Bump `JAC_BLOCK = 9 → 10`, `JAC_HALFBW = 17 → 19`, `n_colors = 39` | ~5 min |
+| Add `FE_TCH` residual term to `residuals!`; fit dim grows by 2 (j₀_TCH, α_c,TCH) | ~20 min |
+| Re-run Stage 4 | ~1 hour |
+
+Easy in absolute terms, just touches several files. Should produce meaningful improvement because TCH FE is currently mismatched in the v6 fit (the model puts that current into HER instead).
+
+### Step 6 — Bubble physics (~6–10 hours, the biggest lift)
+
+The headline Bloomquist finding ("bubble-induced convection dominates") is exactly what v6 deferred. Three sub-steps, do in this order:
+
+**Step 6a — Bruggeman void factor on κ_eff** (~10 min):
+```
+κ_eff = κ_dilute · (1 - ε_org)^1.5 · (1 - ε_gas)^1.5
+```
+in `cell_voltage.jl`. Free physics. No fit params (assuming we have an `ε_gas` model).
+
+**Step 6b — `ε_gas(j, gap, Q)` model** (~3 hours):
+Two paths:
+
+| Path | Pros | Cons |
+|---|---|---|
+| **Faraday + residence-time** (physics-based) | Zero new fit params; predictive | Requires bubble-detachment radius and gas hold-up correlations — both empirical; brittle |
+| **Single fit param `c_bubble`** (correlation `f = 1 + c·j^β`) | Robust; one new param | Less interpretable; absorbs other missing physics |
+
+Recommended: start with Faraday `Q_H₂ = j·A/(2F)` and a fixed `τ_residence = L_channel/v_super`, giving `ε_gas = Q_H₂·τ/V_channel` × correction factor. If 6a+6b alone close the 0.25 mm holdout RMSE gap, stop. If not, promote to fit param.
+
+**Step 6c — `f_bubble(j, gap, Q)` enhancement on δ_lam** (~30 min):
+```
+δ_actual = δ_lam · f_bubble(j, gap, Q)
+```
+in `hydrodynamics.jl`. Vogt 1983 or fit-params correlation. The stub is already in `hydrodynamics.jl` as a commented-out `delta_actual` function.
+
+**Total v7 effort**: ~6–10 hours assuming empirical correlation form. Doubles if all three go physics-based.
+
+### Step 7 — Stage 4c: joint refinement on (V_CE, R_contact) (~1 hour, defer until v7)
+
+Once bubble physics is in (Step 6), revisit `(V_CE, R_contact)`. Need to think carefully about loss weighting because V residuals (in V) and FE residuals (in pp) are different units; weight by `(1/σ²)` to make them commensurate. Defer until then because:
+- The frozen V_CE = 1.7 V might already be ~within 0.2 V of optimal — fitting it only buys tiny FE improvement.
+- Bubble physics affects R_series too — V_CE/R_contact you'd fit in v6 would be wrong in v7 once bubbles land. Better to wait for the post-bubble landscape.
+
+### Stop condition
+
+**Don't do all of these.** Stop adding parameters when:
+1. Residuals look random vs (j, ε_org, gap) on the parity plots.
+2. Combined RMSE on Core is in the noise floor (~σ_FE,ADN ≈ 5 pp).
+3. Adding the next param doesn't reduce parity-plot scatter visibly.
+
+Beyond that, you're fitting noise. Stop and start interpreting the fit physically.
+
+### Recommended sequence in dependency order
+
+```
+Step 1 (plots) ─┐
+                ├─→ Step 3 (reaction orders) ─┐
+Step 2 (Stage 3 + tol) ─┘                     ├─→ Step 5 (TCH) ─→ Step 6 (bubbles) ─→ Step 7 (V_CE/R_contact)
+                                              │
+Step 4 (weights) ─────────────────────────────┘  (optional, anytime after Step 1)
+```
+
+Steps 1–4 are v6.x patches. Step 5 onward is the v7 boundary.
+
+---
+
 *References for v6 additions: Newman, Electrochemical Systems 3rd ed. §11.3; Bird/Stewart/Lightfoot Transport Phenomena 2nd ed. §14.4; Lévêque, Ann. Mines 1928; Bloomquist et al. CEJ 2026 528, 172125 (and SI Tables S2–S10).*
