@@ -1,23 +1,19 @@
 # -----------------------------------------------------------------------------
-# run_stage4v2.jl — Bloomquist kinetics-only fit, v6.x with n_ADN and n_PN freed.
+# run_stage4.jl — DEPRECATED. v6 6-parameter fit. Outputs in output/stage4/
+# are the canonical v6 baseline and must not be overwritten.
 #
-# Differs from run_stage4.jl in two ways:
-#   1. Theta vector is 8-D (adds AN reaction orders n_ADN for ADPN, n_PN for PN);
-#      the underlying change is in fit_kinetics.jl + kinetics.jl + fixed_j_solver.jl.
-#   2. Output goes to output/stage4v2/ so the v6 6-param run in output/stage4/
-#      stays preserved as the v6 baseline.
+# Use run_stage4v2.jl for the v6.x 8-parameter fit (adds n_1, n_2 — AN
+# reaction orders for ADPN and PN). v2 writes to output/stage4v2/.
 #
-# Pipeline (same Stage 4a / 4b structure):
-#   Stage 4a:
-#     1. Load bloomquist_data.csv (master, 162 rows).
-#     2. Build Core selection (gap ∈ {0.5, 1.0} mm, j ≤ 190 mA/cm², ε_org ≥ 0.04).
-#     3. Build FitContext (precomputes δ_lev, R_series, mesh, c_eq).
-#     4. Levenberg–Marquardt fit on (j0_1, j0_2, j0_3, α_c1, α_c2, α_c3, n_ADN, n_PN).
-#     5. Save fitted theta, loss history, per-row residuals.
-#   Stage 4b:
-#     6. Forward-apply fitted theta to Extended and Holdout subsets — no re-fit.
-#     7. Save residual CSVs.
-#     8. Print decision-gate summary (§20.4).
+# This script will refuse to run; remove the error() below if you really
+# need to re-execute the original 6-param fit (you'll need to also revert
+# fit_kinetics.jl to N_THETA=6 and the corresponding bounds/THETA0 entries).
+# -----------------------------------------------------------------------------
+error("run_stage4.jl is frozen as the v6 baseline. Use run_stage4v2.jl " *
+      "for the v6.x fit with n_1, n_2 freed; outputs under output/stage4v2/.")
+
+# -----------------------------------------------------------------------------
+# (original v6 6-param pipeline kept below for reference)
 # -----------------------------------------------------------------------------
 using Printf
 using Dates
@@ -30,7 +26,7 @@ using .ADPN_EHD.FitKinetics
 
 # ---------- Paths ----------
 const DATA_FILE     = joinpath(@__DIR__, "Experimental_data", "bloomquist_data.csv")
-const OUT_DIR       = joinpath(@__DIR__, "output", "stage4v2")
+const OUT_DIR       = joinpath(@__DIR__, "output", "stage4")
 const OUT_DATA_DIR  = joinpath(OUT_DIR, "data")
 const OUT_LOG_DIR   = joinpath(OUT_DIR, "logs")
 isdir(OUT_DATA_DIR) || mkpath(OUT_DATA_DIR)
@@ -70,7 +66,8 @@ end
 
 # ---------- Residual CSV writer ----------
 function write_residuals(path::String, rows::Vector{BloomquistRow},
-                         sel::Vector{Int}, F::Vector{Float64})
+                         sel::Vector{Int}, F::Vector{Float64},
+                         theta::Vector{Float64})
     open(path, "w") do io
         println(io, "table,gap_mm,Q_total_mL_min,j_mA_cm2,phi_AN," *
                     "FE_ADN_obs,FE_ADN_model,FE_ADN_resid_pp," *
@@ -102,22 +99,10 @@ function rmse(F::Vector{Float64}, channel::Symbol)
     return sqrt(s / n)
 end
 
-# Pretty-print a parameter and flag if it sits at a bound.
-function _pin_flag(val::Float64, lb::Float64, ub::Float64; tol::Float64 = 1e-3)
-    span = ub - lb
-    if (val - lb) ≤ tol * span
-        return "@LB"
-    elseif (ub - val) ≤ tol * span
-        return "@UB"
-    else
-        return "  "
-    end
-end
-
 # ---------- Main ----------
 function main()
     println("=" ^ 72)
-    println(" Stage 4v2 — Bloomquist kinetics fit with n_ADN, n_PN freed (v6 §20)")
+    println(" Stage 4 — Bloomquist kinetics-only fit (v6 §20)")
     println(" $(now())")
     println("=" ^ 72)
 
@@ -131,9 +116,6 @@ function main()
     @printf("Extended  : %3d rows\n", length(sel_extended_idx))
     @printf("Holdout   : %3d rows\n", length(sel_holdout_idx))
 
-    @printf("\nFit dimension: N_THETA = %d   (LB=%s, UB=%s)\n",
-            N_THETA, THETA_LB, THETA_UB)
-
     # ---------- Stage 4a — fit on Core ----------
     println("\n--- Stage 4a: LM fit on Core ---")
     ctx_core = build_context(rows_raw, sel_core_idx)
@@ -142,18 +124,10 @@ function main()
     result = lm_fit(THETA0, ctx_core; verbose = true)
     println("\n[LM] done.  ", result.note)
 
-    j0, ac, n_orders = theta_to_physical(result.theta)
-    @printf("  j0_1 = %.3e A/m²  %s    α_c1 = %.3f  %s    n_ADN = %.3f  %s\n",
-            j0[1], _pin_flag(result.theta[1], THETA_LB[1], THETA_UB[1]),
-            ac[1], _pin_flag(result.theta[4], THETA_LB[4], THETA_UB[4]),
-            n_orders[1], _pin_flag(result.theta[7], THETA_LB[7], THETA_UB[7]))
-    @printf("  j0_2 = %.3e A/m²  %s    α_c2 = %.3f  %s    n_PN  = %.3f  %s\n",
-            j0[2], _pin_flag(result.theta[2], THETA_LB[2], THETA_UB[2]),
-            ac[2], _pin_flag(result.theta[5], THETA_LB[5], THETA_UB[5]),
-            n_orders[2], _pin_flag(result.theta[8], THETA_LB[8], THETA_UB[8]))
-    @printf("  j0_3 = %.3e A/m²  %s    α_c3 = %.3f  %s\n",
-            j0[3], _pin_flag(result.theta[3], THETA_LB[3], THETA_UB[3]),
-            ac[3], _pin_flag(result.theta[6], THETA_LB[6], THETA_UB[6]))
+    j0, ac = theta_to_physical(result.theta)
+    @printf("  j0_1 = %.3e A/m²    α_c1 = %.3f\n", j0[1], ac[1])
+    @printf("  j0_2 = %.3e A/m²    α_c2 = %.3f\n", j0[2], ac[2])
+    @printf("  j0_3 = %.3e A/m²    α_c3 = %.3f\n", j0[3], ac[3])
 
     # Final residuals at fitted θ on Core (for CSV + RMSE)
     F_core = zeros(2 * length(ctx_core.sel))
@@ -164,16 +138,14 @@ function main()
             rmse_core_adn, rmse_core_pn)
 
     write_residuals(joinpath(OUT_DATA_DIR, "stage4a_core_residuals.csv"),
-                    rows_raw, sel_core_idx, F_core)
+                    rows_raw, sel_core_idx, F_core, result.theta)
 
     # Save fitted parameters
     open(joinpath(OUT_DATA_DIR, "stage4a_fitted_theta.txt"), "w") do io
-        @printf(io, "# v6.x Stage 4v2 — fitted kinetic parameters (transport frozen)\n")
-        @printf(io, "# Adds n_ADN (ADPN) and n_PN (PN) AN reaction orders as fit params.\n")
+        @printf(io, "# v6 Stage 4a — fitted kinetic parameters (transport frozen)\n")
         @printf(io, "# date: %s\n", now())
         @printf(io, "# converged: %s\n", result.converged)
         @printf(io, "# loss: %.6e (sum of squared residuals, pp²)\n", result.loss)
-        @printf(io, "# iterations: %d\n", result.iter)
         @printf(io, "# Core rows: %d\n", length(sel_core_idx))
         @printf(io, "# RMSE FE_ADN: %.4f pp\n", rmse_core_adn)
         @printf(io, "# RMSE FE_PN:  %.4f pp\n", rmse_core_pn)
@@ -183,16 +155,6 @@ function main()
         @printf(io, "alpha_c1 = %.6f\n", ac[1])
         @printf(io, "alpha_c2 = %.6f\n", ac[2])
         @printf(io, "alpha_c3 = %.6f\n", ac[3])
-        @printf(io, "n_ADN = %.6f\n", n_orders[1])
-        @printf(io, "n_PN  = %.6f\n", n_orders[2])
-    end
-
-    # Save loss history
-    open(joinpath(OUT_DATA_DIR, "stage4a_lm_history.csv"), "w") do io
-        println(io, "iter,loss,lambda,nfail")
-        for h in result.history
-            @printf(io, "%d,%.6e,%.6e,%d\n", h.iter, h.loss, h.lambda, h.nfail)
-        end
     end
 
     # ---------- Stage 4b — forward apply, no re-fit ----------
@@ -208,7 +170,7 @@ function main()
     @printf("Extended RMSE — FE_ADN: %.2f pp,  FE_PN: %.2f pp\n",
             rmse_ext_adn, rmse_ext_pn)
     write_residuals(joinpath(OUT_DATA_DIR, "stage4b_extended_residuals.csv"),
-                    rows_raw, sel_extended_idx, F_ext)
+                    rows_raw, sel_extended_idx, F_ext, result.theta)
 
     ctx_ho = build_context(rows_raw, sel_holdout_idx)
     F_ho = zeros(2 * length(ctx_ho.sel))
@@ -218,7 +180,7 @@ function main()
     @printf("Holdout  RMSE — FE_ADN: %.2f pp,  FE_PN: %.2f pp\n",
             rmse_ho_adn, rmse_ho_pn)
     write_residuals(joinpath(OUT_DATA_DIR, "stage4b_holdout_residuals.csv"),
-                    rows_raw, sel_holdout_idx, F_ho)
+                    rows_raw, sel_holdout_idx, F_ho, result.theta)
 
     # ---------- Decision-gate summary (§20.4) ----------
     println("\n--- Decision gates (§20.4) ---")
