@@ -509,4 +509,118 @@ The first fit's failure pattern unambiguously orders the v7 work that §7 listed
 
 ---
 
+## 9. Second fit (v6.x — 2026-04-27): n_1, n_2 freed
+
+Following §8 Finding 1 (j₀,1 and α_c,1 bound-pinned in opposite directions ⇒ rigid ADPN kinetic form), the immediate v7 priority was to promote the AN reaction orders `n_1` (ADPN) and `n_2` (PN) from hardcoded constants `(2, 1)` to fit parameters. This is **§7 Step 3** of the post-first-fit roadmap. v6.x is a minimal patch on the v6 codebase — same row selection, same transport, same `V_CE` / `R_contact` freeze; only the kinetic fit dimension changes.
+
+### 9.1 Code changes (v6 → v6.x)
+
+| File | Change |
+|---|---|
+| `kinetics.jl` | `KIN_OVERRIDE` Ref extended with `n::NTuple{2,Float64}`; defaults `(2.0, 1.0)` for backwards compat. `tafel_currents` now reads `n_1, n_2` from the override and uses `(c_AN/c_ref)^n` instead of hardcoded `^2` and `^1`. Stages 1/2/2m/3 byte-identical to v6. |
+| `fixed_j_solver.jl` | `solve_at_j` accepts optional `n_orders` kwarg, threaded into `set_kinetic_override!`. |
+| `fit_kinetics.jl` | `N_THETA = 6 → 8`. New bounds: `n_1 ∈ [1.0, 3.0]`, `n_2 ∈ [0.5, 2.0]`. Initial `(n_1, n_2) = (2.0, 1.0)` matches v6's hardcoded values, so iter 0 reproduces v6 behaviour. `theta_to_physical` returns `(j0, ac, n)`. |
+| `run_stage4v2.jl` | New file; copy of `run_stage4.jl` writing to `output/stage4v2/`. Adds bound-pin flags (`@LB`, `@UB`) to the per-row parameter print; saves `stage4a_lm_history.csv`. |
+| `run_stage4.jl` | Gated with `error()` so the v6 baseline outputs in `output/stage4/` cannot be accidentally overwritten by a now-8-D fit using its old output paths. |
+
+### 9.2 Run summary
+
+| | Value |
+|---|---|
+| Core rows fit | 48 (unchanged from v6) |
+| Extended rows | 90 (Core ∪ Extended-only = 48 + 42) |
+| Holdout rows | 45 (gap = 0.25 mm; ε_org ≥ 0.04) |
+| LM iterations | 15 (8 accepts, 7 rejects) |
+| Termination | `Converged: relative loss drop < tol_rel` (Δ_rel = 0.58% on iter 15) |
+| Initial loss | 9.48e+04 |
+| Final loss | **7.51e+03** (24% below v6's ~1.0e+04) |
+| Wall time | ~75 min wake compute (extended elapsed by laptop sleep) |
+
+### 9.3 Fitted kinetic parameters
+
+| Param | Bounds | v6 | **v6.x** | Pinned? |
+|---|---|---|---|---|
+| j₀,1 (ADPN) | [10⁻⁶, 10⁻¹] | 1.00e-6 ⚠️ @LB | **4.19e-3 A/m²** | free |
+| α_c,1 (ADPN) | [0.30, 0.70] | 0.700 ⚠️ @UB | **0.525** | free |
+| **n_1 (ADPN)** | [1.00, 3.00] | (fixed at 2.0) | **1.000 ⚠️ @LB** | at lower bound |
+| j₀,2 (PN) | [10⁻⁶, 10⁻¹] | 6.17e-3 | 5.82e-4 A/m² | free |
+| α_c,2 (PN) | [0.30, 0.70] | 0.332 (near LB) | **0.531** | free |
+| **n_2 (PN)** | [0.50, 2.00] | (fixed at 1.0) | **1.713** | free |
+| j₀,3 (HER) | [10⁻⁸, 10⁻³] | 9.53e-5 | 2.67e-5 A/m² | free |
+| α_c,3 (HER) | [0.30, 0.50] | 0.308 (near LB) | 0.390 | free |
+
+Five of the six v6 "free" parameters either came off bounds (j₀,1 from LB, α_c,1 from UB) or moved into the middle of their range (α_c,2, α_c,3). This is the empirical signature that **the v6 bound-pinning was driven by the wrong reaction-order assumption, not by intrinsic kinetic constraints** — exactly as Finding 1 of §8.5 predicted.
+
+### 9.4 Decision-gate scoreboard
+
+| Gate | v6 | **v6.x** | Threshold |
+|---|---|---|---|
+| Core FE_ADN RMSE | 13.50 pp FAIL | **11.32 pp** FAIL | < 8 pp |
+| Core FE_PN RMSE | 4.84 pp **PASS** | **5.33 pp** FAIL (by 0.33 pp) | < 5 pp |
+| Extended FE_ADN RMSE | 14.25 pp FAIL | **12.29 pp** FAIL (by 0.29 pp) | < 12 pp |
+| Holdout FE_ADN RMSE | 34.85 pp FAIL | **29.33 pp** FAIL | < 15 pp |
+
+Gate-pass count: v6 = 1 / 4, v6.x = 0 / 4. **However, three of the four gates moved meaningfully closer to their thresholds** (Core ADN -16%, Extended ADN -14%, Holdout ADN -16%) and total loss dropped 24%. The single regression — Core FE_PN slipping from PASS to hair-FAIL — is the joint optimiser trading ~0.5 pp of PN accuracy for ~2.2 pp of ADN improvement. Net loss-reduction is favourable, but the gate count headlines do not show this trade-off. A future fit could rebalance with per-channel σ weights (§7 Step 4 of the v6 roadmap).
+
+### 9.5 Loss trajectory
+
+| iter | loss (pp²) | λ | step |
+|---|---|---|---|
+| 0 | 9.48e+04 | 1.0e-2 | (initial — n_1=2, n_2=1) |
+| 1 | **9.66e+03** | 5.0e-3 | accept, Δ_rel = 89.8% |
+| 3 | 9.53e+03 | 1.0e-2 | accept, Δ_rel = 1.31% |
+| 4 | 8.84e+03 | 5.0e-3 | accept, Δ_rel = 7.27% |
+| 6 | 8.56e+03 | 1.0e-2 | accept, Δ_rel = 3.16% |
+| 7–9 | 8.56e+03 | up to 6.4e-1 | three rejects in a row |
+| 10 | 7.86e+03 | 3.2e-1 | accept, Δ_rel = 8.20% |
+| 12 | 7.67e+03 | 6.4e-1 | accept, Δ_rel = 2.44% |
+| 13 | 7.56e+03 | 3.2e-1 | accept, Δ_rel = 1.44% |
+| 15 | **7.51e+03** | 6.4e-1 | accept, Δ_rel = 0.58% (converged) |
+
+Iter 1 alone dropped the loss by ~10× — n_1, n_2 immediately unlocked a fundamentally better basin. The three-reject plateau at iters 7–9 (λ climbed 1e-2 → 6.4e-1) was canonical LM step-shrinkage, not distress; iter 10 found a viable step and the trajectory resumed. Full per-iter history in `output/stage4v2/data/stage4a_lm_history.csv`.
+
+### 9.6 Interpretation — three findings
+
+**Finding 1 — n_1 wants to go below 1.0.**
+The optimiser pinned n_1 at the lower bound of 1.000 and stopped only because the bound forbade lower values. Sub-unity *empirical* reaction order in c_AN is not a violation of mechanism — molecularity is 2 (two AN couple at the surface), but the apparent power on bulk c_AN(surface) is set by what's rate-limiting. Two physically defensible interpretations:
+
+- *Langmuir-Hinshelwood saturation.* Rate ∝ θ_AN^m where θ_AN ≈ K·c_AN/(1 + K·c_AN). At high coverage (Kc ≫ 1), θ → 1 and apparent n → 0. Cd is selective for ADPN largely *because* it strongly chemisorbs AN, so coverage saturation is plausible at the 200–1500 mol/m³ Bloomquist range.
+- *Missing TCH species absorbing high-c_AN current.* TCH (1,3,6-tricyanohexane) forms via a trimerisation-like pathway with effective ∝ c_AN³ kinetics, contributing 5–17% of total FE in Bloomquist's data. v6 has no TCH species — that current is silently absorbed into FE_HER. The optimiser cannot make a TCH product steal high-c_AN current, so it instead *suppresses* j_1 at high c_AN by lowering n_1.
+
+These interpretations are **distinguishable by relaxing the bound**. If a v3 fit (n_1 ∈ [0.5, 3.0]) returns n_1 ∈ [0.5, 0.8], the TCH-absorption hypothesis is favoured. If n_1 returns ≈ 1.0 (now off-bound), the v6.x fit is essentially the real story and TCH is a smaller correction. Keeping `n_1 ≥ 1` to "respect mechanism" actually hides the most diagnostic signal in the residuals.
+
+**Finding 2 — n_2 = 1.713 is mid-range and physically interpretable.**
+PN kinetics now look both well-fit (Core RMSE 5.33 pp, hair-fail) *and* mechanistically reasonable. n_2 ≈ 1.7 is consistent with a Langmuir-Hinshelwood RDS where surface AN coverage participates more strongly than first-order; α_c,2 = 0.531 sits in the middle of [0.30, 0.70]. Notably, neither n_2 nor α_c,2 is at a bound — confirming that v6's α_c,2 = 0.332 (near LB) was an artefact of the over-rigid n = 1 assumption, not a real preference for low transfer coefficient.
+
+**Finding 3 — Holdout improved by ~the same percentage as Core.**
+Core ADN RMSE: -16%. Extended ADN RMSE: -14%. Holdout ADN RMSE: -16%. The kinetic-form fix benefits *all* gaps proportionally — it does **not** preferentially close the bubble-physics gap on the 0.25 mm holdout. This confirms §8.5 Finding 3: the bubble-physics deficit is **additive** with the kinetic-form correction, not a substitute. Holdout ADN RMSE 29.33 pp vs Core 11.32 pp — bubble physics remains the single largest residual, and v6.x v2 has not changed that ranking.
+
+### 9.7 Output artefacts
+
+```
+an_ehd/output/stage4v2/data/
+├── stage4a_fitted_theta.txt        (469 B)
+├── stage4a_core_residuals.csv      (3.0 KB, 48 rows)
+├── stage4a_lm_history.csv          (509 B, 16 rows incl. header)
+├── stage4b_extended_residuals.csv  (5.5 KB, 90 rows)
+└── stage4b_holdout_residuals.csv   (2.8 KB, 45 rows)
+
+an_ehd/output/stage4v2/logs/
+└── run_stage4v2_20260427_180556.log
+```
+
+The v6 baseline outputs in `an_ehd/output/stage4/` are preserved untouched. The plot scripts `plot_stage4_parity.py`, `plot_stage4_residuals.py`, and `plot_stage4_3d_surfaces.py` still target the v6 directory; v3 of those scripts (or a `--stage4v2` CLI flag) is needed before the v6.x fit can be re-plotted. Likewise, `analyze_stage4.jl` still parses the v6 6-key fitted-theta format and would need extending to read `n_1, n_2` before V_cell parity can be re-evaluated against v6.x.
+
+### 9.8 Recommended next steps (re-prioritised after v6.x)
+
+1. **Relax `n_1` lower bound to 0.5 and re-fit (v3).** Single-line edit in [fit_kinetics.jl:46](../an_ehd/fit_kinetics.jl#L46) (`THETA_LB[7] = 1.0 → 0.5`) plus `run_stage4v3.jl` mirroring v2. Cost: ~75 min wake compute, no new code. **This is the diagnostic that distinguishes Finding 1a (Langmuir-Hinshelwood saturation) from Finding 1b (missing TCH species)**, and the result determines whether Step 5 (TCH) or Step 6 (bubble physics) leads the v7 work.
+2. **Update plot scripts to point at `output/stage4v2/`** (or parameterise via CLI). The v2 fitted parameters change *every* parity / residual plot — re-plotting before v3 lands is needed for reviewers to see the kinetic-form-fix story visually.
+3. **Update `analyze_stage4.jl` to handle the 8-key fitted-theta format** and emit `stage4v2_diagnostic.csv` with V_cell parity. Confirms whether `V_CE = 1.7 V` and `R_contact = 1×10⁻⁴ Ω·m²` are still reasonable defaults under the new kinetics, or whether the kinetic-form change has shifted the V_cathode predictions enough to revisit them.
+4. **Bubble convection on δ_lam** (v6 §7 Step 6c) — Holdout ADN gap is still 18 pp wider than Core. Cannot close further with kinetics alone. Highest-effort, highest-impact remaining lever.
+5. **TCH species** (v6 §7 Step 5) — promoted in priority by v6.x Finding 1; final ranking depends on the v3 result.
+
+The v6.x v2 fit demonstrates that **structural kinetic-form errors mask transport-physics gaps**: until n_1, n_2 were freed, it was tempting to read v6's Holdout failure as "bubble physics is the whole story." v6.x reveals that bubble physics is large *but not the only major term*, and that even after the kinetic form is partially fixed, the magnitude rank is still bubbles → kinetics-residual → coverage/TCH ambiguity.
+
+---
+
 *References for v6 additions: Newman, Electrochemical Systems 3rd ed. §11.3; Bird/Stewart/Lightfoot Transport Phenomena 2nd ed. §14.4; Lévêque, Ann. Mines 1928; Bloomquist et al. CEJ 2026 528, 172125 (and SI Tables S2–S10).*
