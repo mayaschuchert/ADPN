@@ -1,0 +1,17 @@
+# v6.x Stage 4v2 — fitted kinetic parameters (transport frozen)
+# Adds n_1 (ADPN) and n_2 (PN) AN reaction orders as fit params.
+# date: 2026-04-27T20:23:32.164
+# converged: true
+# loss: 7.511282e+03 (sum of squared residuals, pp²)
+# iterations: 15
+# Core rows: 48
+# RMSE FE_ADN: 11.3167 pp
+# RMSE FE_PN:  5.3312 pp
+j0_1 = 4.188608e-03
+j0_2 = 5.821782e-04
+j0_3 = 2.666492e-05
+alpha_c1 = 0.525423
+alpha_c2 = 0.531359
+alpha_c3 = 0.389535
+n_1 = 1.000000
+n_2 = 1.713085

@@ -2,7 +2,13 @@ module FitKinetics
 
 # v6 §20 — kinetics-only fit on Bloomquist data with all transport frozen.
 #
-#   theta = (j0_1, j0_2, j0_3, alpha_c1, alpha_c2, alpha_c3)
+#   theta = (log10 j0_1, log10 j0_2, log10 j0_3,
+#            alpha_c1, alpha_c2, alpha_c3,
+#            n_1, n_2)
+#
+# v6.x: Promoted the AN reaction orders n_1 (ADPN) and n_2 (PN) to fit
+# parameters per Finding 1 of the v6 first-fit changelog. The previous v6 fit
+# (now in output/stage4/) ran with n_1, n_2 fixed at (2, 1).
 #
 # Row filters (§20.1):
 #   Core     : gap ∈ {0.5, 1.0} mm AND j ≤ 190 mA/cm² AND ε_org ≥ 0.04   (≈60 rows)
@@ -37,24 +43,29 @@ export BloomquistRow, FitContext, build_context,
        N_THETA, THETA_LB, THETA_UB, THETA0
 
 # ---------- Parameter vector layout ----------
-const N_THETA = 6
-# theta is in *log10* space for j0,r and *linear* for α_c,r — keeps the LM
-# step well-conditioned across the j0 ∈ [10⁻⁶, 10⁻¹] A m⁻² fit range.
-const THETA_LB = [-6.0, -6.0, -8.0, 0.30, 0.30, 0.30]      # log10 j0 lo + αc lo
-const THETA_UB = [-1.0, -1.0, -3.0, 0.70, 0.70, 0.50]      # log10 j0 hi + αc hi
+const N_THETA = 8
+# theta is in *log10* space for j0,r and *linear* for α_c,r and n_r — keeps
+# the LM step well-conditioned across the j0 ∈ [10⁻⁶, 10⁻¹] A m⁻² fit range.
+# n_1 ∈ [1, 3] — ADPN reaction order in c_AN (Mathison JACS 2025 et al.).
+# n_2 ∈ [0.5, 2] — PN reaction order; floor at 0.5 keeps c_AN^n well-defined.
+const THETA_LB = [-6.0, -6.0, -8.0, 0.30, 0.30, 0.30, 1.0, 0.5]
+const THETA_UB = [-1.0, -1.0, -3.0, 0.70, 0.70, 0.50, 3.0, 2.0]
 const THETA0   = [log10(1.0e-3), log10(1.0e-3), log10(1.0e-5),
-                  0.50, 0.50, 0.40]
+                  0.50, 0.50, 0.40, 2.0, 1.0]
 
-"Convert internal theta vector → physical (j0_tuple, alpha_c_tuple)."
+"Convert internal theta vector → physical (j0_tuple, alpha_c_tuple, n_tuple)."
 function theta_to_physical(theta::AbstractVector{Float64})
     j0 = (10.0^theta[1], 10.0^theta[2], 10.0^theta[3])
     ac = (theta[4], theta[5], theta[6])
-    return j0, ac
+    n  = (theta[7], theta[8])
+    return j0, ac, n
 end
 
 "Inverse of theta_to_physical for diagnostics / initial guesses."
-function physical_to_theta(j0::NTuple{3,Float64}, ac::NTuple{3,Float64})
-    return [log10(j0[1]), log10(j0[2]), log10(j0[3]), ac[1], ac[2], ac[3]]
+function physical_to_theta(j0::NTuple{3,Float64}, ac::NTuple{3,Float64},
+                           n::NTuple{2,Float64} = (2.0, 1.0))
+    return [log10(j0[1]), log10(j0[2]), log10(j0[3]),
+            ac[1], ac[2], ac[3], n[1], n[2]]
 end
 
 # ---------- Row container ----------
@@ -241,7 +252,7 @@ function residuals!(F::AbstractVector{Float64},
                     ctx::FitContext;
                     verbose::Bool = false)
     @assert length(F) == 2 * length(ctx.sel)
-    j0, ac = theta_to_physical(theta)
+    j0, ac, n_orders = theta_to_physical(theta)
 
     nfail = 0
     @inbounds for (n, idx) in pairs(ctx.sel)
@@ -258,7 +269,7 @@ function residuals!(F::AbstractVector{Float64},
 
         result = solve_at_j(r.j_target_A_m2, r.phi_AN, r.delta_lev_m,
                             mesh, u_warm, ctx.c_eq;
-                            j0 = j0, alpha_c = ac,
+                            j0 = j0, alpha_c = ac, n_orders = n_orders,
                             verbose = false)
 
         if result.converged

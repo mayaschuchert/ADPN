@@ -80,6 +80,8 @@ from the cold guess.
 
 If `j0` and `alpha_c` are provided as 3-tuples, they are pushed into the
 Kinetics override Ref for the duration of this call (restored on exit).
+`n_orders` (a 2-tuple of AN reaction orders for ADPN and PN) is optional —
+if omitted, the override carries the historical defaults `(2.0, 1.0)`.
 """
 function solve_at_j(j_target_A_m2::Float64,
                     eps_org::Float64,
@@ -99,6 +101,7 @@ function solve_at_j(j_target_A_m2::Float64,
                     newton_max_iter::Int  = 60,
                     j0::Union{Nothing,NTuple{3,Float64}}      = nothing,
                     alpha_c::Union{Nothing,NTuple{3,Float64}} = nothing,
+                    n_orders::Union{Nothing,NTuple{2,Float64}} = nothing,
                     verbose::Bool       = false)
 
     @assert V_lo < V_hi "V_lo must be more negative than V_hi"
@@ -107,7 +110,8 @@ function solve_at_j(j_target_A_m2::Float64,
     use_override = !(j0 === nothing || alpha_c === nothing)
     prev_override = Kinetics.KIN_OVERRIDE[]
     if use_override
-        set_kinetic_override!(j0, alpha_c)
+        n_use = n_orders === nothing ? (2.0, 1.0) : n_orders
+        set_kinetic_override!(j0, alpha_c, n_use)
     end
 
     try

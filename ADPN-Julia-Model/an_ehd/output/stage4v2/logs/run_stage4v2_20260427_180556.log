@@ -1,0 +1,50 @@
+========================================================================
+ Stage 4v2 — Bloomquist kinetics fit with n_1, n_2 freed (v6 §20)
+ 2026-04-27T18:06:02.710
+========================================================================
+Loaded 162 rows from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/Experimental_data/bloomquist_data.csv
+Core      :  48 rows
+Extended  :  90 rows
+Holdout   :  45 rows
+
+Fit dimension: N_THETA = 8   (LB=[-6.0, -6.0, -8.0, 0.3, 0.3, 0.3, 1.0, 0.5], UB=[-1.0, -1.0, -3.0, 0.7, 0.7, 0.5, 3.0, 2.0])
+
+--- Stage 4a: LM fit on Core ---
+[ Info: FitContext: loaded 48 warm-start states from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/cache
+Pre-cached 6 unique-δ meshes
+[LM] iter   0   loss=9.4829e+04   λ=1.00e-02   nfail=0
+[LM] iter   1   loss=9.6573e+03   λ=5.00e-03   nfail=0   accept (Δ_rel=8.98e-01)
+[LM] iter   2   loss=9.6573e+03   λ=2.00e-02   nfail=0   reject
+[LM] iter   3   loss=9.5308e+03   λ=1.00e-02   nfail=0   accept (Δ_rel=1.31e-02)
+[LM] iter   4   loss=8.8380e+03   λ=5.00e-03   nfail=0   accept (Δ_rel=7.27e-02)
+[LM] iter   5   loss=8.8380e+03   λ=2.00e-02   nfail=0   reject
+[LM] iter   6   loss=8.5590e+03   λ=1.00e-02   nfail=0   accept (Δ_rel=3.16e-02)
+[LM] iter   7   loss=8.5590e+03   λ=4.00e-02   nfail=0   reject
+[LM] iter   8   loss=8.5590e+03   λ=1.60e-01   nfail=0   reject
+[LM] iter   9   loss=8.5590e+03   λ=6.40e-01   nfail=0   reject
+[LM] iter  10   loss=7.8574e+03   λ=3.20e-01   nfail=0   accept (Δ_rel=8.20e-02)
+[LM] iter  11   loss=7.8574e+03   λ=1.28e+00   nfail=0   reject
+[LM] iter  12   loss=7.6657e+03   λ=6.40e-01   nfail=0   accept (Δ_rel=2.44e-02)
+[LM] iter  13   loss=7.5553e+03   λ=3.20e-01   nfail=0   accept (Δ_rel=1.44e-02)
+[LM] iter  14   loss=7.5553e+03   λ=1.28e+00   nfail=0   reject
+[LM] iter  15   loss=7.5113e+03   λ=6.40e-01   nfail=0   accept (Δ_rel=5.82e-03)
+
+[LM] done.  Converged: relative loss drop < tol_rel
+  j0_1 = 4.189e-03 A/m²        α_c1 = 0.525        n_1 = 1.000  @LB
+  j0_2 = 5.822e-04 A/m²        α_c2 = 0.531        n_2 = 1.713    
+  j0_3 = 2.666e-05 A/m²        α_c3 = 0.390    
+Core RMSE — FE_ADN: 11.32 pp,  FE_PN: 5.33 pp
+
+--- Stage 4b: forward apply Stage 4a θ to Extended + Holdout ---
+Extended RMSE — FE_ADN: 12.29 pp,  FE_PN: 5.78 pp
+[ Info: FitContext: loaded 42 warm-start states from /Users/a18137/Desktop/Claude + Julia Models/ADPN/ADPN-Julia-Model/an_ehd/output/cache
+Holdout  RMSE — FE_ADN: 29.33 pp,  FE_PN: 10.60 pp
+
+--- Decision gates (§20.4) ---
+  [FAIL] Core FE_ADN RMSE                          11.32 pp  (threshold: < 8 pp)
+  [FAIL] Core FE_PN RMSE                           5.33 pp  (threshold: < 5 pp)
+  [FAIL] Extended FE_ADN RMSE                      12.29 pp  (threshold: < 12 pp)
+  [FAIL] Holdout FE_ADN RMSE                       29.33 pp  (threshold: < 15 pp)
+
+  All gates passed: false
+========================================================================
