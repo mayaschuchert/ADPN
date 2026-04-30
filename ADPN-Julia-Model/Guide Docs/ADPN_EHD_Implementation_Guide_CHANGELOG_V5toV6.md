@@ -624,3 +624,111 @@ The v6.x v2 fit demonstrates that **structural kinetic-form errors mask transpor
 ---
 
 *References for v6 additions: Newman, Electrochemical Systems 3rd ed. §11.3; Bird/Stewart/Lightfoot Transport Phenomena 2nd ed. §14.4; Lévêque, Ann. Mines 1928; Bloomquist et al. CEJ 2026 528, 172125 (and SI Tables S2–S10).*
+
+---
+
+## 10. Third fit (v7 — 2026-04-28): TCH species added, HER frozen, 9-parameter fit
+
+Following §9 Finding 1 (n_ADN pinned at LB = 1.0; two candidate explanations — Langmuir-Hinshelwood saturation vs. missing TCH sink), TCH (1,3,6-tricyanohexane, C₉H₁₁N₃, MW = 161.20 g/mol, n_e = 2) is added as a fourth Faradaic reaction. HER is frozen at v6.x converged values to reduce the active parameter count and avoid collinear j₀,HER / j₀,TCH compensation. This is **v7 §8** of the implementation guide.
+
+### 10.1 Code changes (v6.x → v7)
+
+| File | Change |
+|---|---|
+| `params.jl` | `n_species = 8 → 9`; `z_species`, `D_aq`, `D_org`, `m_partition` extended to length 9. `JAC_BLOCK = 9 → 10`. New constants: `E0_TCH = -1.30`, `nE_TCH = 2`, `MW_TCH = 161.20`, `n_TCH_default = 3.0`. HER defaults updated to v6.x converged: `j0_3 = 2.666e-5`, `alpha_c3 = 0.390`. |
+| `kinetics.jl` | `KIN_OVERRIDE` Ref: `j0/ac NTuple{3} → NTuple{4}`, `n NTuple{2} → NTuple{3}`. `tafel_currents` returns 4-tuple `(j1,j2,j3,j4)`; `j4 ∝ (c_AN/c_ref)^n_TCH`. |
+| `assembly.jl` | DOF stride `9·(ix−1)+k → 10·(ix−1)+k`. New Faradaic BC: `J_TCH(0) = +j4/(2F)`. `J_AN(0)` updated to include j4 term: `−(2j1+j2+3j4)/(2F)`. |
+| `chemistry.jl` | `make_initial_guess`: 10·N_mesh DOFs; initial log-concentrations for species 1–9; TCH initialised to 1e-3 mol/m³. |
+| `fixed_j_solver.jl` | `FixedJResult` gains `j4::Float64`, `FE_TCH_pct::Float64`. `solve_at_j` accepts `j0::NTuple{4}`, `alpha_c::NTuple{4}`, `n_orders::NTuple{3}`. |
+| `fit_kinetics.jl` | `N_THETA = 8 → 9`. Layout: `(log10 j0_ADN, log10 j0_PN, log10 j0_TCH, ac_ADN, ac_PN, ac_TCH, n_ADN, n_PN, n_TCH)`. HER injected from `J0_3_FROZEN / ALPHA_C3_FROZEN`. Residual vector: `3·length(sel)` with FE_ADN, FE_PN, FE_TCH stacked per row. |
+| `run_stage4v3.jl` | New file. Outputs to `output/stage4v3/`. 5 decision gates (ADN/PN/TCH Core + ADN Extended + ADN Holdout). |
+| `analyze_stage4.jl` | Updated to parse 9-key + frozen-HER theta format, call `solve_at_j` with 4-tuples, emit FE_TCH parity columns, print TCH RMSE summary. |
+| `plot_stage4_parity.py` | Updated to load three-file residual CSVs from `output/stage4v3/data/`; 3-panel composite (ADN, PN, TCH). |
+| `plot_stage4_residuals.py` | Updated: adds FE_TCH vs (j, ε_org) faceted panels; drops V_cell residual (not in v7 residual files). |
+| `plot_stage4_3d_surfaces.py` | Updated: FE_TCH 3D scatter plots added alongside FE_ADN panels. Fixed `EXP_FN` path (`../Experimental_data/`). |
+
+### 10.2 Run summary
+
+| | Value |
+|---|---|
+| Core rows fit | **TBD** (gap ∈ {0.5, 1.0} mm, j ≤ 190 mA/cm², ε_org ≥ 0.04) |
+| Extended rows | **TBD** |
+| Holdout rows | **TBD** (gap = 0.25 mm, ε_org ≥ 0.04) |
+| LM iterations | **TBD** |
+| Termination | **TBD** |
+| Initial loss | **TBD** |
+| Final loss | **TBD** |
+| Wall time | **TBD** |
+
+### 10.3 Fitted kinetic parameters
+
+| Param | Bounds | v6.x | **v7** | Pinned? |
+|---|---|---|---|---|
+| j₀,ADN | [10⁻⁶, 10⁻¹] A/m² | 4.19e-3 | **TBD** | TBD |
+| α_c,ADN | [0.30, 0.70] | 0.525 | **TBD** | TBD |
+| n_ADN | [1.00, 3.00] | 1.000 @LB | **TBD** | TBD |
+| j₀,PN | [10⁻⁶, 10⁻¹] A/m² | 5.82e-4 | **TBD** | TBD |
+| α_c,PN | [0.30, 0.70] | 0.531 | **TBD** | TBD |
+| n_PN | [0.50, 2.00] | 1.713 | **TBD** | TBD |
+| j₀,HER | — | 2.67e-5 | 2.666e-5 **(frozen)** | frozen |
+| α_c,HER | — | 0.390 | 0.390 **(frozen)** | frozen |
+| j₀,TCH | [10⁻⁶, 10⁻¹] A/m² | — | **TBD** | TBD |
+| α_c,TCH | [0.30, 0.70] | — | **TBD** | TBD |
+| n_TCH | [1.00, 3.00] | — | **TBD** | TBD |
+
+### 10.4 Decision-gate scoreboard
+
+| Gate | v6.x | **v7** | Threshold |
+|---|---|---|---|
+| Core FE_ADN RMSE | 11.32 pp FAIL | **TBD** | < 8 pp |
+| Core FE_PN RMSE | 5.33 pp FAIL | **TBD** | < 5 pp |
+| Core FE_TCH RMSE | — | **TBD** | < 4 pp |
+| Extended FE_ADN RMSE | 12.29 pp FAIL | **TBD** | < 12 pp |
+| Holdout FE_ADN RMSE | 29.33 pp FAIL | **TBD** | < 15 pp |
+
+### 10.5 Loss trajectory
+
+*(Fill in from `output/stage4v3/data/stage4a_lm_history.csv` after run completes.)*
+
+### 10.6 Interpretation — three findings
+
+*(Fill in after results land. Anchors to watch: Did n_ADN come off its LB = 1.0? Did n_TCH pin at UB = 3.0? Did the Holdout ADN RMSE close toward the 15 pp gate?)*
+
+### 10.7 Output artefacts
+
+```
+an_ehd_v2/output/stage4v3/data/
+├── stage4a_fitted_theta.txt
+├── stage4a_core_residuals.csv
+├── stage4a_lm_history.csv
+├── stage4b_extended_residuals.csv
+├── stage4b_holdout_residuals.csv
+└── stage4v3_diagnostic.csv          (from analyze_stage4.jl)
+
+an_ehd_v2/output/stage4v3/plots/
+├── stage4v3_parity_FE_ADN.png
+├── stage4v3_parity_FE_PN.png
+├── stage4v3_parity_FE_TCH.png
+├── stage4v3_parity_combined.png
+├── stage4v3_resid_FE_ADN_vs_j.png
+├── stage4v3_resid_FE_ADN_vs_eps.png
+├── stage4v3_resid_FE_PN_vs_j.png
+├── stage4v3_resid_FE_PN_vs_eps.png
+├── stage4v3_resid_FE_TCH_vs_j.png
+├── stage4v3_resid_FE_TCH_vs_eps.png
+├── stage4v3_3d_FE_ADN_obs.png
+├── stage4v3_3d_FE_ADN_model.png
+├── stage4v3_3d_FE_ADN_resid.png
+├── stage4v3_3d_FE_ADN_obs_vs_model.png
+├── stage4v3_3d_FE_TCH_obs.png
+├── stage4v3_3d_FE_TCH_model.png
+└── stage4v3_3d_FE_TCH_resid.png
+```
+
+### 10.8 Recommended next steps
+
+*(Populate after results land. Likely candidates: relax n_ADN LB to 0.5 if still pinned; thaw HER if systematic bias appears; bubble-physics δ correction if Holdout gap persists.)*
+
+---
+
+*References for v6 additions: Newman, Electrochemical Systems 3rd ed. §11.3; Bird/Stewart/Lightfoot Transport Phenomena 2nd ed. §14.4; Lévêque, Ann. Mines 1928; Bloomquist et al. CEJ 2026 528, 172125 (and SI Tables S2–S10).*

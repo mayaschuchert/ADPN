@@ -1,0 +1,18 @@
+# v7 Stage 4v4 — Lees S1.11 sequential fit (HER not frozen, TCH active)
+# date: 2026-04-30T10:26:18.556
+# Core rows: 48
+# RMSE FE_ADN: 12.0482 pp
+# RMSE FE_PN:  4.3960 pp
+# RMSE FE_HER: 12.8396 pp (HER fitted, not frozen)
+# RMSE FE_TCH: 2.2623 pp
+j0_ADN   = 3.218470e-04
+j0_PN    = 3.452946e-04
+j0_HER   = 1.741217e-04
+j0_TCH   = 6.308621e-05
+alpha_c_ADN = 0.700000
+alpha_c_PN  = 0.577941
+alpha_c_HER = 0.335731
+alpha_c_TCH = 0.700000
+n_ADN = 1.000000
+n_PN  = 0.593355
+n_TCH = 1.000000

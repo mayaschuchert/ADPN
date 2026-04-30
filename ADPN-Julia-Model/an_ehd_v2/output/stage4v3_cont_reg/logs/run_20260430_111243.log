@@ -1,0 +1,58 @@
+┌ Info: Solver backend set to
+└   FitKinetics.SOLVER_BACKEND[] = :cont
+========================================================================
+ Stage 4v3-cont-REG — joint LM, continuation solver, L2 prior
+ 2026-04-30T11:12:53.678
+========================================================================
+Core / Extended / Holdout: 48 / 90 / 45 rows
+
+--- Prior θ (preserved pre-kink-fix) ---
+  j0_ADN=6.505e-03  j0_PN=1.212e-03  j0_TCH=1.744e-03
+  αc:  ADN=0.537  PN=0.522  TCH=0.525
+  n:   ADN=1.005  PN=0.500  TCH=1.000
+  weights: [1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 25.0, 25.0, 25.0]
+
+--- Stage 4a: Regularized LM on Core ---
+theta_init = [-2.1867204536838574, -2.9164425593264776, -2.7585005871242427, 0.536841, 0.521603, 0.52503, 1.004517, 0.5, 1.0]
+[LM] iter   0   loss=1.0749e+04   λ=1.00e-02   nfail=0
+[LM] iter   1   loss=7.2028e+03   λ=5.00e-03   nfail=0   accept (Δ_rel=3.30e-01)
+[LM] iter   2   active bounds: 7
+[LM] iter   2   loss=6.0842e+03   λ=2.50e-03   nfail=0   accept (Δ_rel=1.55e-01)
+[LM] iter   3   active bounds: 7
+[LM] iter   3   loss=5.9832e+03   λ=1.25e-03   nfail=0   accept (Δ_rel=1.66e-02)
+[LM] iter   4   active bounds: 7
+[LM] iter   4   loss=5.9832e+03   λ=5.00e-03   nfail=0   reject
+[LM] iter   5   active bounds: 7
+[LM] iter   5   loss=5.9832e+03   λ=2.00e-02   nfail=0   reject
+[LM] iter   6   active bounds: 7
+[LM] iter   6   loss=5.9832e+03   λ=8.00e-02   nfail=0   reject
+[LM] iter   7   active bounds: 7
+[LM] iter   7   loss=5.9832e+03   λ=3.20e-01   nfail=0   reject
+[LM] iter   8   active bounds: 7
+[LM] iter   8   loss=5.9832e+03   λ=1.28e+00   nfail=0   reject
+[LM] iter   9   active bounds: 7
+[LM] iter   9   loss=5.9832e+03   λ=5.12e+00   nfail=0   reject
+[LM] iter  10   active bounds: 7
+[LM] iter  10   loss=5.9677e+03   λ=2.56e+00   nfail=0   accept (Δ_rel=2.60e-03)
+
+[LM] done.  Converged: relative loss drop < tol_rel
+
+Fitted parameters:
+  j0_ADN = 7.146e-03 A/m²        αc = 0.584        n = 1.000  @LB
+  j0_PN  = 2.184e-04 A/m²        αc = 0.672        n = 1.750    
+  j0_TCH = 6.910e-04 A/m²        αc = 0.632        n = 1.325    
+Core RMSE (data only) — FE_ADN: 9.03 pp,  FE_PN: 5.43 pp,  FE_TCH: 3.51 pp
+
+--- Stage 4b: forward apply to Extended + Holdout ---
+Extended RMSE — FE_ADN: 10.70 pp,  FE_PN: 6.13 pp,  FE_TCH: 3.42 pp
+Holdout  RMSE — FE_ADN: 29.83 pp,  FE_PN: 10.38 pp,  FE_TCH: 8.86 pp
+
+--- Decision gates ---
+  [FAIL] Core FE_ADN RMSE                9.03 pp  (< 8 pp)
+  [FAIL] Core FE_PN RMSE                 5.43 pp  (< 5 pp)
+  [PASS] Core FE_TCH RMSE                3.51 pp  (< 4 pp)
+  [PASS] Extended FE_ADN RMSE            10.70 pp  (< 12 pp)
+  [FAIL] Holdout FE_ADN RMSE             29.83 pp  (< 15 pp)
+
+  All gates passed: false
+========================================================================

@@ -1,0 +1,12 @@
+# Sequential decoupled fit — 2026-04-30T11:00:05.724
+j0_ADN      = 1.000000e-01
+j0_PN       = 1.476731e-03
+j0_HER      = 2.666000e-05  # frozen
+j0_TCH      = 3.945247e-03
+alpha_c_ADN = 0.409180
+alpha_c_PN  = 0.500508
+alpha_c_HER = 0.390000  # frozen
+alpha_c_TCH = 0.490955
+n_ADN       = 0.500000
+n_PN        = 0.500000
+n_TCH       = 1.000000

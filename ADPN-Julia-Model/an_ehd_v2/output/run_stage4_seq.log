@@ -1,0 +1,150 @@
+========================================================================
+ Stage 4-seq — Sequential decoupled fit (Bloomquist §S1.11)
+ 2026-04-29T10:15:03.029
+========================================================================
+Loaded 162 rows
+Core=48  Extended=90  Holdout=45
+
+Context built: 6 meshes, 48 warm starts
+
+
+[diag] Pre-solving core rows at THETA0 (populating sol_cache)...
+[diag] THETA0 pre-solve: nfail=25 / 48  loss=7.5047e+07  sol_cache=23 entries
+
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 1 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[ADN] iter  0  loss=2.5043e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.663433461700834; Newton failed at V_next=-1.6634555566451241
+[ADN] iter  1  loss=2.5043e+07  λ=4.00e-02  nfail=25  REJECT
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.664270418758144; Newton failed at V_next=-1.6642925137024343
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6633457833504761; Newton failed at V_next=-1.6633678782947663
+[ADN] iter  2  loss=2.5003e+07  λ=2.00e-02  nfail=25  ACCEPT Δrel=1.604e-03
+         theta=[-2.4918, 0.5601, 1.2807]  → j0=3.222e-03  ac=0.560  n=1.281
+[ADN] done: j0=3.222e-03      α=0.560      n=1.281      RMSE=721.73 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6633457833504761; Newton failed at V_next=-1.6633678782947663
+[PN] iter  0  loss=2.5001e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6633457833504761; Newton failed at V_next=-1.6633678782947663
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6633457833504761; Newton failed at V_next=-1.6633678782947663
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6633457833504761; Newton failed at V_next=-1.6633678782947663
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6626250113787804; Newton failed at V_next=-1.662653132216968
+[PN] iter  1  loss=2.5000e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=1.301e-05
+         theta=[-2.9181, 0.5152, 0.5000]  → j0=1.207e-03  ac=0.515  n=0.500
+[PN]  done: j0=1.207e-03      α=0.515      n=0.500 @LB  RMSE=721.69 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6626250113787804; Newton failed at V_next=-1.662653132216968
+[TCH] iter  0  loss=2.5002e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6626250113787804; Newton failed at V_next=-1.662653132216968
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6626250113787804; Newton failed at V_next=-1.662653132216968
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6626250113787804; Newton failed at V_next=-1.662653132216968
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6197220332831588; Newton failed at V_next=-1.619744128227449
+[TCH] iter  1  loss=2.5001e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=3.479e-05
+         theta=[-2.6204, 0.5210, 1.0000]  → j0=2.396e-03  ac=0.521  n=1.000
+[TCH] done: j0=2.396e-03      α=0.521      n=1.000 @LB  RMSE=721.70 pp
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 2 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6197220332831588; Newton failed at V_next=-1.619744128227449
+[ADN] iter  0  loss=2.5003e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6197220332831588; Newton failed at V_next=-1.619744128227449
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6197220332831588; Newton failed at V_next=-1.619744128227449
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6197220332831588; Newton failed at V_next=-1.619744128227449
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6188724186252972; Newton failed at V_next=-1.6188882007283616
+[ADN] iter  1  loss=2.5002e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=3.248e-05
+         theta=[-2.2629, 0.5458, 1.2375]  → j0=5.459e-03  ac=0.546  n=1.237
+[ADN] done: j0=5.459e-03      α=0.546      n=1.237      RMSE=721.72 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6188724186252972; Newton failed at V_next=-1.6188882007283616
+[PN] iter  0  loss=2.5000e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6188724186252972; Newton failed at V_next=-1.6188882007283616
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6188724186252972; Newton failed at V_next=-1.6188882007283616
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6188724186252972; Newton failed at V_next=-1.6188882007283616
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6180094106165652; Newton failed at V_next=-1.6180375314547528
+[PN] iter  1  loss=2.5000e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=1.832e-06
+         theta=[-2.8881, 0.5222, 0.6245]  → j0=1.294e-03  ac=0.522  n=0.625
+[PN]  done: j0=1.294e-03      α=0.522      n=0.625      RMSE=721.69 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6180094106165652; Newton failed at V_next=-1.6180375314547528
+[TCH] iter  0  loss=2.5000e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6180094106165652; Newton failed at V_next=-1.6180375314547528
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6180094106165652; Newton failed at V_next=-1.6180375314547528
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6180094106165652; Newton failed at V_next=-1.6180375314547528
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282194157702248; Newton failed at V_next=-1.628230688700985
+[TCH] iter  1  loss=2.5000e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=7.088e-06
+         theta=[-2.6637, 0.5145, 1.0000]  → j0=2.169e-03  ac=0.514  n=1.000
+[TCH] done: j0=2.169e-03      α=0.514      n=1.000 @LB  RMSE=721.69 pp
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 3 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282194157702248; Newton failed at V_next=-1.628230688700985
+[ADN] iter  0  loss=2.5002e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282194157702248; Newton failed at V_next=-1.628230688700985
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282194157702248; Newton failed at V_next=-1.628230688700985
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282194157702248; Newton failed at V_next=-1.628230688700985
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.628254350778628; Newton failed at V_next=-1.6282811910899622
+[ADN] iter  1  loss=2.5002e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=1.592e-05
+         theta=[-2.1867, 0.5368, 1.0045]  → j0=6.505e-03  ac=0.537  n=1.005
+[ADN] done: j0=6.505e-03      α=0.537      n=1.005      RMSE=721.71 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.628254350778628; Newton failed at V_next=-1.6282811910899622
+[PN] iter  0  loss=2.5000e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.628254350778628; Newton failed at V_next=-1.6282811910899622
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.628254350778628; Newton failed at V_next=-1.6282811910899622
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.628254350778628; Newton failed at V_next=-1.6282811910899622
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6286814258269786; Newton failed at V_next=-1.6287082661383128
+[PN] iter  1  loss=2.5000e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=2.665e-07
+         theta=[-2.9164, 0.5216, 0.5000]  → j0=1.212e-03  ac=0.522  n=0.500
+[PN]  done: j0=1.212e-03      α=0.522      n=0.500 @LB  RMSE=721.69 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6286814258269786; Newton failed at V_next=-1.6287082661383128
+[TCH] iter  0  loss=2.5000e+07  λ=1.00e-02  nfail=25
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6286814258269786; Newton failed at V_next=-1.6287082661383128
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6282811910899622; Newton failed at V_next=-1.6282924640207224
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6286814258269786; Newton failed at V_next=-1.6287082661383128
+[seq_residuals! FAIL] row=57  note: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+[TCH] iter  1  loss=2.5000e+07  λ=5.00e-03  nfail=25  ACCEPT Δrel=1.739e-07
+         theta=[-2.7585, 0.5250, 1.0000]  → j0=1.744e-03  ac=0.525  n=1.000
+[TCH] done: j0=1.744e-03      α=0.525      n=1.000 @LB  RMSE=721.69 pp
+
+========================================================================
+ Forward apply to Extended + Holdout
+========================================================================
+
+Final RMSE (joint model eval — no fixed-j):
+  Core        ADN=5.87 pp  PN=2.94 pp  TCH=1.32 pp
+  Extended    ADN=6.15 pp  PN=3.17 pp  TCH=1.30 pp  nfail=47
+  Holdout     ADN=25.99 pp  PN=11.42 pp  TCH=6.21 pp  nfail=0
+
+--- Decision gates ---
+  [PASS] Core FE_ADN RMSE                            5.87 pp  (< 8 pp)
+  [PASS] Core FE_PN RMSE                             2.94 pp  (< 5 pp)
+  [PASS] Core FE_TCH RMSE                            1.32 pp  (< 4 pp)
+
+  All gates passed: true
+
+========================================================================
+ Done.  Results in C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\output\stage4_seq\data
+========================================================================
+[ Info: FitContext: loaded 48 warm-start states from C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\output\cache

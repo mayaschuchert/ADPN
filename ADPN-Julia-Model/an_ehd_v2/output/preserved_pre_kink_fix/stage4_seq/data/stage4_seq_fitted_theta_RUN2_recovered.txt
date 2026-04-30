@@ -1,0 +1,35 @@
+# Sequential decoupled fit — RECOVERED from output/stage4_seq/logs/stage4_seq.log
+#
+# Source: stage4_seq.log (Apr 29 02:30, before file was overwritten at 10:28).
+# Run 2 of two stage4_seq runs in that log; line 347 of the log gives the final
+# [TCH] iteration of the converged Gauss-Seidel pass before "Final RMSE" was
+# printed at line 353.  This run produced the parity plots in
+# output/preserved_pre_kink_fix/stage4_seq/plots/ and the species_profiles.png
+# at output/preserved_pre_kink_fix/figures/.
+#
+# These are the "pre-kink-fix params with interior n's" that the user
+# remembered; the existing stage4_seq_fitted_theta.txt was overwritten by a
+# later re-run that drove n_PN and n_TCH to lower bounds.
+#
+# Run 2 final params (log line 347):
+#   loss = 707.11 pp²    (sum of squared residuals across 3·48 channels)
+#   Bounds in effect: n ∈ [0.5, 3.0] for ADN/PN/TCH (stage4_seq.jl bounds)
+#   Decision gates ALL passed:
+#     Core FE_ADN RMSE = 5.27 pp  (< 8 pp)
+#     Core FE_PN  RMSE = 3.76 pp  (< 5 pp)
+#     Core FE_TCH RMSE = 2.91 pp  (< 4 pp)
+#   Extended ADN RMSE = 6.18 pp  (nfail=48 — many extended rows didn't solve)
+#   Holdout  ADN RMSE = 28.69 pp (nfail=1)
+#
+# Recovered: 2026-04-30
+j0_ADN      = 2.703e-3
+j0_PN       = 1.152e-3
+j0_HER      = 2.666e-5    # frozen
+j0_TCH      = 1.701e-3
+alpha_c_ADN = 0.567
+alpha_c_PN  = 0.507
+alpha_c_HER = 0.390       # frozen
+alpha_c_TCH = 0.519
+n_ADN       = 0.629
+n_PN        = 0.966
+n_TCH       = 1.826

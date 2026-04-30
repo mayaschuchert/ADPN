@@ -1,0 +1,20 @@
+# v7 Stage 4v3-cont — joint LM via galv-continuation solver
+# date: 2026-04-30T10:35:24.031
+# converged: true
+# loss: 5.917543e+03 (pp²)
+# iterations: 9
+# Core rows: 48
+# RMSE FE_ADN: 9.0721 pp
+# RMSE FE_PN:  5.4170 pp
+# RMSE FE_TCH: 3.4112 pp
+j0_ADN   = 7.327370e-03
+j0_PN    = 1.797996e-04
+j0_HER   = 2.666000e-05  # frozen
+j0_TCH   = 6.986402e-04
+alpha_c_ADN = 0.582233
+alpha_c_PN  = 0.681412
+alpha_c_HER = 0.390000  # frozen
+alpha_c_TCH = 0.630653
+n_ADN = 1.000000
+n_PN  = 1.779561
+n_TCH = 1.320528

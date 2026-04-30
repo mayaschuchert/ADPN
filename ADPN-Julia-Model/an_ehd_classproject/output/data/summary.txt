@@ -1,0 +1,14 @@
+# Summary — recovered Run-2 θ on post-kink-fix physics
+# date: 2026-04-30T12:03:06.311
+
+Set        ADN_RMSE    PN_RMSE    TCH_RMSE   nfail
+Core         8.16        4.94        6.24      0/48
+Extended     9.58        6.10        6.95      0/90
+Holdout     30.48       12.22        5.44      0/45
+
+Decision gates:
+  [FAIL] Core FE_ADN RMSE                8.16 pp  (< 8 pp)
+  [PASS] Core FE_PN RMSE                 4.94 pp  (< 5 pp)
+  [FAIL] Core FE_TCH RMSE                6.24 pp  (< 4 pp)
+  [PASS] Extended FE_ADN RMSE            9.58 pp  (< 12 pp)
+  [FAIL] Holdout FE_ADN RMSE             30.48 pp  (< 15 pp)

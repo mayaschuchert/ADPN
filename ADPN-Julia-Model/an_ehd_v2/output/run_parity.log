@@ -1,0 +1,144 @@
+Loading data...
+core=48  extended=90  holdout=45  total=162
+Fitted: j0=(6.505e-03, 1.212e-03, 2.666e-05, 1.744e-03)
+        ac=(0.537, 0.522, 0.390, 0.525)
+        n=(1.005, 0.500, 1.000)
+  row   2 (holdout)  V=-1.834  FE_ADN: obs=43.9 pred=64.3
+  row   3 (holdout)  V=-1.838  FE_ADN: obs=46.4 pred=64.0
+  row   4 (holdout)  V=-1.856  FE_ADN: obs=45.8 pred=62.4
+  row   5 (holdout)  V=-1.856  FE_ADN: obs=47.5 pred=64.4
+  row   6 (holdout)  V=-1.917  FE_ADN: obs=6.0 pred=47.4
+  row   7 (holdout)  V=-1.872  FE_ADN: obs=54.1 pred=64.1
+  row   8 (holdout)  V=-1.881  FE_ADN: obs=49.9 pred=63.4
+  row   9 (holdout)  V=-1.882  FE_ADN: obs=55.0 pred=64.2
+  row  11 (holdout)  V=-1.897  FE_ADN: obs=43.4 pred=63.0
+  row  12 (holdout)  V=-1.907  FE_ADN: obs=23.4 pred=61.7
+  row  13 (holdout)  V=-1.905  FE_ADN: obs=66.3 pred=63.1
+  row  14 (holdout)  V=-1.958  FE_ADN: obs=0.0 pred=47.3
+  row  15 (holdout)  V=-1.917  FE_ADN: obs=51.7 pred=61.9
+  row  16 (holdout)  V=-1.928  FE_ADN: obs=31.5 pred=60.1
+  row  18 (holdout)  V=-1.920  FE_ADN: obs=68.8 pred=62.1
+  row  20 (holdout)  V=-1.832  FE_ADN: obs=41.8 pred=64.7
+  row  21 (holdout)  V=-1.836  FE_ADN: obs=70.3 pred=64.7
+  row  22 (holdout)  V=-1.852  FE_ADN: obs=64.3 pred=63.6
+  row  23 (holdout)  V=-1.853  FE_ADN: obs=58.2 pred=65.2
+  row  24 (holdout)  V=-1.906  FE_ADN: obs=22.6 pred=52.0
+  row  25 (holdout)  V=-1.867  FE_ADN: obs=58.5 pred=65.2
+  row  26 (holdout)  V=-1.875  FE_ADN: obs=52.6 pred=64.9
+  row  27 (holdout)  V=-1.877  FE_ADN: obs=55.5 pred=65.5
+  row  29 (holdout)  V=-1.890  FE_ADN: obs=60.2 pred=65.0
+  row  30 (holdout)  V=-1.897  FE_ADN: obs=40.6 pred=64.4
+  row  31 (holdout)  V=-1.897  FE_ADN: obs=61.1 pred=65.2
+  row  32 (holdout)  V=-1.938  FE_ADN: obs=0.1 pred=55.2
+  row  33 (holdout)  V=-1.906  FE_ADN: obs=59.4 pred=64.7
+  row  34 (holdout)  V=-1.914  FE_ADN: obs=47.6 pred=63.8
+  row  36 (holdout)  V=-1.910  FE_ADN: obs=62.0 pred=64.9
+  row  38 (holdout)  V=-1.831  FE_ADN: obs=45.8 pred=64.9
+  row  39 (holdout)  V=-1.835  FE_ADN: obs=33.4 pred=64.9
+  row  40 (holdout)  V=-1.850  FE_ADN: obs=50.2 pred=63.9
+  row  41 (holdout)  V=-1.852  FE_ADN: obs=40.4 pred=65.5
+  row  42 (holdout)  V=-1.902  FE_ADN: obs=20.9 pred=53.5
+  row  43 (holdout)  V=-1.866  FE_ADN: obs=25.8 pred=65.6
+  row  44 (holdout)  V=-1.873  FE_ADN: obs=36.5 pred=65.4
+  row  45 (holdout)  V=-1.875  FE_ADN: obs=38.0 pred=65.9
+  row  47 (holdout)  V=-1.887  FE_ADN: obs=23.2 pred=65.6
+  row  48 (holdout)  V=-1.893  FE_ADN: obs=28.8 pred=65.1
+  row  49 (holdout)  V=-1.894  FE_ADN: obs=34.9 pred=65.8
+  row  50 (holdout)  V=-1.931  FE_ADN: obs=20.2 pred=57.5
+  row  51 (holdout)  V=-1.903  FE_ADN: obs=21.9 pred=65.5
+  row  52 (holdout)  V=-1.909  FE_ADN: obs=19.7 pred=64.9
+  row  54 (holdout)  V=-1.906  FE_ADN: obs=45.4 pred=65.7
+  row  56 (core)  V=-1.837  FE_ADN: obs=51.0 pred=63.3
+  row  57 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row  58 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6360457451877592; Newton failed at V_next=-1.636059439224154
+  row  59 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.55416722594048; Newton failed at V_next=-1.5541968667118975
+  row  60 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.67020855586395; Newton failed at V_next=-1.670218803982823
+  row  61 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row  62 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6328622360206355; Newton failed at V_next=-1.632879664794229
+  row  63 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.630222333736784; Newton failed at V_next=-1.6302406323762817
+  row  65 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6306035323298569; Newton failed at V_next=-1.630615857956154
+  row  66 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row  67 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6303458626468161; Newton failed at V_next=-1.6303691518243586
+  row  68 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6498073213814002; Newton failed at V_next=-1.6498341616927343
+  row  69 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.630222333736784; Newton failed at V_next=-1.6302406323762817
+  row  70 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row  72 (extended)  V=-1.943  FE_ADN: obs=73.1 pred=54.8
+  row  74 (core)  V=-1.834  FE_ADN: obs=60.4 pred=64.1
+  row  75 (core)  V=-1.839  FE_ADN: obs=61.0 pred=63.9
+  row  76 (core)  V=-1.857  FE_ADN: obs=65.1 pred=62.1
+  row  77 (core)  V=-1.857  FE_ADN: obs=58.8 pred=64.2
+  row  78 (core)  V=-1.920  FE_ADN: obs=65.8 pred=46.1
+  row  79 (core)  V=-1.873  FE_ADN: obs=58.4 pred=63.8
+  row  80 (core)  V=-1.882  FE_ADN: obs=63.1 pred=63.0
+  row  81 (core)  V=-1.884  FE_ADN: obs=62.0 pred=63.8
+  row  83 (extended)  V=-1.900  FE_ADN: obs=60.9 pred=62.4
+  row  84 (extended)  V=-1.910  FE_ADN: obs=65.0 pred=60.9
+  row  85 (extended)  V=-1.908  FE_ADN: obs=66.3 pred=62.4
+  row  86 (extended)  V=-1.963  FE_ADN: obs=62.1 pred=45.0
+  row  87 (extended)  V=-1.920  FE_ADN: obs=65.3 pred=61.0
+  row  88 (extended)  V=-1.931  FE_ADN: obs=69.2 pred=58.9
+  row  90 (extended)  V=-1.923  FE_ADN: obs=63.4 pred=61.3
+  row  92 (core)  V=-1.833  FE_ADN: obs=68.1 pred=64.4
+  row  93 (core)  V=-1.838  FE_ADN: obs=65.5 pred=64.2
+  row  94 (core)  V=-1.855  FE_ADN: obs=74.7 pred=62.8
+  row  95 (core)  V=-1.855  FE_ADN: obs=58.6 pred=64.6
+  row  96 (core)  V=-1.913  FE_ADN: obs=53.6 pred=48.8
+  row  97 (core)  V=-1.870  FE_ADN: obs=47.3 pred=64.4
+  row  98 (core)  V=-1.879  FE_ADN: obs=56.6 pred=63.9
+  row  99 (core)  V=-1.881  FE_ADN: obs=61.6 pred=64.6
+  row 101 (extended)  V=-1.895  FE_ADN: obs=48.9 pred=63.6
+  row 102 (extended)  V=-1.904  FE_ADN: obs=50.4 pred=62.6
+  row 103 (extended)  V=-1.903  FE_ADN: obs=65.8 pred=63.7
+  row 104 (extended)  V=-1.952  FE_ADN: obs=47.1 pred=49.7
+  row 105 (extended)  V=-1.914  FE_ADN: obs=49.9 pred=62.8
+  row 106 (extended)  V=-1.923  FE_ADN: obs=49.4 pred=61.3
+  row 108 (extended)  V=-1.917  FE_ADN: obs=63.8 pred=63.0
+  row 110 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 111 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6304079671202625; Newton failed at V_next=-1.6304405719688218
+  row 112 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6338689300221438; Newton failed at V_next=-1.6338985707935614
+  row 113 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6328622360206355; Newton failed at V_next=-1.632879664794229
+  row 114 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6702182754022397; Newton failed at V_next=-1.670230724526235
+  row 115 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6328622360206355; Newton failed at V_next=-1.632879664794229
+  row 116 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 117 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 119 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 120 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6300610939203586; Newton failed at V_next=-1.6300936987689179
+  row 121 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.629982951350197; Newton failed at V_next=-1.6300003801237906
+  row 122 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6498073213814002; Newton failed at V_next=-1.6498341616927343
+  row 123 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 124 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 126 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 128 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6327364564968019; Newton failed at V_next=-1.632756542809793
+  row 129 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 130 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6360457451877592; Newton failed at V_next=-1.636059439224154
+  row 131 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6303458626468161; Newton failed at V_next=-1.6303691518243586
+  row 132 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.67020855586395; Newton failed at V_next=-1.670218803982823
+  row 133 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 134 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6303458626468161; Newton failed at V_next=-1.6303691518243586
+  row 135 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 137 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6303458626468161; Newton failed at V_next=-1.6303691518243586
+  row 138 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.636223306784; Newton failed at V_next=-1.636244478763584
+  row 139 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 140 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.650551363546409; Newton failed at V_next=-1.6505671456494735
+  row 141 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302618983845019; Newton failed at V_next=-1.6302755924208967
+  row 142 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6302292935359426; Newton failed at V_next=-1.6302618983845019
+  row 144 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6327364564968019; Newton failed at V_next=-1.632756542809793
+  row 146 (core)  V=-1.836  FE_ADN: obs=52.7 pred=63.6
+  row 147 (core)  V=-1.842  FE_ADN: obs=71.6 pred=63.1
+  row 148 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6360457451877592; Newton failed at V_next=-1.636059439224154
+  row 149 (core)  V=-1.860  FE_ADN: obs=60.9 pred=63.2
+  row 150 (core)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.670059220532187; Newton failed at V_next=-1.6700735678986092
+  row 151 (core)  V=-1.879  FE_ADN: obs=60.2 pred=62.3
+  row 152 (core)  V=-1.890  FE_ADN: obs=76.7 pred=61.0
+  row 153 (core)  V=-1.890  FE_ADN: obs=60.1 pred=62.2
+  row 155 (extended)  V=-1.909  FE_ADN: obs=64.9 pred=59.7
+  row 156 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.63032922752; Newton failed at V_next=-1.6303458626468161
+  row 157 (extended)  V=-1.918  FE_ADN: obs=58.5 pred=59.5
+  row 158 (extended)  FAIL: Walk shrunk below ds_min=1.0e-5 at V≈-1.6498073213814002; Newton failed at V_next=-1.6498341616927343
+  row 159 (extended)  V=-1.933  FE_ADN: obs=61.9 pred=57.0
+  row 160 (extended)  V=-1.947  FE_ADN: obs=67.6 pred=53.4
+  row 162 (extended)  V=-1.936  FE_ADN: obs=61.8 pred=57.3
+[ Info: FitContext: loaded 126 warm-start states from C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\output\cache
+
+Done: 135 rows  nfail=47
+Saved: C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\output\stage4_seq\data\stage4seq_parity.csv

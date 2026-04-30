@@ -1,17 +1,16 @@
 # -----------------------------------------------------------------------------
-# analyze_stage4.jl — post-fit diagnostic.
+# analyze_stage4.jl — post-fit diagnostic for Stage 4v3 (v7).
 #
-# Reads the fitted kinetics from output/stage4/data/stage4a_fitted_theta.txt,
-# re-runs the model at each Bloomquist row, and emits an enriched residual
-# CSV with the back-derived experimental V_cell:
+# Reads the fitted kinetics from output/stage4v3/data/stage4a_fitted_theta.txt,
+# re-runs the model at EVERY Bloomquist row (including excluded), and emits an
+# enriched residual CSV with the back-derived experimental V_cell:
 #
 #     V_cell_obs = PR_ADN [kg/cm²/h]  /  (EP_ADN [kg/kWh] · j [A/cm²])
 #
 # alongside the model's V_cell_pred = V_CE + |V_cathode| + j · R_series.
-# Useful for evaluating whether the frozen v6 defaults V_CE = 1.7 V and
-# R_contact = 1e-4 Ω·m² are reasonable, and as a v7 input for fitting them.
+# Also includes FE_TCH parity (new in v7).
 #
-# Run AFTER run_stage4.jl has produced stage4a_fitted_theta.txt.
+# Run AFTER run_stage4v3.jl has produced stage4a_fitted_theta.txt.
 # -----------------------------------------------------------------------------
 using Printf
 using Dates
@@ -19,11 +18,12 @@ using DelimitedFiles
 
 include(joinpath(@__DIR__, "ADPN_EHD.jl"))
 using .ADPN_EHD
+using .ADPN_EHD.FitKinetics
 
-const DATA_FILE      = joinpath(@__DIR__, "Experimental_data", "bloomquist_data.csv")
-const STAGE4_DIR     = joinpath(@__DIR__, "output", "stage4", "data")
+const DATA_FILE      = joinpath(@__DIR__, "..", "Experimental_data", "bloomquist_data.csv")
+const STAGE4_DIR     = joinpath(@__DIR__, "output", "stage4v3", "data")
 const FITTED_THETA   = joinpath(STAGE4_DIR, "stage4a_fitted_theta.txt")
-const OUT_CSV        = joinpath(STAGE4_DIR, "stage4_diagnostic.csv")
+const OUT_CSV        = joinpath(STAGE4_DIR, "stage4v3_diagnostic.csv")
 
 # ---------- Reuse the loader from run_stage4.jl by inlining ----------
 function load_bloomquist(path::String)
@@ -53,18 +53,24 @@ function load_bloomquist(path::String)
     return rows
 end
 
-# Parse `key = value` lines from stage4a_fitted_theta.txt
+# Parse `key = value` lines from stage4a_fitted_theta.txt (v7 9-key format).
+# Returns j0::NTuple{4}, ac::NTuple{4}, n::NTuple{3}.
 function load_fitted_theta(path::String)
     vals = Dict{String,Float64}()
     for line in eachline(path)
-        startswith(strip(line), "#") && continue
-        m = match(r"^\s*(\w+)\s*=\s*([\d\-\+\.eE]+)", line)
+        stripped = strip(line)
+        startswith(stripped, "#") && continue
+        # Strip inline comment before parsing
+        no_comment = split(stripped, "#")[1]
+        m = match(r"^\s*([\w]+)\s*=\s*([\d\-\+\.eE]+)", no_comment)
         m === nothing && continue
         vals[m.captures[1]] = parse(Float64, m.captures[2])
     end
-    j0 = (vals["j0_1"], vals["j0_2"], vals["j0_3"])
-    ac = (vals["alpha_c1"], vals["alpha_c2"], vals["alpha_c3"])
-    return j0, ac
+    j0 = (vals["j0_ADN"], vals["j0_PN"], vals["j0_HER"], vals["j0_TCH"])
+    ac = (vals["alpha_c_ADN"], vals["alpha_c_PN"],
+          vals["alpha_c_HER"], vals["alpha_c_TCH"])
+    n  = (vals["n_ADN"], vals["n_PN"], vals["n_TCH"])
+    return j0, ac, n
 end
 
 # Back-derive V_cell [V] from EP/PR/j (NaN where degenerate).
@@ -105,14 +111,16 @@ end
 
 function main()
     println("=" ^ 72)
-    println(" Post-fit V_cell diagnostic — ", now())
+    println(" analyze_stage4.jl — Stage 4v3 V_cell + FE_TCH diagnostic (v7)")
+    println(" $(now())")
     println("=" ^ 72)
 
-    j0, ac = load_fitted_theta(FITTED_THETA)
+    j0, ac, n_ord = load_fitted_theta(FITTED_THETA)
     @printf("Loaded fitted kinetics from %s\n", basename(FITTED_THETA))
-    @printf("  j0_1 = %.3e A/m²    α_c1 = %.3f\n", j0[1], ac[1])
-    @printf("  j0_2 = %.3e A/m²    α_c2 = %.3f\n", j0[2], ac[2])
-    @printf("  j0_3 = %.3e A/m²    α_c3 = %.3f\n", j0[3], ac[3])
+    @printf("  j0_ADN = %.3e A/m²  ac_ADN = %.3f  n_ADN = %.3f\n", j0[1], ac[1], n_ord[1])
+    @printf("  j0_PN  = %.3e A/m²  ac_PN  = %.3f  n_PN  = %.3f\n", j0[2], ac[2], n_ord[2])
+    @printf("  j0_HER = %.3e A/m²  ac_HER = %.3f  (frozen)\n",     j0[3], ac[3])
+    @printf("  j0_TCH = %.3e A/m²  ac_TCH = %.3f  n_TCH = %.3f\n", j0[4], ac[4], n_ord[3])
 
     rows = load_bloomquist(DATA_FILE)
     @printf("Loaded %d rows from %s\n", length(rows), basename(DATA_FILE))
@@ -128,12 +136,15 @@ function main()
         println(io, "table,subset,gap_mm,Q_total_mL_min,j_mA_cm2,phi_AN," *
                     "FE_ADN_obs,FE_ADN_model,FE_ADN_resid_pp," *
                     "FE_PN_obs,FE_PN_model,FE_PN_resid_pp," *
+                    "FE_TCH_obs,FE_TCH_model,FE_TCH_resid_pp," *
                     "V_cathode_SHE_V,V_cell_obs_V,V_cell_pred_V,V_cell_resid_V," *
                     "delta_lev_um,kappa_eff_S_per_m,R_series_Ohm_m2," *
                     "converged,note")
 
         sums = Dict("Core"=>Float64[], "Extended-only"=>Float64[],
                     "Holdout"=>Float64[], "Excluded"=>Float64[])
+        tch_resids = Dict("Core"=>Float64[], "Extended-only"=>Float64[],
+                          "Holdout"=>Float64[], "Excluded"=>Float64[])
         nrows_processed = 0
 
         for (idx, r) in pairs(ctx.rows)
@@ -155,7 +166,8 @@ function main()
 
             res = solve_at_j(r.j_target_A_m2, r.phi_AN, r.delta_lev_m,
                              mesh, u_warm, c_eq;
-                             j0 = j0, alpha_c = ac, verbose = false)
+                             j0 = j0, alpha_c = ac, n_orders = n_ord,
+                             verbose = false)
 
             if res.converged
                 ctx.warm_by_key[wkey] = res.state
@@ -172,14 +184,19 @@ function main()
 
             d_adn = res.converged ? res.FE_ADN_pct - r.FE_ADN_pct : NaN
             d_pn  = res.converged ? res.FE_PN_pct  - r.FE_PN_pct  : NaN
+            d_tch = res.converged ? res.FE_TCH_pct - r.FE_TCH_pct : NaN
 
             @printf(io,
-                "%s,%s,%.2f,%.0f,%.0f,%.4f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.2f,%.3f,%.4e,%s,%s\n",
+                "%s,%s,%.2f,%.0f,%.0f,%.4f," *
+                "%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f," *
+                "%.4f,%.4f,%.4f,%.4f,%.2f,%.3f,%.4e,%s,%s\n",
                 r.table, tag, r.gap_mm, r.Q_total_mL_min, r.j_mA_cm2, r.phi_AN,
                 r.FE_ADN_pct,
                 res.converged ? res.FE_ADN_pct : NaN, d_adn,
                 r.FE_PN_pct,
                 res.converged ? res.FE_PN_pct : NaN, d_pn,
+                r.FE_TCH_pct,
+                res.converged ? res.FE_TCH_pct : NaN, d_tch,
                 res.converged ? res.V_cathode : NaN,
                 v_obs, v_pred, v_resid,
                 r.delta_lev_m * 1e6, κeff, r.R_series_Ohm_m2,
@@ -187,6 +204,9 @@ function main()
 
             if isfinite(v_resid)
                 push!(sums[tag], v_resid)
+            end
+            if isfinite(d_tch)
+                push!(tch_resids[tag], d_tch)
             end
             nrows_processed += 1
             if nrows_processed % 20 == 0
@@ -196,6 +216,7 @@ function main()
         end
 
         println()
+        println("V_cell residual summary (model − obs):")
         for (tag, name) in [("Core","Core"),("Extended-only","Extended-only"),
                             ("Holdout","Holdout"),("Excluded","Excluded")]
             arr = sums[tag]
@@ -207,8 +228,18 @@ function main()
             med  = sort(arr)[(n + 1) ÷ 2]
             mae  = sum(abs, arr) / n
             bias = sum(arr) / n
-            @printf("  %-15s :  n=%3d   median(resid)=%+.3f V   MAE=%.3f V   bias=%+.3f V\n",
+            @printf("  %-15s :  n=%3d   median=%+.3f V   MAE=%.3f V   bias=%+.3f V\n",
                     name, n, med, mae, bias)
+        end
+        println()
+        println("FE_TCH RMSE summary (model − obs):")
+        for (tag, name) in [("Core","Core"),("Extended-only","Extended-only"),
+                            ("Holdout","Holdout"),("Excluded","Excluded")]
+            arr = tch_resids[tag]
+            n   = length(arr)
+            n == 0 && continue
+            rmse_tch = sqrt(sum(x^2 for x in arr) / n)
+            @printf("  %-15s :  n=%3d   RMSE=%.2f pp\n", name, n, rmse_tch)
         end
     end
     @printf("\nWrote %s\n", OUT_CSV)

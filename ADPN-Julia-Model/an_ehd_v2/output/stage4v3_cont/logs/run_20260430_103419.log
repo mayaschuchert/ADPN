@@ -1,0 +1,61 @@
+┌ Info: Solver backend set to
+└   FitKinetics.SOLVER_BACKEND[] = :cont
+========================================================================
+ Stage 4v3-cont — v3 joint LM driven by galv-continuation solver
+ 2026-04-30T10:34:29.491
+========================================================================
+Loaded 162 rows from C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\..\Experimental_data\bloomquist_data.csv
+Core      :  48 rows
+Extended  :  90 rows
+Holdout   :  45 rows
+
+Fit dimension: N_THETA = 9
+Frozen HER: j0_3 = 2.666e-05 A/m²  alpha_c3 = 0.390
+LB: [-6.0, -6.0, -6.0, 0.3, 0.3, 0.3, 1.0, 0.5, 1.0]
+UB: [-1.0, -1.0, -1.0, 0.7, 0.7, 0.7, 3.0, 2.0, 3.0]
+Solver backend: cont
+
+--- Stage 4a: LM fit on Core ---
+Pre-cached 6 unique-δ meshes, 0 warm-start states
+theta_init: [-2.1867204536838574, -2.9164425593264776, -2.7585005871242427, 0.536841, 0.521603, 0.52503, 1.004517, 0.5, 1.0]
+[LM] iter   0   loss=1.0749e+04   λ=1.00e-02   nfail=0
+[LM] iter   1   loss=7.1156e+03   λ=5.00e-03   nfail=0   accept (Δ_rel=3.38e-01)
+[LM] iter   2   active bounds: 7
+[LM] iter   2   loss=6.0405e+03   λ=2.50e-03   nfail=0   accept (Δ_rel=1.51e-01)
+[LM] iter   3   active bounds: 7
+[LM] iter   3   loss=5.9216e+03   λ=1.25e-03   nfail=0   accept (Δ_rel=1.97e-02)
+[LM] iter   4   active bounds: 7
+[LM] iter   4   loss=5.9216e+03   λ=5.00e-03   nfail=0   reject
+[LM] iter   5   active bounds: 7
+[LM] iter   5   loss=5.9216e+03   λ=2.00e-02   nfail=0   reject
+[LM] iter   6   active bounds: 7
+[LM] iter   6   loss=5.9216e+03   λ=8.00e-02   nfail=0   reject
+[LM] iter   7   active bounds: 7
+[LM] iter   7   loss=5.9216e+03   λ=3.20e-01   nfail=0   reject
+[LM] iter   8   active bounds: 7
+[LM] iter   8   loss=5.9216e+03   λ=1.28e+00   nfail=0   reject
+[LM] iter   9   active bounds: 7
+[LM] iter   9   loss=5.9175e+03   λ=6.40e-01   nfail=0   accept (Δ_rel=6.91e-04)
+
+[LM] done.  Converged: relative loss drop < tol_rel
+
+Fitted parameters:
+  j0_ADN = 7.327e-03 A/m²        ac_ADN = 0.582        n_ADN = 1.000  @LB
+  j0_PN  = 1.798e-04 A/m²        ac_PN  = 0.681        n_PN  = 1.780    
+  j0_TCH = 6.986e-04 A/m²        ac_TCH = 0.631        n_TCH = 1.321    
+  j0_HER = 2.666e-05 A/m²  (frozen)    ac_HER = 0.390  (frozen)
+Core RMSE — FE_ADN: 9.07 pp,  FE_PN: 5.42 pp,  FE_TCH: 3.41 pp
+
+--- Stage 4b: forward apply Stage 4a θ to Extended + Holdout ---
+Extended RMSE — FE_ADN: 10.73 pp,  FE_PN: 6.14 pp,  FE_TCH: 3.33 pp
+Holdout  RMSE — FE_ADN: 29.97 pp,  FE_PN: 10.38 pp,  FE_TCH: 8.66 pp
+
+--- Decision gates ---
+  [FAIL] Core FE_ADN RMSE                            9.07 pp  (threshold < 8 pp)
+  [FAIL] Core FE_PN RMSE                             5.42 pp  (threshold < 5 pp)
+  [PASS] Core FE_TCH RMSE                            3.41 pp  (threshold < 4 pp)
+  [PASS] Extended FE_ADN RMSE                        10.73 pp  (threshold < 12 pp)
+  [FAIL] Holdout FE_ADN RMSE                         29.97 pp  (threshold < 15 pp)
+
+  All gates passed: false
+========================================================================

@@ -1,0 +1,21 @@
+outer,branch,loss_log10j2,iter,note
+1,HER,2.143459e+01,1,converged: rel drop < tol
+1,ADN,1.504642e-01,5,converged: rel drop < tol
+1,PN,3.712006e+00,2,converged: rel drop < tol
+1,TCH,2.480580e-01,8,converged: rel drop < tol
+2,HER,2.068308e+01,1,converged: rel drop < tol
+2,ADN,3.684374e-01,6,converged: rel drop < tol
+2,PN,3.688861e+00,2,converged: rel drop < tol
+2,TCH,2.694244e-01,14,λ > 100000.0 — stuck
+3,HER,2.056123e+01,1,converged: rel drop < tol
+3,ADN,3.797028e-01,14,λ > 100000.0 — stuck
+3,PN,3.683608e+00,2,converged: rel drop < tol
+3,TCH,2.677153e-01,6,converged: rel drop < tol
+4,HER,2.051720e+01,1,converged: rel drop < tol
+4,ADN,3.782207e-01,6,converged: rel drop < tol
+4,PN,3.678164e+00,2,converged: rel drop < tol
+4,TCH,2.653222e-01,5,converged: rel drop < tol
+5,HER,2.047989e+01,1,converged: rel drop < tol
+5,ADN,3.749102e-01,6,converged: rel drop < tol
+5,PN,3.672911e+00,2,converged: rel drop < tol
+5,TCH,2.631302e-01,5,converged: rel drop < tol

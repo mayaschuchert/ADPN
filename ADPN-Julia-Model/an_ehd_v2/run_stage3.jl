@@ -23,7 +23,7 @@ include(joinpath(@__DIR__, "ADPN_EHD.jl"))
 using .ADPN_EHD
 using .ADPN_EHD.Solver: newton_solve!
 
-const DATA_FILE = joinpath(@__DIR__, "Experimental_data", "bloomquist_data.csv")
+const DATA_FILE = joinpath(@__DIR__, "..", "Experimental_data", "bloomquist_data.csv")
 const CACHE_DIR = joinpath(@__DIR__, "output", "cache")
 const STAGE3_DIR = joinpath(@__DIR__, "output", "stage3")
 const STAGE3_DATA = joinpath(STAGE3_DIR, "data")
@@ -130,7 +130,7 @@ function build_warmstart(gap_mm::Float64, Q_total_mL::Float64, eps_org::Float64,
     # bootstrap! converges at V_BOOT = V_WARM with α_buf = α_kin = 1.
     # Verify the final state is at the expected V.
     res! = (F, x) -> full_residual!(F, x, mesh, eps_org, V_WARM, 1.0, 1.0, c_eq)
-    F0 = zeros(9 * N_MESH)
+    F0 = zeros(10 * N_MESH)
     res!(F0, u)
     normF = maximum(abs.(F0))
 

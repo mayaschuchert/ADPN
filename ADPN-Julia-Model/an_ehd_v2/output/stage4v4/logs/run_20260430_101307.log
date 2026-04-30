@@ -1,0 +1,187 @@
+========================================================================
+ Stage 4v4 — Lees S1.11 sequential fit + galv-continuation solver
+ 2026-04-30T10:13:17.766
+========================================================================
+Loaded 162 rows from C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\..\Experimental_data\bloomquist_data.csv
+Core      :  48 rows
+Extended  :  90 rows
+Holdout   :  45 rows
+
+--- Stage 4a: Sequential S1.11 fit on Core ---
+Pre-cached 6 unique-δ meshes
+[ Info: ===== Outer iteration 1 / 2 =====
+┌ Info: Sub-fit: HER
+│   seed =
+│    2-element Vector{Float64}:
+│     -4.5741398549221595
+└      0.39
+[LM-HER] iter   0   loss=4.1604e+01   λ=1.00e-02   nfail=0/48
+[LM-HER] iter   1   loss=2.5304e+01   λ=5.00e-03   nfail=0   accept (Δ_rel=3.92e-01)
+[LM-HER] iter   2   loss=2.0601e+01   λ=2.50e-03   nfail=0   accept (Δ_rel=1.86e-01)
+[LM-HER] iter   3   loss=2.0033e+01   λ=1.25e-03   nfail=0   accept (Δ_rel=2.76e-02)
+[LM-HER] iter   4   loss=2.0033e+01   λ=5.00e-03   nfail=0   reject
+[LM-HER] iter   5   loss=2.0033e+01   λ=2.00e-02   nfail=0   reject
+[LM-HER] iter   6   loss=1.9957e+01   λ=1.00e-02   nfail=0   accept (Δ_rel=3.79e-03)
+┌ Info: Sub-fit: ADN
+│   seed =
+│    3-element Vector{Float64}:
+│     -3.0
+│      0.55
+└      1.0
+[LM-ADN] iter   0   loss=1.4998e-01   λ=1.00e-02   nfail=0/48
+[LM-ADN] iter   1   active bounds: 3
+[LM-ADN] iter   1   loss=1.4932e-01   λ=5.00e-03   nfail=0   accept (Δ_rel=4.42e-03)
+┌ Info: Sub-fit: PN
+│   seed =
+│    3-element Vector{Float64}:
+│     -3.0
+│      0.55
+└      1.0
+[LM-PN] iter   0   loss=3.5647e+01   λ=1.00e-02   nfail=0/48
+[LM-PN] iter   1   loss=1.1968e+01   λ=5.00e-03   nfail=0   accept (Δ_rel=6.64e-01)
+[LM-PN] iter   2   loss=3.7634e+00   λ=2.50e-03   nfail=0   accept (Δ_rel=6.86e-01)
+[LM-PN] iter   3   loss=3.7634e+00   λ=1.00e-02   nfail=0   reject
+[LM-PN] iter   4   loss=3.7634e+00   λ=4.00e-02   nfail=0   reject
+[LM-PN] iter   5   loss=3.7634e+00   λ=1.60e-01   nfail=0   reject
+[LM-PN] iter   6   loss=3.7634e+00   λ=6.40e-01   nfail=0   reject
+[LM-PN] iter   7   loss=3.7634e+00   λ=2.56e+00   nfail=0   reject
+[LM-PN] iter   8   loss=3.7634e+00   λ=1.02e+01   nfail=0   reject
+[LM-PN] iter   9   loss=3.7634e+00   λ=4.10e+01   nfail=0   reject
+[LM-PN] iter  10   loss=3.7634e+00   λ=1.64e+02   nfail=0   reject
+[LM-PN] iter  11   loss=3.7634e+00   λ=6.55e+02   nfail=0   reject
+[LM-PN] iter  12   loss=3.7634e+00   λ=2.62e+03   nfail=0   reject
+┌ Info: Sub-fit: TCH
+│   seed =
+│    3-element Vector{Float64}:
+│     -3.0
+│      0.55
+└      1.5
+[LM-TCH] iter   0   loss=9.2787e+00   λ=1.00e-02   nfail=0/48
+[LM-TCH] iter   1   loss=3.5934e+00   λ=5.00e-03   nfail=0   accept (Δ_rel=6.13e-01)
+[LM-TCH] iter   2   active bounds: 3
+[LM-TCH] iter   2   loss=2.4950e-01   λ=2.50e-03   nfail=0   accept (Δ_rel=9.31e-01)
+[LM-TCH] iter   3   active bounds: 3
+[LM-TCH] iter   3   loss=2.0896e-01   λ=1.25e-03   nfail=0   accept (Δ_rel=1.62e-01)
+[LM-TCH] iter   4   active bounds: 3
+[LM-TCH] iter   4   loss=2.0071e-01   λ=6.25e-04   nfail=0   accept (Δ_rel=3.95e-02)
+[LM-TCH] iter   5   active bounds: 3
+[LM-TCH] iter   5   loss=2.0001e-01   λ=3.13e-04   nfail=0   accept (Δ_rel=3.49e-03)
+┌ Info: Outer change
+└   rel_change = NaN
+[ Info: ===== Outer iteration 2 / 2 =====
+┌ Info: Sub-fit: HER
+│   seed =
+│    2-element Vector{Float64}:
+│     -3.265981731432794
+└      0.2713151701968207
+[LM-HER] iter   0   loss=2.1552e+01   λ=1.00e-02   nfail=0/48
+[LM-HER] iter   1   loss=2.0633e+01   λ=5.00e-03   nfail=0   accept (Δ_rel=4.27e-02)
+[LM-HER] iter   2   loss=2.0633e+01   λ=2.00e-02   nfail=0   reject
+[LM-HER] iter   3   loss=2.0633e+01   λ=8.00e-02   nfail=0   reject
+[LM-HER] iter   4   loss=2.0632e+01   λ=4.00e-02   nfail=0   accept (Δ_rel=1.27e-05)
+┌ Info: Sub-fit: ADN
+│   seed =
+│    3-element Vector{Float64}:
+│     -2.9985032869162946
+│      0.5507731517092335
+└      1.0
+[LM-ADN] iter   0   loss=4.2606e-01   λ=1.00e-02   nfail=0/48
+[LM-ADN] iter   1   active bounds: 3
+[LM-ADN] iter   1   loss=3.0349e-01   λ=5.00e-03   nfail=0   accept (Δ_rel=2.88e-01)
+[LM-ADN] iter   2   active bounds: 3
+[LM-ADN] iter   2   loss=3.0349e-01   λ=2.00e-02   nfail=0   reject
+[LM-ADN] iter   3   active bounds: 3
+[LM-ADN] iter   3   loss=2.6260e-01   λ=1.00e-02   nfail=0   accept (Δ_rel=1.35e-01)
+[LM-ADN] iter   4   active bounds: 3
+[LM-ADN] iter   4   loss=2.3083e-01   λ=5.00e-03   nfail=0   accept (Δ_rel=1.21e-01)
+[LM-ADN] iter   5   active bounds: 2,3
+[LM-ADN] iter   5   loss=2.3083e-01   λ=2.00e-02   nfail=0   reject
+[LM-ADN] iter   6   active bounds: 2,3
+[LM-ADN] iter   6   loss=2.3083e-01   λ=8.00e-02   nfail=0   reject
+[LM-ADN] iter   7   active bounds: 2,3
+[LM-ADN] iter   7   loss=2.3083e-01   λ=3.20e-01   nfail=0   reject
+[LM-ADN] iter   8   active bounds: 2,3
+[LM-ADN] iter   8   loss=2.3083e-01   λ=1.28e+00   nfail=0   reject
+[LM-ADN] iter   9   active bounds: 2,3
+[LM-ADN] iter   9   loss=2.3083e-01   λ=5.12e+00   nfail=0   reject
+[LM-ADN] iter  10   active bounds: 2,3
+[LM-ADN] iter  10   loss=2.3083e-01   λ=2.05e+01   nfail=0   reject
+[LM-ADN] iter  11   active bounds: 2,3
+[LM-ADN] iter  11   loss=2.3083e-01   λ=8.19e+01   nfail=0   reject
+[LM-ADN] iter  12   active bounds: 2,3
+[LM-ADN] iter  12   loss=2.3083e-01   λ=3.28e+02   nfail=0   reject
+[LM-ADN] iter  13   active bounds: 2,3
+[LM-ADN] iter  13   loss=2.3083e-01   λ=1.31e+03   nfail=0   reject
+┌ Info: Sub-fit: PN
+│   seed =
+│    3-element Vector{Float64}:
+│     -3.474481373962972
+│      0.4916622944890937
+└      0.722113156280001
+[LM-PN] iter   0   loss=4.1858e+00   λ=1.00e-02   nfail=0/48
+[LM-PN] iter   1   loss=3.6947e+00   λ=5.00e-03   nfail=0   accept (Δ_rel=1.17e-01)
+[LM-PN] iter   2   loss=3.6885e+00   λ=2.50e-03   nfail=0   accept (Δ_rel=1.69e-03)
+┌ Info: Sub-fit: TCH
+│   seed =
+│    3-element Vector{Float64}:
+│     -4.207906977885081
+│      0.5935650177340795
+└      1.0
+[LM-TCH] iter   0   loss=8.0050e-01   λ=1.00e-02   nfail=0/48
+[LM-TCH] iter   1   active bounds: 3
+[LM-TCH] iter   1   loss=5.0445e-01   λ=5.00e-03   nfail=0   accept (Δ_rel=3.70e-01)
+[LM-TCH] iter   2   active bounds: 3
+[LM-TCH] iter   2   loss=3.6429e-01   λ=2.50e-03   nfail=0   accept (Δ_rel=2.78e-01)
+[LM-TCH] iter   3   active bounds: 3
+[LM-TCH] iter   3   loss=2.6096e-01   λ=1.25e-03   nfail=0   accept (Δ_rel=2.84e-01)
+[LM-TCH] iter   4   active bounds: 3
+[LM-TCH] iter   4   loss=2.6096e-01   λ=5.00e-03   nfail=0   reject
+[LM-TCH] iter   5   active bounds: 3
+[LM-TCH] iter   5   loss=2.6096e-01   λ=2.00e-02   nfail=0   reject
+[LM-TCH] iter   6   active bounds: 3
+[LM-TCH] iter   6   loss=2.5310e-01   λ=1.00e-02   nfail=0   accept (Δ_rel=3.01e-02)
+[LM-TCH] iter   7   active bounds: 3
+[LM-TCH] iter   7   loss=2.5310e-01   λ=4.00e-02   nfail=0   reject
+[LM-TCH] iter   8   active bounds: 3
+[LM-TCH] iter   8   loss=2.5007e-01   λ=2.00e-02   nfail=0   accept (Δ_rel=1.20e-02)
+[LM-TCH] iter   9   active bounds: 3
+[LM-TCH] iter   9   loss=2.5007e-01   λ=8.00e-02   nfail=0   reject
+[LM-TCH] iter  10   active bounds: 3
+[LM-TCH] iter  10   loss=2.5007e-01   λ=3.20e-01   nfail=0   reject
+[LM-TCH] iter  11   active bounds: 3
+[LM-TCH] iter  11   loss=2.5007e-01   λ=1.28e+00   nfail=0   reject
+[LM-TCH] iter  12   active bounds: 3
+[LM-TCH] iter  12   loss=2.5007e-01   λ=5.12e+00   nfail=0   reject
+[LM-TCH] iter  13   active bounds: 3
+[LM-TCH] iter  13   loss=2.5007e-01   λ=2.05e+01   nfail=0   reject
+[LM-TCH] iter  14   active bounds: 3
+[LM-TCH] iter  14   loss=2.5007e-01   λ=8.19e+01   nfail=0   reject
+[LM-TCH] iter  15   active bounds: 3
+[LM-TCH] iter  15   loss=2.5007e-01   λ=3.28e+02   nfail=0   reject
+[LM-TCH] iter  16   active bounds: 3
+[LM-TCH] iter  16   loss=2.5007e-01   λ=1.31e+03   nfail=0   reject
+┌ Info: Outer change
+└   rel_change = 0.9842891945372355
+
+Fitted parameters (after sequential fit):
+  j0_ADN = 1.577e-05 A/m²    ac_ADN = 0.700    n_ADN = 1.000
+  j0_PN  = 2.300e-04 A/m²    ac_PN  = 0.497    n_PN  = 0.527
+  j0_HER = 1.000e-03 A/m²    ac_HER = 0.265    (fitted, was frozen in v3)
+  j0_TCH = 3.149e-06 A/m²    ac_TCH = 0.700    n_TCH = 1.000
+
+--- Stage 4a: re-evaluating Core at converged state (no clamping) ---
+Core RMSE (no clamping) — FE_ADN: 11.57 pp,  FE_PN: 4.39 pp,  FE_HER: 12.37 pp,  FE_TCH: 2.22 pp,  nfail=0
+
+--- Stage 4b: forward apply θ to Extended + Holdout ---
+Extended RMSE — FE_ADN: 13.89 pp,  FE_PN: 4.88 pp,  FE_TCH: 2.39 pp,  nfail=0
+Holdout  RMSE — FE_ADN: 33.99 pp,  FE_PN: 12.86 pp,  FE_TCH: 7.48 pp,  nfail=0
+
+--- Decision gates ---
+  [FAIL] Core FE_ADN RMSE                            11.57 pp  (threshold < 8 pp)
+  [PASS] Core FE_PN RMSE                             4.39 pp  (threshold < 5 pp)
+  [PASS] Core FE_TCH RMSE                            2.22 pp  (threshold < 4 pp)
+  [FAIL] Extended FE_ADN RMSE                        13.89 pp  (threshold < 12 pp)
+  [FAIL] Holdout FE_ADN RMSE                         33.99 pp  (threshold < 15 pp)
+
+  All gates passed: false
+========================================================================

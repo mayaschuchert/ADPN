@@ -1,0 +1,18 @@
+# Claude Code local config (per-machine, not for sharing)
+.claude/
+
+# Julia cache
+**/Manifest.toml.bak
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OS junk
+.DS_Store
+Thumbs.db

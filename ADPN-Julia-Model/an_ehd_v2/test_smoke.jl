@@ -22,7 +22,7 @@ c_eq = solve_phosphate_equilibrium()
 @assert abs(c_eq.H * c_eq.PO4  / c_eq.HPO4  - K_a3) / K_a3 < 1e-8 "K_a3 mismatch"
 
 # 2. Buffer residual at equilibrium
-R = zeros(8)
+R = zeros(9)
 buffer_sources!(R, c_eq.H, c_eq.OH, c_eq.H2PO4, c_eq.HPO4, c_eq.PO4)
 @printf("max|R_buf| at equilibrium = %.3e\n", maximum(abs.(R)))
 @assert maximum(abs.(R)) < 1e-6 "buffer residual at equilibrium too large"

@@ -119,11 +119,11 @@ function physicality_report(u::Vector{Float64}, mesh,
         end
         J_charge_face[ix + 1] = s
     end
-    j1, j2, j3 = tafel_currents(c[6, 1], phi[1], V, alpha_kin)
-    J_charge_face[1] = -(j1 + j2 + j3) / Params.F
+    j1, j2, j3, j4 = tafel_currents(c[6, 1], phi[1], V, alpha_kin)
+    J_charge_face[1] = -(j1 + j2 + j3 + j4) / Params.F
     iface_var = maximum(abs.(diff(J_charge_face[2:N])))
 
-    R_buf = zeros(8)
+    R_buf = zeros(9)
     buffer_sources!(R_buf, c[1,1], c[2,1], c[3,1], c[4,1], c[5,1], alpha_buf)
     max_Rbuf_surf = maximum(abs.(R_buf[1:5]))
     buffer_sources!(R_buf, c[1,N], c[2,N], c[3,N], c[4,N], c[5,N], alpha_buf)
@@ -133,19 +133,20 @@ function physicality_report(u::Vector{Float64}, mesh,
     c_AN_surface  = c[6, 1]
     AN_depletion  = c_AN_surface / c_AN_bulk_val
 
-    j_tot   = j1 + j2 + j3
+    j_tot   = j1 + j2 + j3 + j4
     FE_ADPN = 100.0 * j1 / (j_tot + 1e-300)
     FE_PN   = 100.0 * j2 / (j_tot + 1e-300)
     FE_HER  = 100.0 * j3 / (j_tot + 1e-300)
+    FE_TCH  = 100.0 * j4 / (j_tot + 1e-300)
 
     if verbose
         println("────────── PHYSICALITY  ", tag, " ──────────")
         @printf("  V = %+7.3f V vs SHE,  ε_org = %.3f,  δ = %.1f μm\n",
                 V, eps_org, delta_um)
-        @printf("  j₁=%.3e  j₂=%.3e  j₃=%.3e  [A/m²]\n", j1, j2, j3)
+        @printf("  j₁=%.3e  j₂=%.3e  j₃=%.3e  j₄=%.3e  [A/m²]\n", j1, j2, j3, j4)
         @printf("  j_total = %.3e A/m² = %.2f mA/cm²\n", j_tot, j_tot * 0.1)
-        @printf("  FE_ADPN = %6.2f %%   FE_PN = %6.2f %%   FE_HER = %6.2f %%\n",
-                FE_ADPN, FE_PN, FE_HER)
+        @printf("  FE_ADPN = %6.2f %%   FE_PN = %6.2f %%   FE_HER = %6.2f %%   FE_TCH = %6.2f %%\n",
+                FE_ADPN, FE_PN, FE_HER, FE_TCH)
         @printf("  bulk pH                   : %.3f\n", pH_bulk)
         @printf("  φ_l span across DL        : %.3e V\n", phi_span)
         @printf("  max |Σ z_i c_i| (9-sp)    : %.3e mol m⁻³\n", maximum(eneutr_9sp))
@@ -159,8 +160,8 @@ function physicality_report(u::Vector{Float64}, mesh,
 
     return (
         V = V, eps_org = eps_org, delta_um = delta_um,
-        j1 = j1, j2 = j2, j3 = j3, j_total = j_tot,
-        FE_ADPN = FE_ADPN, FE_PN = FE_PN, FE_HER = FE_HER,
+        j1 = j1, j2 = j2, j3 = j3, j4 = j4, j_total = j_tot,
+        FE_ADPN = FE_ADPN, FE_PN = FE_PN, FE_HER = FE_HER, FE_TCH = FE_TCH,
         pH_bulk = pH_bulk, phi_span = phi_span,
         max_eneutr = maximum(eneutr_9sp), Na_dev = maximum(Na_dev),
         iface_var = iface_var,
@@ -189,13 +190,13 @@ function export_records_csv(records, stage_tag::String, eps_org, delta_um)
         @sprintf("%s_records_eo%.3f_d%d.csv",
                  stage_tag, eps_org, round(Int, delta_um)))
     open(path, "w") do io
-        println(io, "V,eps_org,delta_um,j1,j2,j3,j_total,FE_ADPN,FE_PN,FE_HER,",
+        println(io, "V,eps_org,delta_um,j1,j2,j3,j4,j_total,FE_ADPN,FE_PN,FE_HER,FE_TCH,",
                      "pH_bulk,phi_span,max_eneutr,Na_dev,iface_var,max_Rbuf_surf,",
                      "max_Rbuf_bulk,AN_depletion,c_AN_surface,c_AN_bulk,phi_l_surface")
         for r in records
-            @printf(io, "%.8e,%.4f,%.4f,%.8e,%.8e,%.8e,%.8e,%.6f,%.6f,%.6f,",
-                    r.V, r.eps_org, r.delta_um, r.j1, r.j2, r.j3, r.j_total,
-                    r.FE_ADPN, r.FE_PN, r.FE_HER)
+            @printf(io, "%.8e,%.4f,%.4f,%.8e,%.8e,%.8e,%.8e,%.8e,%.6f,%.6f,%.6f,%.6f,",
+                    r.V, r.eps_org, r.delta_um, r.j1, r.j2, r.j3, r.j4, r.j_total,
+                    r.FE_ADPN, r.FE_PN, r.FE_HER, r.FE_TCH)
             @printf(io, "%.6f,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.6f,%.8e,%.8e,%.8e\n",
                     r.pH_bulk, r.phi_span, r.max_eneutr, r.Na_dev, r.iface_var,
                     r.max_Rbuf_surf, r.max_Rbuf_bulk, r.AN_depletion,
@@ -216,11 +217,11 @@ function export_profile_at(history, mesh, stage_tag::String,
         @sprintf("%s_profile_eo%.3f_d%d_V%.3f.csv",
                  stage_tag, eps_org, round(Int, delta_um), V))
     open(path, "w") do io
-        println(io, "x_m,c_H,c_OH,c_H2PO4,c_HPO4,c_PO4,c_AN,c_ADPN,c_PN,phi_l")
+        println(io, "x_m,c_H,c_OH,c_H2PO4,c_HPO4,c_PO4,c_AN,c_ADPN,c_PN,c_TCH,phi_l")
         for ix in 1:N
-            @printf(io, "%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e\n",
+            @printf(io, "%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e,%.8e\n",
                     mesh.x_c[ix], c[1,ix], c[2,ix], c[3,ix], c[4,ix],
-                    c[5,ix], c[6,ix], c[7,ix], c[8,ix], phi[ix])
+                    c[5,ix], c[6,ix], c[7,ix], c[8,ix], c[9,ix], phi[ix])
         end
     end
     println("[export] profile @ V=$(V) (target $V_target_f) → $path")
@@ -277,7 +278,7 @@ function run_one_sweep(eps_org::Float64, delta_um::Float64;
     @assert abs(c_eq.H * c_eq.OH - K_w) / K_w < 1e-8
     @assert abs(c_eq.H * c_eq.HPO4 / c_eq.H2PO4 - K_a2) / K_a2 < 1e-8
     @assert abs(c_eq.H * c_eq.PO4  / c_eq.HPO4  - K_a3) / K_a3 < 1e-8
-    R_chk = zeros(8)
+    R_chk = zeros(9)
     buffer_sources!(R_chk, c_eq.H, c_eq.OH, c_eq.H2PO4, c_eq.HPO4, c_eq.PO4)
     @assert maximum(abs.(R_chk[1:5])) < 1e-6
 
@@ -311,9 +312,9 @@ function run_one_sweep(eps_org::Float64, delta_um::Float64;
                            V_restart, idx_restart)
         faradaic_current = (u_state, V_now) -> begin
             c_AN_s = exp(clamp(u_state[6], -50.0, 50.0))
-            phi_s  = u_state[9]
-            j1, j2, j3 = tafel_currents(c_AN_s, phi_s, V_now, 1.0)
-            return j1 + j2 + j3
+            phi_s  = u_state[10]
+            j1, j2, j3, j4 = tafel_currents(c_AN_s, phi_s, V_now, 1.0)
+            return j1 + j2 + j3 + j4
         end
         hist_logj = newton_continuation_logj(u_restart, V_restart, V_END,
                                              build_full_residual(mesh, eps_org, c_eq),

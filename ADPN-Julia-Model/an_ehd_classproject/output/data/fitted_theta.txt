@@ -1,0 +1,24 @@
+# Final published fit — recovered Run-2 stage4_seq θ
+# date: 2026-04-30T12:03:06.307
+# Provenance:
+#   - Original fit: stage4_seq.log line 347 (2026-04-29 ~02:30)
+#   - Recovered file: output/preserved_pre_kink_fix/stage4_seq/data/
+#                     stage4_seq_fitted_theta_RUN2_recovered.txt
+#   - Plot data: forward-applied to POST-kink-fix physics (Na+ in φ_l)
+#                via galvanostatic continuation solver
+#
+# Post-fix RMSEs (this run):
+#   Core      ADN=8.16 pp  PN=4.94 pp  TCH=6.24 pp
+#   Extended  ADN=9.58 pp  PN=6.10 pp  TCH=6.95 pp
+#   Holdout   ADN=30.48 pp  PN=12.22 pp  TCH=5.44 pp
+j0_ADN      = 2.703000e-03
+j0_PN       = 1.152000e-03
+j0_HER      = 2.666000e-05  # frozen (v6.x converged)
+j0_TCH      = 1.701000e-03
+alpha_c_ADN = 0.567000
+alpha_c_PN  = 0.507000
+alpha_c_HER = 0.390000  # frozen (v6.x converged)
+alpha_c_TCH = 0.519000
+n_ADN       = 0.629000
+n_PN        = 0.966000
+n_TCH       = 1.826000

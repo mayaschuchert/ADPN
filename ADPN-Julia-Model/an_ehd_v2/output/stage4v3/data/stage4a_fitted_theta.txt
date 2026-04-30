@@ -1,0 +1,20 @@
+# v7 Stage 4v3 — fitted kinetic parameters (HER frozen, TCH added)
+# date: 2026-04-29T16:14:48.494
+# converged: true
+# loss: 5.770984e+03 (pp²)
+# iterations: 7
+# Core rows: 48
+# RMSE FE_ADN: 8.4372 pp
+# RMSE FE_PN:  5.3196 pp
+# RMSE FE_TCH: 4.5546 pp
+j0_ADN   = 8.454694e-03
+j0_PN    = 1.616525e-03
+j0_HER   = 2.666000e-05  # frozen
+j0_TCH   = 2.426481e-03
+alpha_c_ADN = 0.566594
+alpha_c_PN  = 0.560814
+alpha_c_HER = 0.390000  # frozen
+alpha_c_TCH = 0.563606
+n_ADN = 1.000000
+n_PN  = 1.636977
+n_TCH = 1.549037

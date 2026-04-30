@@ -1,0 +1,187 @@
+┌ Info: Solver backend set to
+└   FitKinetics.SOLVER_BACKEND[] = :cont
+========================================================================
+ Stage 4-seq — Sequential decoupled fit (Bloomquist §S1.11)
+ 2026-04-30T10:56:57.880
+========================================================================
+Loaded 162 rows
+Core=48  Extended=90  Holdout=45
+
+Context built: 6 meshes, 0 warm starts
+
+
+[diag] Pre-solving core rows at THETA0 (populating sol_cache)...
+[diag] THETA0 pre-solve: nfail=0 / 48  loss=1.2333e+05  sol_cache=48 entries
+
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 1 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[ADN] iter  0  loss=1.1472e+05  λ=1.00e-02  nfail=0
+[ADN] iter  1  loss=1.1150e+04  λ=5.00e-03  nfail=0  ACCEPT Δrel=9.028e-01
+         theta=[-1.9169, 0.5190, 0.5000]  → j0=1.211e-02  ac=0.519  n=0.500
+[ADN] iter  2  loss=1.1150e+04  λ=2.00e-02  nfail=0  REJECT
+[ADN] iter  3  loss=9.8763e+03  λ=1.00e-02  nfail=0  ACCEPT Δrel=1.142e-01
+         theta=[-1.8381, 0.4563, 0.5000]  → j0=1.452e-02  ac=0.456  n=0.500
+[ADN] iter  4  loss=3.8413e+03  λ=5.00e-03  nfail=0  ACCEPT Δrel=6.111e-01
+         theta=[-1.5955, 0.4497, 0.5000]  → j0=2.538e-02  ac=0.450  n=0.500
+[ADN] iter  5  loss=3.7343e+03  λ=2.50e-03  nfail=0  ACCEPT Δrel=2.788e-02
+         theta=[-1.5723, 0.4486, 0.5000]  → j0=2.678e-02  ac=0.449  n=0.500
+[ADN] iter  6  loss=3.7343e+03  λ=1.00e-02  nfail=0  REJECT
+[ADN] iter  7  loss=3.7343e+03  λ=4.00e-02  nfail=0  REJECT
+[ADN] iter  8  loss=3.7343e+03  λ=1.60e-01  nfail=0  REJECT
+[ADN] iter  9  loss=3.7343e+03  λ=6.40e-01  nfail=0  REJECT
+[ADN] iter 10  loss=3.7343e+03  λ=2.56e+00  nfail=0  REJECT
+[ADN] iter 11  loss=3.6793e+03  λ=1.28e+00  nfail=0  ACCEPT Δrel=1.471e-02
+         theta=[-1.5661, 0.4489, 0.5000]  → j0=2.716e-02  ac=0.449  n=0.500
+[ADN] iter 12  loss=3.6717e+03  λ=6.40e-01  nfail=0  ACCEPT Δrel=2.065e-03
+         theta=[-1.5608, 0.4486, 0.5000]  → j0=2.749e-02  ac=0.449  n=0.500
+[ADN] done: j0=2.749e-02      α=0.449      n=0.500 @LB  RMSE=8.75 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[PN] iter  0  loss=1.1346e+03  λ=1.00e-02  nfail=0
+[PN] iter  1  loss=9.1490e+02  λ=5.00e-03  nfail=0  ACCEPT Δrel=1.936e-01
+         theta=[-2.9974, 0.4972, 0.5000]  → j0=1.006e-03  ac=0.497  n=0.500
+[PN] iter  2  loss=9.1490e+02  λ=2.00e-02  nfail=0  REJECT
+[PN] iter  3  loss=9.0716e+02  λ=1.00e-02  nfail=0  ACCEPT Δrel=8.466e-03
+         theta=[-2.9649, 0.4954, 0.5000]  → j0=1.084e-03  ac=0.495  n=0.500
+[PN]  done: j0=1.084e-03      α=0.495      n=0.500 @LB  RMSE=4.35 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[TCH] iter  0  loss=3.7186e+03  λ=1.00e-02  nfail=0
+[TCH] iter  1  loss=7.1322e+02  λ=5.00e-03  nfail=0  ACCEPT Δrel=8.082e-01
+         theta=[-2.6805, 0.5002, 1.0000]  → j0=2.087e-03  ac=0.500  n=1.000
+[TCH] iter  2  loss=7.1322e+02  λ=2.00e-02  nfail=0  REJECT
+[TCH] iter  3  loss=7.1322e+02  λ=8.00e-02  nfail=0  REJECT
+[TCH] iter  4  loss=7.1322e+02  λ=3.20e-01  nfail=0  REJECT
+[TCH] iter  5  loss=7.1322e+02  λ=1.28e+00  nfail=0  REJECT
+[TCH] iter  6  loss=6.8712e+02  λ=6.40e-01  nfail=0  ACCEPT Δrel=3.660e-02
+         theta=[-2.6671, 0.5016, 1.0000]  → j0=2.153e-03  ac=0.502  n=1.000
+[TCH] iter  7  loss=6.8712e+02  λ=2.56e+00  nfail=0  REJECT
+[TCH] iter  8  loss=6.8712e+02  λ=1.02e+01  nfail=0  REJECT
+[TCH] iter  9  loss=6.8712e+02  λ=4.10e+01  nfail=0  REJECT
+[TCH] iter 10  loss=6.8712e+02  λ=2.05e+01  nfail=0  ACCEPT Δrel=7.541e-06
+         theta=[-2.6670, 0.5016, 1.0000]  → j0=2.153e-03  ac=0.502  n=1.000
+[TCH] done: j0=2.153e-03      α=0.502      n=1.000 @LB  RMSE=3.78 pp
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 2 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[ADN] iter  0  loss=6.6444e+03  λ=1.00e-02  nfail=0
+[ADN] iter  1  loss=4.8198e+03  λ=5.00e-03  nfail=0  ACCEPT Δrel=2.746e-01
+         theta=[-1.4511, 0.4443, 0.5000]  → j0=3.539e-02  ac=0.444  n=0.500
+[ADN] iter  2  loss=4.8198e+03  λ=2.00e-02  nfail=0  REJECT
+[ADN] iter  3  loss=4.6483e+03  λ=1.00e-02  nfail=0  ACCEPT Δrel=3.558e-02
+         theta=[-1.3675, 0.4373, 0.5000]  → j0=4.290e-02  ac=0.437  n=0.500
+[ADN] iter  4  loss=4.6483e+03  λ=4.00e-02  nfail=0  REJECT
+[ADN] iter  5  loss=4.6483e+03  λ=1.60e-01  nfail=0  REJECT
+[ADN] iter  6  loss=4.6483e+03  λ=6.40e-01  nfail=0  REJECT
+[ADN] iter  7  loss=4.4209e+03  λ=3.20e-01  nfail=0  ACCEPT Δrel=4.892e-02
+         theta=[-1.3619, 0.4385, 0.5000]  → j0=4.347e-02  ac=0.439  n=0.500
+[ADN] iter  8  loss=4.3993e+03  λ=1.60e-01  nfail=0  ACCEPT Δrel=4.890e-03
+         theta=[-1.3538, 0.4380, 0.5000]  → j0=4.428e-02  ac=0.438  n=0.500
+[ADN] done: j0=4.428e-02      α=0.438      n=0.500 @LB  RMSE=9.57 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[PN] iter  0  loss=1.0820e+03  λ=1.00e-02  nfail=0
+[PN] iter  1  loss=8.9784e+02  λ=5.00e-03  nfail=0  ACCEPT Δrel=1.702e-01
+         theta=[-2.8935, 0.4999, 0.5000]  → j0=1.278e-03  ac=0.500  n=0.500
+[PN] iter  2  loss=8.9784e+02  λ=2.00e-02  nfail=0  REJECT
+[PN] iter  3  loss=8.9784e+02  λ=8.00e-02  nfail=0  REJECT
+[PN] iter  4  loss=8.9784e+02  λ=3.20e-01  nfail=0  REJECT
+[PN] iter  5  loss=8.9784e+02  λ=1.28e+00  nfail=0  REJECT
+[PN] iter  6  loss=8.9418e+02  λ=6.40e-01  nfail=0  ACCEPT Δrel=4.075e-03
+         theta=[-2.8905, 0.5002, 0.5000]  → j0=1.287e-03  ac=0.500  n=0.500
+[PN]  done: j0=1.287e-03      α=0.500      n=0.500 @LB  RMSE=4.32 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[TCH] iter  0  loss=9.6123e+02  λ=1.00e-02  nfail=0
+[TCH] iter  1  loss=8.7869e+02  λ=5.00e-03  nfail=0  ACCEPT Δrel=8.587e-02
+         theta=[-2.5734, 0.4942, 1.0000]  → j0=2.670e-03  ac=0.494  n=1.000
+[TCH] iter  2  loss=8.7869e+02  λ=2.00e-02  nfail=0  REJECT
+[TCH] iter  3  loss=8.7869e+02  λ=8.00e-02  nfail=0  REJECT
+[TCH] iter  4  loss=8.1485e+02  λ=4.00e-02  nfail=0  ACCEPT Δrel=7.265e-02
+         theta=[-2.4944, 0.5004, 1.0000]  → j0=3.203e-03  ac=0.500  n=1.000
+[TCH] iter  5  loss=7.2856e+02  λ=2.00e-02  nfail=0  ACCEPT Δrel=1.059e-01
+         theta=[-2.4892, 0.4917, 1.0000]  → j0=3.242e-03  ac=0.492  n=1.000
+[TCH] iter  6  loss=7.2856e+02  λ=8.00e-02  nfail=0  REJECT
+[TCH] iter  7  loss=7.2856e+02  λ=3.20e-01  nfail=0  REJECT
+[TCH] iter  8  loss=7.2856e+02  λ=1.28e+00  nfail=0  REJECT
+[TCH] iter  9  loss=7.2856e+02  λ=5.12e+00  nfail=0  REJECT
+[TCH] iter 10  loss=7.2753e+02  λ=2.56e+00  nfail=0  ACCEPT Δrel=1.419e-03
+         theta=[-2.4903, 0.4919, 1.0000]  → j0=3.234e-03  ac=0.492  n=1.000
+[TCH] done: j0=3.234e-03      α=0.492      n=1.000 @LB  RMSE=3.89 pp
+
+────────────────────────────────────────────────────────────────────────
+ Gauss-Seidel pass 3 / 3
+────────────────────────────────────────────────────────────────────────
+
+[ADN] Fixing PN/HER/TCH to experimental; fitting j0_ADN, α_ADN, n_ADN
+[ADN] iter  0  loss=5.0054e+03  λ=1.00e-02  nfail=0
+[ADN] iter  1  loss=4.9129e+03  λ=5.00e-03  nfail=0  ACCEPT Δrel=1.847e-02
+         theta=[-1.2634, 0.4296, 0.5000]  → j0=5.452e-02  ac=0.430  n=0.500
+[ADN] iter  2  loss=4.6872e+03  λ=2.50e-03  nfail=0  ACCEPT Δrel=4.595e-02
+         theta=[-1.0364, 0.4092, 0.5000]  → j0=9.196e-02  ac=0.409  n=0.500
+[ADN] iter  3  loss=4.6872e+03  λ=1.00e-02  nfail=0  REJECT
+[ADN] iter  4  loss=4.6872e+03  λ=4.00e-02  nfail=0  REJECT
+[ADN] iter  5  loss=4.6872e+03  λ=1.60e-01  nfail=0  REJECT
+[ADN] iter  6  loss=4.5575e+03  λ=8.00e-02  nfail=0  ACCEPT Δrel=2.767e-02
+         theta=[-1.0000, 0.4070, 0.5000]  → j0=1.000e-01  ac=0.407  n=0.500
+[ADN] iter  7  loss=4.5575e+03  λ=3.20e-01  nfail=0  REJECT
+[ADN] iter  8  loss=4.4259e+03  λ=1.60e-01  nfail=0  ACCEPT Δrel=2.888e-02
+         theta=[-1.0000, 0.4091, 0.5000]  → j0=1.000e-01  ac=0.409  n=0.500
+[ADN] iter  9  loss=4.4259e+03  λ=6.40e-01  nfail=0  REJECT
+[ADN] iter 10  loss=4.4259e+03  λ=2.56e+00  nfail=0  REJECT
+[ADN] iter 11  loss=4.4244e+03  λ=1.28e+00  nfail=0  ACCEPT Δrel=3.362e-04
+         theta=[-1.0000, 0.4092, 0.5000]  → j0=1.000e-01  ac=0.409  n=0.500
+[ADN] done: j0=1.000e-01 @UB  α=0.409      n=0.500 @LB  RMSE=9.60 pp
+
+[PN]  Fixing ADN(fitted)/HER/TCH to experimental; fitting j0_PN, α_PN, n_PN
+[PN] iter  0  loss=9.6022e+02  λ=1.00e-02  nfail=0
+[PN] iter  1  loss=8.8947e+02  λ=5.00e-03  nfail=0  ACCEPT Δrel=7.368e-02
+         theta=[-2.8341, 0.5006, 0.5000]  → j0=1.465e-03  ac=0.501  n=0.500
+[PN] iter  2  loss=8.8947e+02  λ=2.00e-02  nfail=0  REJECT
+[PN] iter  3  loss=8.8947e+02  λ=8.00e-02  nfail=0  REJECT
+[PN] iter  4  loss=8.8807e+02  λ=4.00e-02  nfail=0  ACCEPT Δrel=1.576e-03
+         theta=[-2.8307, 0.5005, 0.5000]  → j0=1.477e-03  ac=0.501  n=0.500
+[PN]  done: j0=1.477e-03      α=0.501      n=0.500 @LB  RMSE=4.30 pp
+
+[TCH] Fixing ADN(fitted)/PN(fitted)/HER to experimental; fitting j0_TCH, α_TCH, n_TCH
+[TCH] iter  0  loss=9.1057e+02  λ=1.00e-02  nfail=0
+[TCH] iter  1  loss=9.1057e+02  λ=4.00e-02  nfail=0  REJECT
+[TCH] iter  2  loss=8.4332e+02  λ=2.00e-02  nfail=0  ACCEPT Δrel=7.385e-02
+         theta=[-2.4344, 0.4880, 1.0000]  → j0=3.678e-03  ac=0.488  n=1.000
+[TCH] iter  3  loss=8.4332e+02  λ=8.00e-02  nfail=0  REJECT
+[TCH] iter  4  loss=8.4332e+02  λ=3.20e-01  nfail=0  REJECT
+[TCH] iter  5  loss=7.0687e+02  λ=1.60e-01  nfail=0  ACCEPT Δrel=1.618e-01
+         theta=[-2.4046, 0.4908, 1.0000]  → j0=3.939e-03  ac=0.491  n=1.000
+[TCH] iter  6  loss=7.0687e+02  λ=6.40e-01  nfail=0  REJECT
+[TCH] iter  7  loss=7.0687e+02  λ=2.56e+00  nfail=0  REJECT
+[TCH] iter  8  loss=7.0687e+02  λ=1.02e+01  nfail=0  REJECT
+[TCH] iter  9  loss=7.0476e+02  λ=5.12e+00  nfail=0  ACCEPT Δrel=2.987e-03
+         theta=[-2.4039, 0.4910, 1.0000]  → j0=3.945e-03  ac=0.491  n=1.000
+[TCH] done: j0=3.945e-03      α=0.491      n=1.000 @LB  RMSE=3.83 pp
+
+========================================================================
+ Forward apply to Extended + Holdout
+========================================================================
+
+Final RMSE (joint model eval — no fixed-j):
+  Core        ADN=9.77 pp  PN=4.32 pp  TCH=3.83 pp
+  Extended    ADN=11.85 pp  PN=4.46 pp  TCH=3.73 pp  nfail=0
+  Holdout     ADN=26.65 pp  PN=11.96 pp  TCH=7.39 pp  nfail=0
+
+--- Decision gates ---
+  [FAIL] Core FE_ADN RMSE                            9.77 pp  (< 8 pp)
+  [PASS] Core FE_PN RMSE                             4.32 pp  (< 5 pp)
+  [PASS] Core FE_TCH RMSE                            3.83 pp  (< 4 pp)
+
+  All gates passed: false
+
+========================================================================
+ Done.  Results in C:\Users\BuiLab\Documents\ADPN-GitHub\ADPN-Julia-Model\an_ehd_v2\output\stage4_seq_cont\data
+========================================================================

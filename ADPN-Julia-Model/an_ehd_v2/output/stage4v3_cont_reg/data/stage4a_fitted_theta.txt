@@ -1,0 +1,16 @@
+# Stage 4v3-cont-REG — joint LM with L2 prior on preserved θ
+# date: 2026-04-30T11:13:50.578
+# converged: true   loss: 5.967658e+03
+# Core RMSE FE_ADN: 9.0334 pp,  FE_PN: 5.4273 pp,  FE_TCH: 3.5083 pp
+# Prior weights: [1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 25.0, 25.0, 25.0]
+j0_ADN   = 7.146277e-03
+j0_PN    = 2.183897e-04
+j0_HER   = 2.666000e-05  # frozen
+j0_TCH   = 6.910304e-04
+alpha_c_ADN = 0.583527
+alpha_c_PN  = 0.671973
+alpha_c_HER = 0.390000  # frozen
+alpha_c_TCH = 0.632172
+n_ADN = 1.000000
+n_PN  = 1.749731
+n_TCH = 1.324997
